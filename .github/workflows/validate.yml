@@ -26,5 +26,7 @@ jobs:
         run: python -m pip install -e ".[test]"
       - name: Run regression tests
         run: pytest
-      - name: Generate deterministic stress-test outputs
+      - name: Generate isometry and gravity outputs
         run: python scripts/run_stress_tests.py --samples 250
+      - name: Generate channel and remnant outputs
+        run: python scripts/run_channel_stress_tests.py --samples 250
