@@ -17,6 +17,8 @@ from qgbounce.diamond import (
     optimal_recovery_diamond_error,
 )
 
+SOLVER = "SCS"
+
 
 def _certificate_summary(certificate) -> dict[str, float | str | int | None]:
     return {
@@ -41,9 +43,16 @@ def main() -> None:
         identity_distance = channel_diamond_distance(
             dephasing,
             identity_channel(2),
+            solver=SOLVER,
         )
-        recovery = optimal_recovery_diamond_error(dephasing)
-        ksw = certify_ksw_diamond_tradeoff(dephasing)
+        recovery = optimal_recovery_diamond_error(
+            dephasing,
+            solver=SOLVER,
+        )
+        ksw = certify_ksw_diamond_tradeoff(
+            dephasing,
+            solver=SOLVER,
+        )
         rows.append(
             {
                 "probability": float(probability),
@@ -95,9 +104,11 @@ def main() -> None:
     depolarizing = channel_diamond_distance(
         depolarizing_channel(1.0),
         identity_channel(2),
+        solver=SOLVER,
     )
     constant_identity = closest_constant_channel_diamond_distance(
-        identity_channel(2)
+        identity_channel(2),
+        solver=SOLVER,
     )
     maximum_analytic_error = max(
         abs(float(row["identity_distance"]) - float(row["analytic_identity_distance"]))
@@ -108,6 +119,7 @@ def main() -> None:
         for row in rows
     )
     summary = {
+        "solver": SOLVER,
         "dephasing_points": len(rows),
         "maximum_dephasing_identity_analytic_error": maximum_analytic_error,
         "maximum_dephasing_recovery_analytic_error": (
