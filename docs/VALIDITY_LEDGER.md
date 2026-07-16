@@ -19,11 +19,15 @@ This ledger records which inherited claims are retained, rejected, conditional, 
 | QIT-01 | For a pure bipartite state \(AB\), \(S(A)=S(B)\). | VALID | Standard consequence of Schmidt decomposition. |
 | QIT-02 | For a pure input \(X\) mapped to \(AB\), \(S(A)=S(B)=S(X)\). | REJECTED | The input entropy is zero when \(X\) is pure, while reduced output entropies may be nonzero. |
 | QIT-03 | Mutual information between the consumed input and each output is directly defined after the channel. | REJECTED | Introduce a reference \(R\) purifying the input; evaluate \(I(R:A)\) and \(I(R:B)\). |
-| QIT-04 | For pure \(RAB\), \(I(R:A)+I(R:B)=2S(R)\). | VALID | Exact entropy identity. |
+| QIT-04 | For pure \(RAB\), \(I(R:A)+I(R:B)=2S(R)\). | VALID | Exact entropy identity; enforced by analytic and random-isometry tests. |
 | QIT-05 | Unitarity forces \(I(R:A)=I(R:B)=S(R)\). | REJECTED | The isometry \(|\psi\rangle_X\mapsto|\psi\rangle_A|0\rangle_B\) is a counterexample. |
 | QIT-06 | A biased information partition is impossible for an isometric channel. | REJECTED | Generic isometries permit maximally biased localization. |
-| QIT-07 | Approximate recoverability from \(A\) is related to decoupling of \(R\) from \(B\). | VALID | Must specify distance measure, recovery task, and error bound. |
-| QIT-08 | Additional symmetry, energy, dimensional, or accessibility constraints may bound localization. | UNRESOLVED | Central theorem-development target. |
+| QIT-07 | Approximate recoverability from \(A\) is related to decoupling of \(R\) from \(B\). | VALID | A theorem statement must specify distance measure, recovery task, and constants. |
+| QIT-08 | A finite remnant dimension bounds its reference mutual information. | VALID | \(I(R:B)\leq2\min\{S(R),\log_2d_B\}\), hence \(I(R:A)\geq\max\{0,2S(R)-2\log_2d_B\}\) for pure \(RAB\). |
+| QIT-09 | A finite-dimensional remnant bound alone guarantees high-fidelity recovery from radiation. | REJECTED | Mutual-information bounds do not supply a decoder or fidelity guarantee without decoupling, code, or complementary-channel assumptions. |
+| QIT-10 | Mutual information, coherent information, classical accessibility, and recovery fidelity are interchangeable. | REJECTED | Erasure and dephasing benchmarks explicitly separate these quantities. |
+| QIT-11 | Additional symmetry, energy, or accessibility constraints may strengthen the dimension-only bound. | UNRESOLVED | Current theorem-development target after the finite-dimensional baseline. |
+| QIT-12 | The implemented amplitude-damping identity decoder is globally optimal over all CPTP recovery maps. | UNRESOLVED | It is labeled and tested only as a baseline decoder until an optimization proof or certified SDP is added. |
 
 ---
 
@@ -78,12 +82,22 @@ This ledger records which inherited claims are retained, rejected, conditional, 
 
 ---
 
-## Immediate validation queue
+## Validation status
 
-1. Implement symbolic checks of the pure-state entropy identities.
-2. Build explicit biased isometry examples and random-channel tests.
-3. Define operational recovery metrics and norm conventions.
-4. Select one holographic benchmark and one non-holographic bounce model.
-5. Construct model cards before drafting any gravitational theorem.
-6. Recalculate every physical scale with automated unit tests.
-7. Permit observational work only after the signal-model gate passes.
+Completed in the executable package:
+
+1. pure-state entropy and mutual-information identities;
+2. maximally biased and Haar-random isometry tests;
+3. operational recovery metrics and norm conventions;
+4. erasure, dephasing, depolarizing, and amplitude-damping channels;
+5. finite-remnant dimension bounds and random-isometry checks;
+6. Schwarzschild scale recalculation and regression tests.
+
+Immediate next queue:
+
+1. add independently verified decoupling and approximate-correctability constants;
+2. add certified recovery optimization for channels without analytic decoders;
+3. test conserved-charge, superselection, and energy-constrained variants;
+4. select one holographic benchmark and one non-holographic bounce model;
+5. complete model cards before drafting a gravitational theorem;
+6. keep observational work blocked until the signal-model gate passes.
