@@ -77,6 +77,17 @@ FORBIDDEN_PATTERNS = {
         r"(?:quantum )?information capacity\b",
         re.IGNORECASE,
     ),
+    "finite diamond implies gravitational recovery": re.compile(
+        r"\bfinite[- ]dimensional diamond(?:-norm)? (?:result|certificate)"
+        r".{0,180}\b(?:proves|establishes|guarantees)\b"
+        r".{0,180}\b(?:gravitational|black[- ]hole|bounce)\b",
+        re.IGNORECASE | re.DOTALL,
+    ),
+    "sampled KSW verification called proof": re.compile(
+        r"\b(?:sampled|numerical|deterministic)\b.{0,120}\bKSW\b"
+        r".{0,180}\b(?:proves|proof)\b",
+        re.IGNORECASE | re.DOTALL,
+    ),
     "consensus-from-analogy language": re.compile(
         r"\bphysics (?:highly )?agrees with your intuition\b",
         re.IGNORECASE,
