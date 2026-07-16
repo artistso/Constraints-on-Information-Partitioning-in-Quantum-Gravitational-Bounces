@@ -23,13 +23,13 @@
 \title{Information Localization and Conditional Recoverability\\
 in Quantum-Gravitational Transition Models}
 \author{Steven Owens}
-\date{Research manuscript scaffold v0.3 --- not for submission}
+\date{Research manuscript scaffold v0.4 --- not for submission}
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-Black-to-white-hole transition and remnant scenarios motivate a precise question: after a proposed quantum-gravitational transition, from which observer-accessible algebra is information about an infalling state recoverable? Let a reference system $R$ purify an input $X$, and let an isometry $V:X\rightarrow A\otimes B$ define accessible radiation $A$ and retained degrees of freedom $B$. For pure $RAB$, the identity $I(R:A)+I(R:B)=2S(R)$ conserves total reference correlations but permits maximally asymmetric localization. We derive finite-dimension and finite-Hamiltonian correlation bounds, distinguish them from operational decoder guarantees, and formulate fixed-input recovery as a semidefinite program with an independent complementary-state fidelity cross-certificate. We then separate two physical applications: an effective Han--Rovelli--Soltani black-to-white geometry combined with a white-hole remnant scenario, and a controlled JT-gravity bath reconstruction benchmark. Geometry alone does not supply a Hilbert space, Hamiltonian, microscopic channel, or decoder; where these are absent, the correct result is a parameterized constraint or a theorem of underdetermination.
+Black-to-white-hole transition and remnant scenarios motivate a precise question: after a proposed quantum-gravitational transition, from which observer-accessible algebra is information about an infalling state recoverable? Let a reference system $R$ purify an input $X$, and let an isometry $V:X\rightarrow A\otimes B$ define accessible radiation $A$ and retained degrees of freedom $B$. For pure $RAB$, the identity $I(R:A)+I(R:B)=2S(R)$ conserves total reference correlations but permits maximally asymmetric localization. We derive finite-dimension and finite-Hamiltonian correlation bounds, distinguish them from operational decoder guarantees, and formulate fixed-input recovery as a semidefinite program with an independent complementary-state fidelity diagnostic. We then separate two physical applications: an effective Han--Rovelli--Soltani black-to-white geometry combined with a white-hole remnant scenario, and a controlled JT-gravity bath reconstruction benchmark. Geometry alone does not supply a Hilbert space, Hamiltonian, microscopic channel, or decoder; where these are absent, the correct result is a parameterized constraint or a theorem of underdetermination.
 \end{abstract}
 
 \section{Introduction}
@@ -37,7 +37,7 @@ Black-to-white-hole transition and remnant scenarios motivate a precise question
 
 Global unitarity does not determine how information is localized among arbitrary output subsystems. The relevant operational questions require a purifying reference, a declared observer algebra, and a recovery task. This distinction is central both to black-hole information-return problems \citep{Page1993Information,HaydenPreskill2007} and to approximate quantum error correction \citep{BenyOreshkov2009,KretschmannEtAl2006}.
 
-The manuscript has three logical layers. Sections~\ref{sec:channel}--\ref{sec:certified} contain model-independent quantum-information results. Section~\ref{sec:hrs} audits an explicit non-holographic geometry and its missing microscopic inputs. Section~\ref{sec:jt} treats holography only as a separate controlled benchmark.
+The manuscript has three logical layers. Sections~\ref{sec:channel}--\ref{sec:certified} contain model-independent quantum-information results. Section~\ref{sec:hrs} audits an explicit non-holographic geometry and its missing microscopic inputs. Section~\ref{sec:jt} treats holography only as a separate controlled benchmark. Public claim language is additionally governed by the repository canonical-claim, validity, theorem, and norm ledgers.
 
 \section{Reference-assisted channel framework}
 \label{sec:channel}
@@ -135,9 +135,9 @@ An independent formulation optimizes
 \max_{\sigma_E}
 F\!\left(\rho_{RE}^{\cN^c},\frac{I_R}{d}\otimes\sigma_E\right),
 \]
-using the block-matrix semidefinite representation of fidelity. Uhlmann's theorem supplies the fixed-input recovery interpretation \citep{Uhlmann1976}. Agreement of the two numerical formulations is a cross-certificate; it is not the internal primal--dual gap of either conic solver.
+using the block-matrix semidefinite representation of fidelity. Uhlmann's theorem supplies the fixed-input recovery interpretation \citep{Uhlmann1976}. Agreement of the two numerical formulations is a cross-formulation diagnostic; it is not the internal primal--dual gap of either conic solver.
 
-The current certificate is state specific. Worst-case approximate correctability and channel-wide information--disturbance results remain imported theorem targets whose conventions must be mapped explicitly \citep{BenyOreshkov2009,KretschmannEtAl2006}.
+The recovery-side program is numerically certified on the declared analytic benchmarks when solver status and feasibility residuals satisfy the repository policy. The complementary-state formulation is treated as a diagnostic at parameter points where the solver returns \texttt{optimal\_inaccurate}. Worst-case approximate correctability and channel-wide information--disturbance results remain imported theorem targets whose conventions must be mapped explicitly \citep{BenyOreshkov2009,KretschmannEtAl2006}.
 
 \section{Han--Rovelli--Soltani geometry and remnant underdetermination}
 \label{sec:hrs}
@@ -157,24 +157,24 @@ r_+\simeq2m,\qquad r_-\simeq\left(\frac{Am}{2}\right)^{1/3}.
 
 The geometry is combined only conditionally with the white-hole remnant life cycle of Bianchi et al. \citep{BianchiEtAl2018}. Neither source supplies a microscopic remnant Hamiltonian, Hilbert-space dimension, radiation channel, or decoder. The first model-specific result must therefore be a parameterized capacity bound, a conditional theorem with explicit extra assumptions, or a proof of underdetermination.
 
-Interior volume, exterior mass, and lifetime are not substituted for information capacity without an independent state-space derivation.
+Interior volume, exterior mass, area, and lifetime are not substituted for information capacity without an independent state-space derivation.
 
 \section{JT-gravity bath benchmark}
 \label{sec:jt}
 
-A specified JT-gravity region coupled to a non-gravitating bath will be used to compare generalized entropy, island transitions, code-subspace reconstruction, complementary decoupling, and finite-dimensional recovery certificates \citep{Penington2019,AlmheiriEtAl2019Bulk,AlmheiriEtAl2019Replica}. The Page curve of a declared radiation region is not interpreted as uniform information distribution or as an explicit decoder.
+A specified JT-gravity region coupled to a non-gravitating bath will be used to compare generalized entropy, island transitions, code-subspace reconstruction, complementary decoupling, and finite-dimensional recovery certificates \citep{Penington2019,AlmheiriEtAl2019Bulk,AlmheiriEtAl2019Replica}. The entropy curve of a declared radiation region is not interpreted as uniform information distribution or as an explicit decoder.
 
 No JT result is transferred to the asymptotically flat remnant track without an explicit assumption map.
 
 \section{Phenomenology feasibility gate}
 \label{sec:phenomenology}
 
-A search requires an emitted spectrum, energy, intrinsic duration, event-rate law, population distribution, propagation model, instrument response, background model, and statistical plan. The Schwarzschild light-crossing time $2GM/c^3$ is retained only as a dimensional baseline. Contemporary PBH-to-white-hole rate studies are treated as assumption-dependent constraints rather than generic transient predictions \citep{EwasiukProfumo2026}.
+A search requires an emitted spectrum, energy, intrinsic duration, event-rate law, population distribution, propagation model, instrument response, background model, and statistical plan. The Schwarzschild light-crossing time $2GM/c^3$ is retained only as a dimensional baseline. Published transition-rate studies are treated as assumption-dependent constraints rather than generic transient predictions.
 
 \section{Reproducibility and certificate policy}
 \label{sec:reproducibility}
 
-Every reported result must be linked to an analytic derivation, a primary source, or deterministic executable code. Convex certificates record solver status, objective value, trace-preservation residual, positivity residual, and cross-formulation gap. A status of \texttt{optimal\_inaccurate} or a residual above the declared tolerance blocks theorem-level use.
+Every reported result must be linked to an analytic derivation, a primary source, or deterministic executable code. Convex certificates record solver status, objective value, trace-preservation residual, positivity residual, and cross-formulation gap. A status of \texttt{optimal\_inaccurate} or a residual above the declared tolerance blocks theorem-level use. The public manuscript, proposal, abstract, and README are scanned by an automated claim-language guard.
 
 \section{Discussion and limitations}
 \label{sec:discussion}
@@ -184,7 +184,7 @@ The program separates global preservation from local reconstructability, finite-
 \section{Conclusion}
 \label{sec:conclusion}
 
-The established results are the reference-assisted localization identity and finite-resource correlation bounds. Certified recovery, worst-case information--disturbance, and gravitational embedding remain explicitly staged according to their proof, numerical, and model requirements.
+The established results are the reference-assisted localization identity, finite-resource correlation bounds, validated fixed-input recovery optimization on declared benchmark channels, and source-level validation of the selected effective geometry. Worst-case information--disturbance, microscopic gravitational channel construction, and detector-level phenomenology remain staged according to their proof, model, and evidence requirements.
 
 \bibliographystyle{unsrtnat}
 \bibliography{../references/references}
