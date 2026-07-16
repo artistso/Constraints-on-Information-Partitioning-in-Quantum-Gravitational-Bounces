@@ -1,6 +1,6 @@
 # Approximate-Recovery Theorem and Convention Map
 
-This document maps the imported Bény--Oreshkov and Kretschmann--Schlingemann--Werner results into the repository's notation. It does not claim that the current fixed-input SDP implements the worst-case or diamond-norm optimizations below.
+This document maps the imported Bény--Oreshkov and Kretschmann--Schlingemann--Werner results into the repository's notation and records which corresponding optimizations are executable.
 
 ## Repository convention
 
@@ -28,7 +28,11 @@ be a recovery channel. A constant environment channel is
 \mathcal C_\sigma(\rho)=\operatorname{Tr}(\rho)\sigma_E.
 \]
 
-The current executable recovery program optimizes entanglement fidelity only for the maximally mixed input. The theorems below use either worst-case entanglement fidelity or a channel norm.
+The repository now contains three distinct executable or imported layers:
+
+1. maximally mixed-input entanglement-fidelity recovery;
+2. channel-wide diamond-norm recovery and complementary leakage;
+3. the imported Bény--Oreshkov worst-case entanglement-fidelity duality, whose minimax implementation remains pending.
 
 ---
 
@@ -46,7 +50,7 @@ F_{\mathrm{wc}}(\mathcal R\mathcal N,\mathcal M)
 F_{\mathrm{wc}}(\widehat{\mathcal N},\mathcal R'\widehat{\mathcal M}).
 \]
 
-For quantum error correction, \(\mathcal M=\operatorname{id}\), and a complementary channel of the identity is a trace channel. The dual optimization therefore asks how closely the complementary noise channel can be approximated by a constant channel.
+For quantum error correction, \(\mathcal M=\operatorname{id}\), and a complementary channel of the identity is a trace channel. The dual optimization therefore asks how closely the complementary noise channel can be approximated by a constant channel in worst-case fidelity.
 
 ### Repository mapping
 
@@ -64,15 +68,15 @@ F_{\mathrm{wc}}
 
 The paper uses unsquared state fidelity. Because squaring is monotone on \([0,1]\), the equality may equivalently be expressed using squared worst-case fidelity, provided the conversion is applied consistently to both sides.
 
-### What remains to implement
+### Remaining executable work
 
 - minimization over all logical inputs or a declared code;
 - subsystem/algebra target conventions where needed;
 - certified joint optimization or a valid minimax reduction;
-- comparison with the current maximally mixed-input SDP;
+- comparison with the maximally mixed-input and diamond-norm optima;
 - low-dimensional analytic regression standards.
 
-The current environment-state SDP is a fixed-input analogue and must not be cited as an implementation of this theorem.
+Neither the fixed-input fidelity SDP nor the diamond-norm recovery SDP implements the Bény--Oreshkov worst-case fidelity objective.
 
 ---
 
@@ -109,11 +113,12 @@ The cb norm of a Heisenberg-picture map equals the diamond norm of its Schrödin
 \right\|_\diamond
 \]
 
-and, for the constant channel paired with the chosen dilation,
+and
 
 \[
 \delta_{\mathrm{env}}
 =
+\inf_{\sigma_E}
 \left\|
 \mathcal N^c-\mathcal C_\sigma
 \right\|_\diamond.
@@ -129,28 +134,49 @@ The convention-mapped inequality is
 2\sqrt{\delta_{\mathrm{rec}}}.
 \]
 
-The constant state \(\sigma_E\), complementary dilation, and channel composition order must be stated explicitly whenever this inequality is used.
+The complementary dilation, constant state optimization, channel composition order, and unhalved diamond-distance convention must be stated explicitly whenever the inequality is used.
 
-### Implementation gate
+### Executable implementation
 
-Before this result is used as a repository theorem, add:
+`src/qgbounce/diamond.py` now computes both quantities in finite dimension:
 
-1. a diamond-norm SDP or independently certified bound;
-2. explicit Choi and tensor-order conventions;
-3. optimization over the constant environment state where required by the chosen formulation;
-4. exact identity, erasure, and depolarizing regression cases;
-5. finite numerical tolerances and primal/dual diagnostics;
-6. a proof note showing the Heisenberg-to-Schrödinger conversion.
+- \(\delta_{\mathrm{rec}}\) by a joint CPTP-recovery and diamond-dual SDP;
+- \(\delta_{\mathrm{env}}\) by a joint constant-state and diamond-dual SDP.
 
-No current Choi-state trace distance is a diamond norm.
+The implementation uses unnormalized Choi matrices in input-output order and the Watrous dual SDP for Hermiticity-preserving maps. Its complete conventions and status policy are in `docs/DIAMOND_NORM_CERTIFICATE_POLICY.md`.
+
+### Validation status
+
+The pinned SCS certificate path passes analytic standards for:
+
+- identity norm;
+- identical-channel distance;
+- qubit dephasing distance from identity;
+- qubit depolarizing distance from identity;
+- identity distance from the closest constant qubit channel;
+- optimal dephasing recovery;
+- KSW lower and upper margins across a deterministic sweep.
+
+The current checkpoint has 30 passing optimization tests. The maximum dephasing analytic errors are below \(2.1\times10^{-8}\), and the minimum computed KSW lower margin is consistent with floating-point zero.
+
+This validates the finite-dimensional implementation and convention mapping. It does not constitute a new proof of the KSW theorem.
+
+### Remaining extensions
+
+- energy-constrained diamond norm;
+- infinite-dimensional channels;
+- symmetry-restricted channel norms;
+- gravitational derivation of the tested channel;
+- independent QIT review of the composed-Choi implementation and residual policy.
 
 ---
 
-## Relationship between the imported results
+## Relationship between the results
 
 - Bény--Oreshkov gives an exact duality for **worst-case entanglement fidelity**.
 - KSW gives dimension-independent inequalities in **cb/diamond norm**.
-- The current repository SDP gives an exact finite-dimensional optimum for **maximally mixed-input entanglement fidelity**, subject to numerical solver certification.
+- The fixed-input SDP gives an optimum for **maximally mixed-input entanglement fidelity**.
+- The new diamond SDP gives a finite-dimensional optimum for **channel-wide diamond recovery error**.
 
 These are different operational statements. They may be compared, but not substituted for one another.
 
@@ -159,10 +185,13 @@ These are different operational statements. They may be compared, but not substi
 | Result | Status |
 |---|---|
 | Bény--Oreshkov source theorem | Imported and convention-mapped |
+| Bény--Oreshkov worst-case fidelity implementation | Not implemented |
 | KSW source theorem | Imported and convention-mapped |
 | Fixed-input recovery SDP | Implemented and numerically certified within scope |
-| Worst-case recovery implementation | Not implemented |
-| Diamond-norm information--disturbance implementation | Not implemented |
+| Finite-dimensional diamond-norm SDP | Implemented and numerically certified within scope |
+| Optimal channel-wide recovery in diamond norm | Implemented and numerically certified on declared benchmarks |
+| Closest constant complementary channel in diamond norm | Implemented and numerically certified on declared benchmarks |
+| KSW finite-dimensional numerical verification | Implemented and benchmarked |
 | Energy-constrained channel-wide extension | Not implemented |
 
-Primary bibliography keys: `BenyOreshkov2009` and `KretschmannEtAl2006`.
+Primary bibliography keys: `BenyOreshkov2009`, `KretschmannEtAl2006`, `Watrous2009`, and `Watrous2012`.
