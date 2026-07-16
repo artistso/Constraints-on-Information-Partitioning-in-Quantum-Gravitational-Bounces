@@ -2,9 +2,9 @@
 
 ## Purpose
 
-The research manifold is the project’s navigation system. It prevents a result proved in one mathematical or physical setting from being silently promoted into a universal claim.
+The research manifold is the project's navigation and claim-control system. It prevents a result established for one state, channel, geometry, observer, or numerical tolerance from being silently promoted into a universal physical conclusion.
 
-Each research claim occupies a coordinate
+Every major claim occupies
 
 \[
 \mathfrak C=(A,M,Q,O,E,P),
@@ -12,14 +12,14 @@ Each research claim occupies a coordinate
 
 where:
 
-- **A — Assumptions:** unitarity, purity, dimensional bounds, conservation laws, locality, asymptotics, code subspace, accessibility.
-- **M — Model:** abstract channel, holographic toy model, loop-inspired effective geometry, remnant model, or phenomenological source model.
-- **Q — Quantity:** entropy, mutual information, coherent information, recovery fidelity, capacity, flux, duration, or event rate.
-- **O — Observer or output algebra:** complete radiation, a radiation subregion, exterior algebra, remnant sector, boundary region, or detector.
-- **E — Evidence:** proof, counterexample, symbolic test, numerical result, primary source, simulation, or observation.
+- **A — Assumptions:** purity, unitarity, code subspace, dimensions, Hamiltonian, energy, symmetry, locality, asymptotics, accessibility, and numerical tolerances.
+- **M — Model:** abstract channel, HRS geometry, Bianchi remnant scenario, JT-bath benchmark, or phenomenological source model.
+- **Q — Quantity:** entropy, mutual information, coherent information, recovery fidelity, norm error, capacity, radius, duration, flux, or event rate.
+- **O — Observer/output algebra:** full radiation, a subregion, remnant algebra, bath region, exterior observer, or detector.
+- **E — Evidence:** proof, imported theorem, counterexample, analytic benchmark, convex certificate, primary source, geometric simulation, or observation.
 - **P — Publication state:** hypothesis, internal result, validated result, preprint-ready, submitted, or published.
 
-A statement may move through the manifold only when all six coordinates are recorded.
+A claim advances only when all coordinates are recorded.
 
 ---
 
@@ -27,145 +27,166 @@ A statement may move through the manifold only when all six coordinates are reco
 
 ```mermaid
 flowchart TD
-    A[Inherited idea or claim] --> B[Validity ledger]
-    B --> C{Universal identity?}
-    C -- Yes --> D[Analytic proof and symbolic test]
-    C -- No --> E[Counterexample search]
-    E --> F[Conditional assumptions]
-    D --> G[Channel-level result]
-    F --> G
-    G --> H{Gravity model specified?}
-    H -- No --> I[Remain a QIT result]
-    H -- Yes --> J[Model card: geometry, algebras, asymptotics]
-    J --> K[Model-specific theorem, bound, or obstruction]
-    K --> L{Complete signal model?}
-    L -- No --> M[No observational claim]
-    L -- Yes --> N[Phenomenology feasibility gate]
-    N --> O{Detectable and falsifiable?}
-    O -- No --> P[Publish feasibility limit or null strategy]
-    O -- Yes --> Q[Injection-recovery and data analysis]
-    I --> R[Paper 1]
-    K --> S[Paper 2]
-    P --> T[Paper 3A]
-    Q --> U[Paper 3B]
-    R --> V[Final synthesis]
-    S --> V
-    T --> V
-    U --> V
+    A[Inherited claim] --> B[Validity ledger]
+    B --> C{Universal?}
+    C -- Yes --> D[Proof plus adversarial tests]
+    C -- No --> E[State assumptions and resource constraints]
+    D --> F[Channel-level result]
+    E --> F
+    F --> G{Operational recovery claimed?}
+    G -- No --> H[Correlation or capacity bound]
+    G -- Yes --> I[Norm ledger and recovery task]
+    I --> J[Analytic decoder or convex certificate]
+    J --> K{Fixed-input or channel-wide?}
+    K -- Fixed-input --> L[Scoped certificate]
+    K -- Channel-wide --> M[Worst-case/diamond theorem gate]
+    H --> N{Gravity model specified?}
+    L --> N
+    M --> N
+    N -- No --> O[Paper 1 QIT result]
+    N -- Yes --> P[Geometry/model card and provenance]
+    P --> Q{Microscopic state space or channel supplied?}
+    Q -- No --> R[Parameterized bound or underdetermination theorem]
+    Q -- Yes --> S[Model-specific recovery theorem]
+    R --> T[Paper 2]
+    S --> T
+    P --> U{Controlled holographic dual?}
+    U -- Yes --> V[JT reconstruction benchmark]
+    U -- No --> W[No holographic transfer]
+    V --> X[Paper 3]
+    T --> Y{Complete signal model?}
+    Y -- No --> Z[Phenomenology feasibility limit]
+    Y -- Yes --> AA[Detector gate and data analysis]
+    Z --> AB[Paper 4A]
+    AA --> AC[Paper 4B]
+    O --> AD[Synthesis]
+    T --> AD
+    X --> AD
+    AB --> AD
+    AC --> AD
 ```
 
 ---
 
 ## Manifold layers
 
-### Layer 0 — Language and definitions
+### Layer 0 — Language and coexistence
 
-**Question:** Are all systems, states, algebras, channels, and observers defined?
+**Question:** Are systems, states, algebras, channels, and observers defined on a common mathematical object?
 
-Required artifacts:
+Required:
 
-- notation table;
-- subsystem diagram;
-- distinction between the input system and its purifying reference;
-- operational definition of “information is recoverable.”
+- notation and subsystem diagram;
+- explicit purifier;
+- time cut;
+- operational definition of recovery.
 
-Exit condition: no mutual-information expression contains systems that do not coexist in one state.
+Exit condition: no mutual-information expression contains systems that do not coexist.
 
 ### Layer 1 — Quantum-information kinematics
 
 **Question:** What follows from quantum mechanics alone?
 
-Required artifacts:
+Required:
 
 - entropy identities;
-- feasible information-localization region;
-- extremal channels and counterexamples;
-- recovery and decoupling metrics.
+- extremal and random channels;
+- counterexample catalogue;
+- adversarial diagnostic pairs.
 
-Exit condition: every proposed universal claim has survived explicit channel counterexamples.
+Exit condition: every universal statement survives explicit counterexamples.
 
-### Layer 2 — Additional physical constraints
+### Layer 2 — Resource constraints
 
-**Question:** Which assumptions reduce the generic channel freedom?
+**Question:** Which declared resources restrict channel freedom?
 
-Candidate constraints:
+Candidates:
 
-- global and local conservation laws;
-- covariance or symmetry;
-- finite remnant dimension;
-- energy constraints;
-- locality and causal accessibility;
-- semiclassical exterior dynamics;
-- no-baby-universe assumption;
-- asymptotic completeness.
+- finite retained dimension;
+- finite Hamiltonian and mean energy;
+- conserved charge and superselection;
+- symmetry/covariance;
+- causal accessibility and locality.
 
-Exit condition: each bound lists the assumption responsible for it.
+Exit condition: every bound identifies the assumption responsible for it, and no geometry is substituted for a state-space resource without derivation.
 
-### Layer 3 — Gravitational embedding
+### Layer 3 — Recovery certification
 
-**Question:** Does a specified geometry or duality realize the assumed channel?
+**Question:** What operational task succeeds, for which input class, and with what error?
 
-Required artifacts:
+Required:
 
-- causal diagram;
-- model equations;
-- asymptotic region definition;
-- radiation and remnant algebra definitions;
-- treatment of backreaction;
-- domain of validity;
-- model card.
+- fidelity/norm convention;
+- input state, ensemble, or code;
+- explicit recovery or existence theorem;
+- solver/proof certificate;
+- feasibility and positivity residuals;
+- distinction between fixed-input and worst-case results.
 
-Exit condition: the project can state exactly which model the result applies to and which neighboring models it does not.
+Exit condition: a state-specific Choi calculation is never described as a diamond-norm theorem.
 
-### Layer 4 — Holographic benchmark
+### Layer 4 — Non-holographic gravitational embedding
 
-**Question:** What can be reconstructed from a defined boundary region in a controlled code subspace?
+**Question:** Does the HRS/Bianchi track supply the state-space and dynamics required by the QIT assumptions?
 
-Required artifacts:
+Required:
 
-- boundary state and coupling prescription;
-- radiation-region definition;
-- quantum extremal surface or generalized entropy calculation;
-- reconstruction target;
-- approximation error and state dependence.
+- HRS equations, roots, and validity domain;
+- transition-duration status;
+- Hawking/backreaction treatment;
+- candidate radiation and remnant algebras;
+- Hilbert-space/Hamiltonian provenance;
+- missing-input table.
 
-Exit condition: no statement about uniform information distribution is inferred solely from a Page curve.
+Exit condition: the outcome is a model-specific theorem, a parameterized bound, or an explicit underdetermination result.
 
-### Layer 5 — Phenomenology
+### Layer 5 — Holographic benchmark
 
-**Question:** Does the model predict a measurable signal?
+**Question:** What can be reconstructed from a specified JT-bath radiation region in a controlled code subspace?
 
-Required artifacts:
+Required:
 
-- source population;
-- transition rate;
-- spectrum and total energy;
+- exact JT setup and bath coupling;
+- radiation-region algebra;
+- generalized entropy/QES calculation;
+- reconstruction theorem and error;
+- finite-dimensional surrogate and recovery certificate.
+
+Exit condition: no Page-curve statement is promoted to uniform localization or an explicit decoder.
+
+### Layer 6 — Phenomenology
+
+**Question:** Does a completed model predict detector-level data?
+
+Required:
+
+- population and transition rate;
+- emitted spectrum and energy;
 - intrinsic duration;
-- propagation model;
+- propagation;
 - detector response;
-- background population;
-- statistical decision rule.
+- backgrounds and statistics.
 
-Exit condition: the forward model generates simulated detector-level data with dimensionally verified units.
+Exit condition: the forward model produces dimensionally checked simulated detector data, and a null result constrains parameters.
 
-### Layer 6 — Publication
+### Layer 7 — Publication
 
-**Question:** Is the result reproducible and scoped correctly?
+**Question:** Is the result reproducible, independently reviewed, and scoped correctly?
 
-Required artifacts:
+Required:
 
-- manuscript source;
-- bibliography of primary sources;
-- proof/notebook linkage;
+- manuscript and bibliography;
+- theorem/validity/norm ledgers;
+- scripts and notebooks;
+- environment lock and solver artifacts;
 - limitations section;
-- release tag and archived artifact;
-- independent technical review.
+- release tag and archive identifier.
 
-Exit condition: every abstract-level claim points to a proof, computation, or documented inference.
+Exit condition: every abstract-level statement points to a proof, certificate, primary source, or documented inference.
 
 ---
 
-## Coordinate template for every major claim
+## Claim coordinate template
 
 ```text
 Claim ID:
@@ -176,6 +197,8 @@ Quantity (Q):
 Observer/output algebra (O):
 Evidence (E):
 Publication state (P):
+Norm/fidelity convention:
+Numerical tolerance or proof status:
 Known counterexamples:
 Open failure modes:
 Next validation action:
@@ -183,31 +206,33 @@ Next validation action:
 
 ---
 
-## Initial route through the manifold
+## Current route
 
-| Stage | Immediate task | Output |
-|---|---|---|
-| L0 | Correct subsystem definitions and notation | Definitions section |
-| L1 | Prove the pure-state mutual-information sum identity | Notebook + proposition |
-| L1 | Construct maximally biased isometric counterexamples | Counterexample catalogue |
-| L2 | Test finite-remnant, symmetry, and energy constraints | Candidate conditional bounds |
-| L3 | Select one tractable bounce model | Model card |
-| L4 | Analyze one holographic evaporation benchmark | Reconstruction case study |
-| L5 | Evaluate whether any selected model has a complete signal prescription | Feasibility memo |
-| L6 | Release Paper 1 only after independent review | Versioned preprint package |
+| Layer | Current artifact | Status | Next exit action |
+|---|---|---|---|
+| L0 | Reference-assisted definitions | Validated | Independent notation review |
+| L1 | Pure-state identity and adversarial channels | Validated | Publication notebook conversion |
+| L2 | Finite-dimension and finite-Hamiltonian bounds | Validated in finite dimension | Charge/symmetry extension |
+| L3 | Recovery and environment SDPs | Gated | Passing pinned optimization CI and review |
+| L4 | HRS geometry plus Bianchi provenance | Geometry validated; channel underdetermined | Formalize capacity/underdetermination theorem |
+| L5 | JT-bath model card | Selected | Fix exact setup and code subspace |
+| L6 | Signal-model gate | Blocked | No complete emission/population model |
+| L7 | Draft PR and manuscript scaffold | Internal | Independent QIT and gravity review |
 
 ---
 
 ## Stop rules
 
-The project stops or redirects a branch of work when:
+Redirect or stop a branch when:
 
 - a universal claim has a valid counterexample;
-- a model lacks enough structure to define the relevant channel;
-- a holographic argument is being applied without a defined dual;
+- a solver returns an unaccepted status or residual;
+- a fixed-input result is being promoted to a worst-case theorem;
+- a geometry lacks a state space, Hamiltonian, or channel needed by the claim;
+- holography is invoked without a defined dual and code subspace;
 - a timescale fails dimensional verification;
-- a proposed signal has no event-rate prescription;
-- a nondetection would not constrain model parameters;
-- a result depends on an unstated observer or inaccessible algebra.
+- a signal lacks a rate, spectrum, duration, or detector model;
+- a nondetection cannot constrain parameters;
+- an observer algebra or time cut is unstated.
 
-These stop rules are part of the scientific method, not project failure. They keep the route through the manifold falsifiable and publication-grade.
+These stop rules are scientific outputs. They prevent a visually persuasive simulation from replacing a justified physical model.
