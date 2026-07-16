@@ -64,6 +64,31 @@ I(R:B)\leq2\min\{S(R),S_{\max}(E,H_B)\}.
 
 The Hamiltonian and energy cap must be provided by the physical model. Exterior mass, interior volume, and lifetime do not determine them automatically.
 
+### Charge sectors and superselection
+
+For a declared direct-sum decomposition
+
+\[
+\mathcal H_B=\bigoplus_q\mathcal H_q,
+\qquad
+\rho_B=\bigoplus_qp_q\rho_q,
+\]
+
+with \(d_q=\dim\mathcal H_q\),
+
+\[
+S(B)\leq H(p)+\sum_qp_q\log_2d_q.
+\]
+
+Consequently,
+
+\[
+I(R:B)\leq
+2\min\left\{S(R),H(p)+\sum_qp_q\log_2d_q\right\}.
+\]
+
+This requires a physically supplied sector structure, block-diagonality condition, dimensions, and charge distribution or constraint.
+
 ### Fixed-input recovery certification
 
 For a declared finite-dimensional channel \(\mathcal N\), the repository solves
@@ -74,6 +99,12 @@ For a declared finite-dimensional channel \(\mathcal N\), the repository solves
 
 for the maximally mixed input. This is a state-specific entanglement-recovery certificate. It is not a worst-case, channel-wide, or diamond-norm theorem.
 
+### Imported recovery theorems
+
+The Bény--Oreshkov worst-case entanglement-fidelity duality and the KSW cb/diamond information--disturbance inequality are now mapped into repository notation in `docs/APPROXIMATE_RECOVERY_THEOREM_MAP.md`.
+
+They are established imported theorems under their stated finite-dimensional assumptions. Their worst-case and diamond-norm optimizations are not yet implemented by the executable package.
+
 ## Established model-specific content
 
 ### Han--Rovelli--Soltani geometry
@@ -82,22 +113,30 @@ Within its stated effective assumptions and natural-unit convention, the reposit
 
 The geometry does not provide a microscopic Hilbert space, remnant Hamiltonian, tunnelling probability, Hawking-radiation channel, or decoder.
 
+### HRS/Bianchi underdetermination
+
+If a geometric descriptor supplies no rule selecting state spaces and a microscopic channel, information localization and recovery are not identifiable from geometry alone. Explicit one-port isometries demonstrate channel non-uniqueness while preserving the same abstract radiation/remnant split.
+
+This does not deny the existence of a microscopic theory. It identifies the additional structure required to specify one.
+
 ### Bianchi et al. remnant scenario
 
 The scenario is retained as a model-dependent endpoint and information-capacity case study. Until a state-space or Hamiltonian prescription is supplied, valid outputs are parameterized bounds or a theorem of underdetermination.
 
 ### JT gravity plus bath
 
-This is a separate controlled holographic benchmark for generalized entropy, islands, code-subspace reconstruction, and recovery diagnostics. Its conclusions do not transfer automatically to an asymptotically flat loop-inspired remnant model.
+This is a separate controlled holographic benchmark for generalized entropy, islands, code-subspace reconstruction, and recovery diagnostics. `models/JT_BATH_SETUP_V1.md` fixes the first benchmark specification, but executable gravitational reproduction and an operational decoder remain pending.
+
+Its conclusions do not transfer automatically to an asymptotically flat loop-inspired remnant model.
 
 ## Conditional or unresolved targets
 
-The following may be presented only as objectives or imported theorem targets:
+The following may be presented only as objectives or implementation targets:
 
-- worst-case Bény--Oreshkov approximate-correctability duality under repository conventions;
-- KSW channel-wide information--disturbance bounds in diamond or cb norm;
+- executable worst-case Bény--Oreshkov optimization;
+- executable KSW diamond-norm certification;
 - energy-constrained diamond-norm extensions;
-- charge, covariance, symmetry, and superselection constraints;
+- gravitationally derived charge sectors or symmetry data;
 - a microscopic HRS/Bianchi transition channel;
 - a model-derived remnant Hamiltonian or effective Hilbert-space dimension;
 - an operational JT-bath decoder with a declared code subspace and error;
@@ -146,8 +185,10 @@ NotebookLM and other summarization systems must be grounded primarily in:
 2. `docs/VALIDITY_LEDGER.md`;
 3. `docs/THEOREM_LEDGER.md`;
 4. `docs/NORM_CONVENTIONS.md`;
-5. the three model cards in `models/`;
-6. `proposal/ABSTRACT.md` and `proposal/PROPOSAL.md`.
+5. `docs/APPROXIMATE_RECOVERY_THEOREM_MAP.md`;
+6. `docs/HRS_BIANCHI_UNDERDETERMINATION.md`;
+7. the model cards and `models/JT_BATH_SETUP_V1.md`;
+8. `proposal/ABSTRACT.md` and `proposal/PROPOSAL.md`.
 
 Older PDFs and narrative drafts are claim inventories only. They must not be treated as authoritative sources.
 
