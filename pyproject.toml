@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "qgbounce"
-version = "0.1.0"
-description = "Validation simulations for information localization in quantum-gravitational bounce models"
+version = "0.2.0"
+description = "Validation simulations for information localization and recovery in quantum-gravitational bounce models"
 requires-python = ">=3.11"
 dependencies = [
   "matplotlib>=3.8",
