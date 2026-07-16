@@ -1,0 +1,329 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{mathtools}
+\usepackage{microtype}
+\usepackage{hyperref}
+\usepackage[numbers,sort&compress]{natbib}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{remark}{Remark}
+
+\newcommand{\cN}{\mathcal N}
+\newcommand{\cR}{\mathcal R}
+\newcommand{\cC}{\mathcal C}
+\newcommand{\cH}{\mathcal H}
+\newcommand{\id}{\operatorname{id}}
+\newcommand{\Tr}{\operatorname{Tr}}
+
+\title{Information Localization and Conditional Recoverability\\
+in Quantum-Gravitational Transition Models}
+\author{Steven Owens}
+\date{Research manuscript scaffold v0.5 --- not for submission}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Black-to-white-hole transition and remnant scenarios motivate a precise operational question: after a proposed quantum-gravitational transition, from which observer-accessible algebra is information about an infalling state recoverable? Let a reference system $R$ purify an input $X$, and let an isometry $V:X\rightarrow A\otimes B$ define accessible radiation $A$ and retained degrees of freedom $B$. For pure $RAB$, the identity $I(R:A)+I(R:B)=2S(R)$ conserves total reference correlations but permits maximally asymmetric localization. We derive finite-dimension, finite-Hamiltonian, and charge-sector correlation bounds and distinguish them from decoder guarantees. We then implement two recovery layers: maximally mixed-input entanglement fidelity and finite-dimensional channel-wide diamond error. The latter jointly optimizes a CPTP recovery and the Watrous diamond-norm dual, while a complementary program optimizes distance from constant channels. Analytic channel standards and deterministic Kretschmann--Schlingemann--Werner margin checks pass in the pinned numerical environment. The B\'eny--Oreshkov worst-case fidelity minimax remains a separate target. We also prove that the selected Han--Rovelli--Soltani geometry and Bianchi remnant scenario do not identify a unique information channel without additional microscopic structure. A JT-gravity bath system is retained as a separate controlled benchmark. Observational work remains blocked until a complete source-to-detector model exists.
+\end{abstract}
+
+\section{Introduction}
+\label{sec:introduction}
+
+Global unitarity does not determine how information is localized among arbitrary output subsystems. Operational statements require a purifying reference, a declared observer algebra, a target channel, and an error criterion. This distinction is central both to black-hole information-return problems \citep{Page1993Information,HaydenPreskill2007} and to approximate quantum error correction \citep{BenyOreshkov2009,KretschmannEtAl2006}.
+
+The manuscript has three logical layers. Sections~\ref{sec:channel}--\ref{sec:ksw} contain model-independent quantum-information results and numerical certificates. Section~\ref{sec:hrs} audits an explicit non-holographic geometry and proves a channel-underdetermination proposition. Section~\ref{sec:jt} treats holography only as a separate controlled benchmark.
+
+\section{Reference-assisted channel framework}
+\label{sec:channel}
+
+\begin{definition}[Reference-assisted transition]
+Let $\rho_{RX}$ be pure and let $V:\cH_X\rightarrow\cH_A\otimes\cH_B$ be an isometry. Define
+\[
+\rho_{RAB}=(\id_R\otimes V)\rho_{RX}(\id_R\otimes V^\dagger).
+\]
+\end{definition}
+
+\begin{proposition}[Mutual-information sum]
+For pure $\rho_{RAB}$,
+\[
+I(R:A)+I(R:B)=2S(R).
+\]
+\end{proposition}
+
+\begin{proof}
+Purity gives $S(RA)=S(B)$ and $S(RB)=S(A)$. Therefore
+\begin{align*}
+I(R:A)+I(R:B)
+&=2S(R)+S(A)+S(B)-S(RA)-S(RB)\\
+&=2S(R).
+\end{align*}
+\end{proof}
+
+\begin{example}[Maximally biased localization]
+For $V|\psi\rangle_X=|\psi\rangle_A\otimes|0\rangle_B$,
+\[
+I(R:A)=2S(R),\qquad I(R:B)=0.
+\]
+Thus exact isometry does not imply equal partitioning.
+\end{example}
+
+\section{Finite-resource correlation bounds}
+\label{sec:resources}
+
+\begin{lemma}[Finite retained dimension]
+If $\dim B=d_B$, then
+\[
+I(R:B)\leq2\min\{S(R),\log_2d_B\}.
+\]
+For pure $RAB$,
+\[
+I(R:A)\geq\max\{0,2S(R)-2\log_2d_B\}.
+\]
+\end{lemma}
+
+\begin{proof}
+The inequality $I(R:B)\leq2\min\{S(R),S(B)\}$ and $S(B)\leq\log_2d_B$ give the first statement. The second follows from the mutual-information sum.
+\end{proof}
+
+\begin{lemma}[Finite-Hamiltonian energy constraint]
+Let $H_B$ have a finite spectrum and suppose $\Tr(H_B\rho_B)\leq E$. Let $S_{\max}(E,H_B)$ be the maximum entropy under this constraint. Then
+\[
+I(R:B)\leq2\min\{S(R),S_{\max}(E,H_B)\},
+\]
+and for pure $RAB$,
+\[
+I(R:A)\geq\max\{0,2S(R)-2S_{\max}(E,H_B)\}.
+\]
+\end{lemma}
+
+\begin{proof}
+Maximize $S(B)$ over states satisfying the energy constraint. In finite dimension, the optimizer is a Gibbs state when the constraint is active and the uniform state otherwise. Insert the resulting entropy cap into the preceding mutual-information inequality.
+\end{proof}
+
+\begin{lemma}[Charge-sector and superselection constraint]
+Suppose
+\[
+\cH_B=\bigoplus_q\cH_q,
+\qquad
+\rho_B=\bigoplus_qp_q\rho_q,
+\qquad
+d_q=\dim\cH_q.
+\]
+Then
+\[
+S(B)=H(p)+\sum_qp_qS(\rho_q)
+\leq H(p)+\sum_qp_q\log_2d_q,
+\]
+and hence
+\[
+I(R:B)\leq2\min\left\{S(R),H(p)+\sum_qp_q\log_2d_q\right\}.
+\]
+For pure $RAB$, subtract this cap from $2S(R)$ to obtain the corresponding radiation lower bound.
+\end{lemma}
+
+\begin{proof}
+The entropy identity follows from block diagonality. Each normalized sector state satisfies $S(\rho_q)\leq\log_2d_q$. The mutual-information and radiation bounds then follow as above.
+\end{proof}
+
+\begin{remark}
+These lemmas constrain correlation storage. They do not construct a decoder or provide a lower bound on recovery fidelity. The Hamiltonian, sector structure, block-diagonality condition, degeneracies, and charge distribution must be supplied by the physical model. If the sector distribution is unconstrained, maximizing the entropy recovers the ordinary total-dimension cap.
+\end{remark}
+
+\section{Operational recovery hierarchy}
+\label{sec:recovery}
+
+The repository distinguishes four operational quantities:
+
+\begin{enumerate}
+\item maximally mixed-input entanglement fidelity;
+\item worst-case entanglement fidelity;
+\item channel-wide diamond recovery error;
+\item complementary distance from constant channels.
+\end{enumerate}
+
+Standard erasure, dephasing, depolarizing, and amplitude-damping channels demonstrate that classical accessibility, coherent transmission, output entropy, environmental leakage, and recovery fidelity are not interchangeable.
+
+\section{Certified fixed-input recovery}
+\label{sec:fixed}
+
+For a channel $\cN:X\rightarrow A$, the maximally mixed-input recovery problem is
+\[
+\max_{\cR\,\mathrm{CPTP}}F_e(\cR\circ\cN).
+\]
+Using the unnormalized recovery Choi matrix $J_{\cR}$ ordered as input $A$ tensor output $X$, the feasible set is
+\[
+J_{\cR}\succeq0,
+\qquad
+\Tr_XJ_{\cR}=I_A,
+\]
+and the objective is linear in $J_{\cR}$ \citep{FletcherShorWin2006}.
+
+An independent state-specific formulation optimizes
+\[
+\max_{\sigma_E}
+F\!\left(\rho_{RE}^{\cN^c},\frac{I_R}{d}\otimes\sigma_E\right).
+\]
+Uhlmann's theorem supplies the fixed-input recovery interpretation \citep{Uhlmann1976}. Agreement of the two numerical formulations is a cross-check; it is not the internal primal--dual gap of either conic solver.
+
+The fixed-input certificate is not a worst-case fidelity or channel-wide norm statement.
+
+\section{Finite-dimensional diamond-norm optimization}
+\label{sec:diamond}
+
+For a Hermiticity-preserving map $\Phi:X\rightarrow A$, the repository uses the unnormalized Choi matrix
+\[
+J(\Phi)=\sum_{i,j}|i\rangle\langle j|\otimes\Phi(|i\rangle\langle j|)
+\]
+ordered as input tensor output. Following finite-dimensional completely bounded trace-norm SDP formulations \citep{Watrous2009,Watrous2012}, the dual program is
+\[
+\begin{aligned}
+\text{minimize}\quad & \mu\\
+\text{subject to}\quad
+& Z-J(\Phi)\succeq0,\\
+& Z+J(\Phi)\succeq0,\\
+& \Tr_AZ\preceq\mu I_X.
+\end{aligned}
+\]
+The optimum is $\|\Phi\|_\diamond$.
+
+The channel distance convention is unhalved:
+\[
+D_\diamond(\cN,\cM)=\|\cN-\cM\|_\diamond.
+\]
+Consequently, channel distances lie in $[0,2]$.
+
+\subsection{Optimal channel-wide recovery}
+
+The recovery error is
+\[
+\delta_{\mathrm{rec}}
+=
+\inf_{\cR:A\to X\,\mathrm{CPTP}}
+\|\cR\circ\cN-\id_X\|_\diamond.
+\]
+The composed Choi matrix is linear in the recovery Choi variable, so the CPTP recovery and diamond dual can be optimized in one convex program.
+
+\subsection{Complementary distance from constants}
+
+For a declared complementary channel $\cN^c:X\to E$,
+\[
+\delta_{\mathrm{env}}
+=
+\inf_{\sigma_E}
+\|\cN^c-\cC_\sigma\|_\diamond,
+\]
+where
+\[
+\cC_\sigma(\rho)=\Tr(\rho)\sigma_E
+\]
+and
+\[
+J(\cC_\sigma)=I_X\otimes\sigma_E.
+\]
+The constant state and the diamond dual are optimized jointly.
+
+\section{KSW implementation and B\'eny--Oreshkov target}
+\label{sec:ksw}
+
+Kretschmann, Schlingemann, and Werner prove a dimension-independent information--disturbance inequality in cb norm \citep{KretschmannEtAl2006}. In repository Schr\"odinger-picture notation,
+\[
+\frac14\delta_{\mathrm{rec}}^2
+\leq
+\delta_{\mathrm{env}}
+\leq
+2\sqrt{\delta_{\mathrm{rec}}}.
+\]
+
+The theorem is imported. The executable package computes both finite-dimensional quantities and verifies the inequalities on deterministic channel families. The current pinned checkpoint reports 30 passing optimization tests, maximum dephasing analytic errors below $2.1\times10^{-8}$, a KSW lower margin consistent with floating-point zero, and positive upper margins across the sweep.
+
+B\'eny and Oreshkov prove an exact worst-case entanglement-fidelity duality \citep{BenyOreshkov2009}:
+\[
+\max_{\cR}F_{\mathrm{wc}}(\cR\cN,\cM)
+=
+\max_{\cR'}F_{\mathrm{wc}}(\widehat{\cN},\cR'\widehat{\cM}).
+\]
+For $\cM=\id$, the dual target is a constant complementary channel. This fidelity minimax remains unimplemented. It is not replaced by the diamond-norm program.
+
+The current diamond layer is finite dimensional. Energy-constrained, infinite-dimensional, symmetry-restricted, and complexity-sensitive extensions remain open.
+
+\section{Han--Rovelli--Soltani geometry and remnant underdetermination}
+\label{sec:hrs}
+
+The selected non-holographic scaffold is the single-asymptotic-region effective geometry of Han, Rovelli, and Soltani \citep{HanRovelliSoltani2023}. In units $G=c=1$, the effective stellar boundary is
+\[
+a(T)=\left(\frac{9mT^2+Am}{2}\right)^{1/3},
+\]
+and the exterior function outside the tunnelling region is
+\[
+F(r)=1-\frac{2m}{r}+\frac{Am^2}{r^4}.
+\]
+In the large-mass regime,
+\[
+r_+\simeq2m,
+\qquad
+r_-\simeq\left(\frac{Am}{2}\right)^{1/3}.
+\]
+
+The geometry is combined only conditionally with the white-hole remnant life cycle of Bianchi et al. \citep{BianchiEtAl2018}. Neither source supplies a microscopic remnant Hamiltonian, Hilbert-space dimension, charge-sector model, radiation channel, or decoder.
+
+\begin{proposition}[Geometry-only channel underdetermination]
+Let $\mathfrak G$ denote a geometric descriptor that fixes a metric, causal structure, transition parameters, and observer regions but supplies no rule selecting quantum state spaces and a microscopic channel. Then information localization and radiation recovery are not identifiable from $\mathfrak G$ alone.
+\end{proposition}
+
+\begin{proof}
+Choose finite systems $X,A,B$ with $A$ and $B$ each large enough to contain $X$. The isometries
+\[
+V_A|\psi\rangle=|\psi\rangle_A|0\rangle_B
+\]
+and
+\[
+V_B|\psi\rangle=|0\rangle_A|\psi\rangle_B
+\]
+share the same abstract split into outgoing and retained sectors, but yield opposite reference-correlation localization and incompatible radiation recovery. If $\mathfrak G$ contains no microscopic rule excluding one or selecting the other, it cannot identify the channel.
+\end{proof}
+
+The proposition diagnoses missing structure; it does not assert that a microscopic completion is impossible. The diamond optimizer can evaluate a declared channel family, but it cannot derive the family from geometry.
+
+\section{JT-gravity bath benchmark}
+\label{sec:jt}
+
+The first benchmark specification is a JT-gravity region coupled to quantum matter and a non-gravitating bath, with a finite diary purified by a reference, a declared bath radiation region, and a bounded code subspace. The benchmark will compare generalized entropy, island transitions, code-subspace reconstruction, complementary decoupling, fixed-input fidelity, and channel-wide diamond recovery \citep{Penington2019,AlmheiriEtAl2019Bulk,AlmheiriEtAl2019Replica}.
+
+The generalized entropy of a declared region is not interpreted as an explicit decoder. One complete published calculation must be transcribed with parameters and conventions before the finite-dimensional surrogate is calibrated. No JT result is transferred to the asymptotically flat remnant track without an explicit assumption map.
+
+\section{Phenomenology feasibility gate}
+\label{sec:phenomenology}
+
+A search requires an emitted spectrum, energy, intrinsic duration, event-rate law, population distribution, propagation model, instrument response, background model, and statistical plan. The Schwarzschild light-crossing time $2GM/c^3$ is retained only as a dimensional baseline. Contemporary PBH-to-white-hole rate studies are treated as assumption-dependent constraints rather than generic transient predictions \citep{EwasiukProfumo2026}.
+
+\section{Reproducibility and certificate policy}
+\label{sec:reproducibility}
+
+Every reported result must be linked to an analytic derivation, a primary source, or deterministic executable code. Fixed-input certificates record solver status, objective value, trace-preservation residual, and positivity residual. Diamond certificates additionally record the minimum eigenvalues of $Z\pm J(\Phi)$, the partial-trace upper-bound residual, recovery or constant-state residuals, and KSW margins.
+
+A status of \texttt{optimal\_inaccurate} or a residual above the declared tolerance blocks certificate language. Clarabel returned that status at several degenerate diamond points despite accurate objective values; the policy was not weakened, and pinned SCS was selected for the current diamond certificate path.
+
+The public-language validator blocks known false or overstated formulations. Channel, geometry, symmetry, fixed-input, and diamond products are generated in independent deterministic runners.
+
+\section{Discussion and limitations}
+\label{sec:discussion}
+
+The program separates global preservation from local reconstructability, finite-resource bounds from decoder guarantees, fixed-input fidelity from channel-wide diamond error, imported source theorems from executable checks, effective geometry from microscopic dynamics, and controlled holographic reconstruction from non-holographic transition models. The main scientific value may be a precise obstruction or underdetermination result rather than a positive gravitational recovery or observational claim.
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+The established results are the reference-assisted localization identity; finite-dimension, finite-Hamiltonian, and charge-sector correlation bounds; a scoped fixed-input recovery certificate; finite-dimensional channel-wide diamond recovery and complementary leakage certificates; deterministic implementation checks of the mapped KSW inequalities; and a geometry-only channel-underdetermination proposition. Worst-case fidelity minimax, energy-constrained norms, microscopic gravitational embedding, and detector-level phenomenology remain explicitly staged.
+
+\bibliographystyle{unsrtnat}
+\bibliography{../references/references}
+
+\end{document}

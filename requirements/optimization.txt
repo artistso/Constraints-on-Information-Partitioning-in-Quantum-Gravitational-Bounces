@@ -1,0 +1,6 @@
+# Top-level numerical optimization pins used by the certified SDP job.
+# Transitive dependencies are resolved by pip in CI and must be frozen in a
+# platform-specific lock before a tagged reproducibility release.
+cvxpy==1.9.2
+clarabel==0.11.1
+scs==3.2.11
