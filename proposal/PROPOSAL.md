@@ -1,8 +1,8 @@
-# Concept Proposal v0.1
+# Concept Proposal v0.3
 
 ## Constraints on Information Localization and Recoverability in Quantum-Gravitational Bounce Models
 
-**Project type:** Foundational quantum information, quantum gravity, and feasibility-gated phenomenology  
+**Project type:** Foundational quantum information, effective quantum gravity, and feasibility-gated phenomenology  
 **Proposed duration:** 36 months  
 **Budget status:** To be developed for a named host institution and funding call; no unsupported amount is assigned in this concept document.
 
@@ -10,320 +10,425 @@
 
 ## 1. Executive rationale
 
-Black-to-white-hole transitions, nonsingular interiors, and long-lived remnants appear in several speculative approaches to quantum gravity. These models raise a legitimate information-theoretic question: after the transition, which external or retained subsystem permits recovery of the initial quantum state?
+Black-to-white-hole transitions, nonsingular interiors, and long-lived remnants raise a legitimate information-theoretic question: after a proposed quantum-gravitational transition, which observer-accessible subsystem permits recovery of the initial quantum state?
 
-Earlier formulations attempted to answer this question with a universal “no-filtering theorem,” asserting that unitarity forces equal mutual information between the input and every output subsystem. That assertion is false for generic isometric channels. The present proposal begins from the correct quantum-information structure and asks a narrower, publishable question:
+A previous formulation asserted that unitarity forces equal information partitioning between radiation and retained degrees of freedom. Generic isometric channels provide immediate counterexamples. The corrected program asks:
 
-> Which additional physical assumptions constrain the localization and recoverability of quantum information in specified gravitational bounce models?
+> Which additional physical assumptions constrain information localization and permit a quantified recovery theorem in a specified gravitational model?
 
-The project is deliberately layered. The first layer establishes model-independent channel identities, counterexamples, and recovery criteria. The second embeds those criteria into explicitly defined gravitational or holographic models. The third develops observational forecasts only for models that provide a complete forward signal model. This architecture prevents a speculative gravitational hypothesis from contaminating the mathematical and observational deliverables.
+The project is divided into four layers:
+
+1. exact channel identities, counterexamples, and adversarial tests;
+2. finite-dimension, energy, decoupling, and certified-recovery bounds;
+3. explicit geometric and holographic model embeddings;
+4. observational work only after a complete forward signal model passes a predefined gate.
+
+This architecture ensures that the mathematical deliverables remain valid even if a proposed bounce or remnant scenario is incomplete or physically disfavored.
 
 ---
 
-## 2. Corrected theoretical starting point
+## 2. Corrected mathematical foundation
 
-### 2.1 Channel definition
+### 2.1 Reference-system formulation
 
-Let \(X\) denote the quantum system entering a transition and let \(R\) be a reference system that purifies its initial state. A complete transition is represented by an isometry
+Let \(X\) be the input and let \(R\) purify its initial state. A complete bipartite output is represented by
 
 \[
-V:\mathcal H_X\longrightarrow \mathcal H_A\otimes\mathcal H_B,
+V:\mathcal H_X\longrightarrow\mathcal H_A\otimes\mathcal H_B,
 \]
 
-where \(A\) and \(B\) may represent, for example, asymptotic radiation and retained interior or remnant degrees of freedom. Applying \(V\) to \(X\) gives a pure state \(\rho_{RAB}\).
-
-For any pure tripartite state \(RAB\),
+where \(A\) is an accessible radiation sector and \(B\) is a retained sector. For pure \(ho_{RAB}\),
 
 \[
 I(R:A)+I(R:B)=2S(R).
 \]
 
-This follows from \(S(RA)=S(B)\) and \(S(RB)=S(A)\). It states that total correlations with the reference are conserved across the two outputs. It does **not** imply
+This identity conserves total reference correlations but does not imply
 
 \[
 I(R:A)=I(R:B)=S(R).
 \]
 
-Indeed, the isometry \(V|\psi\rangle_X=|\psi\rangle_A|0\rangle_B\) gives \(I(R:A)=2S(R)\) and \(I(R:B)=0\). Strongly biased localization is therefore compatible with exact unitarity.
+The isometry
 
-### 2.2 The actual research gap
+\[
+|\psi\rangle_X\mapsto|\psi\rangle_A|0\rangle_B
+\]
 
-The generic channel problem is solved only at the kinematic level: unitarity preserves information globally but permits substantial variation in where that information is recoverable. Gravity may introduce additional constraints through:
+is a maximally biased counterexample.
 
-- causal accessibility of output algebras;
-- energy, charge, and symmetry conservation;
-- semiclassical locality and effective field theory;
-- code-subspace structure in holography;
-- entanglement-wedge reconstruction;
-- restrictions on remnant state spaces;
-- boundary conditions and asymptotic completeness;
-- finite-dimensional or energy-constrained channel capacities.
+### 2.2 Finite-remnant correlation lemma
 
-The central problem is to identify which combinations of these assumptions produce nontrivial lower or upper bounds on recoverability from the radiation sector.
+If \(\dim B=d_B\), then
 
-### 2.3 Scope of claims
+\[
+I(R:B)\leq2\min\{S(R),\log_2d_B\}.
+\]
 
-The project will distinguish four kinds of result:
+For pure \(RAB\),
 
-1. **Identity:** true for every channel or pure state under stated mathematical conditions.
-2. **Conditional theorem:** true only when explicit physical assumptions are imposed.
-3. **Counterexample:** a channel or geometry demonstrating that a proposed universal statement is false.
-4. **Model constraint:** a result applying to one defined bounce geometry, boundary condition, or emission prescription.
+\[
+I(R:A)\geq
+\max\{0,2S(R)-2\log_2d_B\}.
+\]
 
-No claim will be promoted across these categories without proof.
+This is a valid correlation bound. It does not construct a decoder or imply high recovery fidelity.
+
+### 2.3 Finite-Hamiltonian energy lemma
+
+Suppose the retained sector has a declared finite-dimensional Hamiltonian \(H_B\) and satisfies
+
+\[
+\operatorname{Tr}(H_B\rho_B)\leq E.
+\]
+
+Let \(S_{\max}(E,H_B)\) be the maximum entropy under the energy constraint, obtained by the Gibbs variational principle. Then
+
+\[
+I(R:B)\leq2\min\{S(R),S_{\max}(E,H_B)\},
+\]
+
+and
+
+\[
+I(R:A)\geq
+\max\{0,2S(R)-2S_{\max}(E,H_B)\}.
+\]
+
+The Hamiltonian and energy cap must be supplied by the physical model. They are not inferred from exterior mass, interior volume, or lifetime.
+
+### 2.4 Operational recovery
+
+The project distinguishes:
+
+- mutual information;
+- coherent information;
+- classical Holevo information;
+- environmental leakage;
+- entanglement fidelity;
+- worst-case or channel-wide recovery.
+
+For a declared channel \(\mathcal N\), the executable program evaluates explicit decoders and solves
+
+\[
+\max_{\mathcal R\ \mathrm{CPTP}}
+F_e(\mathcal R\circ\mathcal N)
+\]
+
+through a semidefinite program over the recovery Choi matrix. A second SDP independently optimizes the fidelity of the complementary Choi state to a constant environment channel. Numerical agreement is a fixed-input information–disturbance cross-certificate.
+
+The current certificate concerns the maximally mixed input. It is not yet a worst-case or energy-constrained diamond-norm theorem. Norm and fidelity conventions are fixed in `docs/NORM_CONVENTIONS.md`, and theorem status is controlled by `docs/THEOREM_LEDGER.md`.
 
 ---
 
-## 3. Research objectives
+## 3. Selected physical model tracks
 
-### Objective 1 — Classify information localization in bipartite output channels
+### 3.1 Non-holographic geometric scaffold
 
-Develop a rigorous taxonomy for channels \(X\rightarrow AB\), using a purifying reference \(R\). The analysis will quantify:
-
-- mutual information \(I(R:A)\) and \(I(R:B)\);
-- coherent information and quantum capacity bounds;
-- conditional mutual information;
-- entanglement fidelity and approximate recoverability;
-- trace-distance and purified-distance decoupling criteria;
-- explicit recovery maps;
-- effects of conserved quantities and superselection sectors.
-
-The aim is not to prove equal partitioning. It is to determine the feasible region of information-localization measures and identify assumptions that shrink that region.
-
-**Primary deliverable:** A theorem-and-counterexample paper with reproducible symbolic and numerical checks.
-
-### Objective 2 — Derive conditional recoverability bounds
-
-Formulate propositions of the following type:
-
-> If the global transition is isometric, the radiation algebra satisfies specified accessibility and reconstruction assumptions, the retained sector obeys a stated dimensional or energy constraint, and the final state satisfies a defined decoupling condition, then the input is approximately recoverable from radiation with an explicit error bound.
-
-Candidate tools include one-shot decoupling, Fawzi–Renner-type recoverability bounds, operator-algebra quantum error correction, complementary recovery, and energy-constrained channel norms.
-
-Every theorem will include:
-
-- a complete list of assumptions;
-- a proof or machine-checkable derivation where practical;
-- a saturating example or counterexample;
-- a statement of whether the result is kinematic, holographic, or model-specific.
-
-**Primary deliverable:** A conditional recoverability theorem suitable for a quantum-information or quantum-gravity journal.
-
-### Objective 3 — Evaluate selected gravitational model classes
-
-The project will not treat “a bounce” as a single universal process. Two or three model classes will be selected according to literature maturity and calculational tractability, potentially including:
-
-- black-to-white-hole tunneling geometries;
-- effective loop-quantum-gravity-inspired nonsingular interiors;
-- white-hole remnant models;
-- low-dimensional holographic evaporation models used strictly as controlled toy systems.
-
-For each model, the analysis will specify:
-
-1. spacetime asymptotics and causal diagram;
-2. Hilbert-space or algebraic subsystem definitions;
-3. whether a boundary dual exists;
-4. the treatment of Hawking radiation and backreaction;
-5. the status of remnants or baby-universe sectors;
-6. the lifetime and transition law;
-7. the domain in which semiclassical reasoning is trusted;
-8. the observable or reconstructable quantity being calculated.
-
-AdS/CFT will not be invoked as a generic proof mechanism for asymptotically flat loop-inspired models. Holographic results will be clearly labeled as conditional benchmarks within models where the dual description is defined.
-
-**Primary deliverable:** One model-specific analysis establishing either a recoverability bound, a counterexample, or a precise obstruction.
-
-### Objective 4 — Build a feasibility-gated phenomenology program
-
-Observational work is scientifically independent of the information-localization theorem. It will proceed only after selecting a model with an explicit forward prescription for:
-
-- transition or decay rate as a function of mass and model parameters;
-- emitted energy and spectrum;
-- intrinsic duration and time profile;
-- cosmological source distribution;
-- propagation and attenuation;
-- detector response and selection effects.
-
-The Schwarzschild light-crossing time
+The principal geometry is the Han–Rovelli–Soltani single-asymptotic-region transition model. In natural units, its effective stellar scale factor is
 
 \[
-2GM/c^3
+a(T)=\left(\frac{9mT^2+Am}{2}\right)^{1/3},
 \]
 
-will be used only for dimensional checks. It will not be equated with a detectable burst duration without a model-derived mechanism connecting the two.
+and its exterior function outside the tunnelling region is
 
-Potential channels include optical, ultraviolet, gamma-ray, radio, astrometric, or gravitational signatures. A channel enters the analysis only if the model predicts a measurable observable and the forecast survives order-of-magnitude verification.
+\[
+F(r)=1-\frac{2m}{r}+\frac{Am^2}{r^4}.
+\]
 
-**Stage-gate deliverable:** A phenomenology feasibility memorandum. A search paper is authorized only if the model passes the gate defined in Section 5.4.
+For \(m^2\gg A\),
 
-### Objective 5 — Establish reproducibility and publication infrastructure
+\[
+r_+\simeq2m,
+\qquad
+r_-\simeq\left(\frac{Am}{2}\right)^{1/3}.
+\]
 
-All central claims will be linked to one of:
+The repository validates these formulas, horizon roots, bounce symmetry, and large-mass limits. The geometry supplies causal and metric structure but not a microscopic quantum channel.
 
-- an analytic derivation;
-- a symbolic notebook;
-- a numerical notebook with unit tests;
-- a cited primary source;
-- a documented model assumption.
+### 3.2 White-hole remnant endpoint
 
-The repository will maintain a validity ledger, dimension-check tests, parameter provenance, manuscript source, and release checklist.
+The Bianchi–Christodoulou–D’Ambrosio–Haggard–Rovelli scenario is used as the first remnant-capacity case study. The initial analysis is parametric because the source model does not provide:
+
+- a remnant Hilbert-space dimension;
+- a microscopic Hamiltonian;
+- a complete radiation algebra at a specified time cut;
+- a unitary or CPTP channel;
+- a recovery map.
+
+The valid output is therefore one of:
+
+1. a capacity bound under an explicit added state-space assumption;
+2. a conditional recovery theorem under an explicit decoupling assumption;
+3. a no-go region;
+4. a rigorous underdetermination result.
+
+### 3.3 Controlled holographic benchmark
+
+A JT-gravity region coupled to quantum matter and a non-gravitating bath is retained as a separate reconstruction benchmark. It permits controlled study of:
+
+- Page transitions;
+- generalized entropy and islands;
+- radiation-region algebras;
+- code-subspace reconstruction;
+- complementary decoupling and recovery error.
+
+No JT/island conclusion is transferred to the non-holographic remnant model without an explicit map of assumptions, algebras, observables, and approximation errors.
 
 ---
 
-## 4. Methodology
+## 4. Research objectives
 
-### 4.1 Quantum-channel analysis
+### Objective 1 — Complete the information-localization classification
 
-The first work package will construct parameterized channel families and compute the localization vector
+Map feasible values of
 
 \[
-\mathcal L(V,\rho_{RX})=
-\bigl(I(R:A), I(R:B), I_c(R\rangle A), I_c(R\rangle B), F_A, F_B\bigr),
+\mathcal L=
+\bigl(I(R:A),I(R:B),I_c(R\rangle A),I_c(R\rangle B),F_A,F_B\bigr)
 \]
 
-where \(F_A\) and \(F_B\) are optimal entanglement-recovery fidelities. Canonical examples will include:
+for canonical and adversarial channels.
 
-- identity-to-one-port channels;
-- erasure channels and complementary channels;
+Required examples include:
+
+- one-port isometries;
+- erasure and complementary channels;
+- dephasing and amplitude damping;
 - random isometries;
-- symmetry-constrained channels;
-- channels with finite remnant dimension;
-- approximate cloning and secret-sharing constructions;
-- channels induced by tracing inaccessible environments.
+- finite-remnant channels;
+- channels with equal mutual information but different recovery fidelity;
+- channels with equal classical accessibility but different coherent information.
 
-The resulting feasible regions will separate conservation of global information from local reconstructability.
+**Deliverable:** Paper 1 theorem-and-counterexample core and reproducible package.
 
-### 4.2 Recoverability and decoupling
+### Objective 2 — Establish certified approximate recovery
 
-Approximate recovery from \(A\) is equivalent, under appropriate purification conditions, to approximate decoupling of \(R\) from the complementary sector \(B\). The project will express this relation using operational distances and recovery errors rather than informal statements that information has “escaped.” Bounds will be reported with norm choice, dimensional dependence, and energy assumptions explicit.
+Develop three levels of result:
 
-### 4.3 Holographic benchmark
+1. state-specific decoupling and Uhlmann recovery existence;
+2. certified maximally mixed-input recovery through SDP;
+3. worst-case and energy-constrained recovery only after Bény–Oreshkov and Kretschmann–Schlingemann–Werner conventions and constants are independently rederived.
 
-In controlled holographic evaporation models, the project will compare:
+Every recovery claim must state:
 
-- entropy of radiation regions;
-- entanglement-wedge transitions;
-- reconstruction of a specified code subspace;
-- state dependence and approximation error;
-- partition of the radiation into operationally accessible subregions.
+- input ensemble or code;
+- accessible algebra;
+- norm and fidelity convention;
+- whether the result is constructive or existential;
+- solver or proof certificate;
+- failure tolerance.
 
-The Page curve constrains the fine-grained entropy of a selected radiation region. It does not by itself imply uniform distribution across every output channel. The analysis will therefore calculate recoverability for defined boundary regions rather than infer it from purity alone.
+**Deliverable:** conditional recoverability theorem or precisely scoped certificate paper.
 
-### 4.4 Bounce-model case studies
+### Objective 3 — Extend capacity bounds beyond finite dimension
 
-Each selected model will receive a structured “model card” containing equations, assumptions, parameter ranges, and unresolved consistency issues. The channel map will be derived only to the level justified by the model. Where the microscopic map is unavailable, the output will be a bound on admissible channels rather than a fabricated process matrix.
+Use a declared Hamiltonian and energy cap to replace a bare dimension bound by a Gibbs entropy cap. Subsequent extensions will examine:
 
-### 4.5 Phenomenology gate
+- conserved charge;
+- superselection sectors;
+- symmetry-covariant channels;
+- energy-constrained capacities and norms.
 
-A proposed observational analysis must satisfy all of the following before data mining begins:
+**Deliverable:** finite-Hamiltonian lemma and, if assumptions permit, an energy-constrained recovery proposition.
 
-1. **Model completeness:** spectrum, duration, energy, rate, and parameter priors are specified.
-2. **Dimensional consistency:** every characteristic scale passes automated unit tests.
-3. **Detectability:** expected flux or strain overlaps a real instrument response for a non-negligible parameter region.
-4. **Background model:** dominant astrophysical contaminants are identified.
-5. **Statistical plan:** detection statistic, trials factor, efficiency, and upper-limit method are defined.
-6. **Data access:** the required archive or broker stream is available under documented terms.
-7. **Null value:** a nondetection yields a meaningful parameter-space constraint.
+### Objective 4 — Embed the results into the selected geometries
 
-Failure of any mandatory criterion returns the work package to model development rather than producing an overstated forecast.
+For the HRS/Bianchi track:
+
+- validate the geometry and parameter regimes;
+- define candidate slices, radiation algebras, and retained sectors;
+- inventory missing state-space and coupling inputs;
+- apply only those information bounds supported by declared assumptions.
+
+For the JT-bath track:
+
+- select one explicit setup;
+- define the code subspace and radiation region;
+- compare entropy transitions with decoupling and certified recovery in a finite-dimensional surrogate.
+
+**Deliverable:** Paper 2 model-specific bound, obstruction, or underdetermination result; separate JT benchmark paper.
+
+### Objective 5 — Maintain a feasibility-gated phenomenology program
+
+No data search begins until the selected model supplies:
+
+- transition or decay rate;
+- emitted energy and spectrum;
+- intrinsic duration and light curve;
+- population and distance distribution;
+- propagation and attenuation;
+- detector response and backgrounds;
+- a statistical detection or upper-limit plan.
+
+The Schwarzschild time \(2GM/c^3\) remains a dimensional baseline and is never equated with an observed burst duration without a derived source mechanism.
+
+**Deliverable:** feasibility memorandum; observational paper only if the gate passes.
 
 ---
 
-## 5. Work plan
+## 5. Methodology and reproducibility
 
-### Year 1 — Foundations and theorem design
+### 5.1 Analytic and adversarial validation
 
-- Complete the validity audit of prior material.
-- Formalize the reference-system channel framework.
-- Produce analytic counterexamples to universal partition claims.
-- Build symbolic notebooks for entropy identities and recovery metrics.
-- Select gravitational model classes using explicit inclusion criteria.
-- Draft Paper 1: quantum-information framework and conditional theorem candidates.
+Every universal statement must survive explicit extremal channels and automated random tests. Similar values of one information measure will be paired with different recovery behavior to expose insufficient diagnostics.
 
-### Year 2 — Gravitational embedding and model analysis
+### 5.2 Convex optimization
 
-- Construct model cards and causal/subsystem definitions.
-- Analyze one holographic benchmark and one non-holographic bounce model.
-- Determine which recoverability statements survive model embedding.
-- Release numerical tests and parameter scans.
-- Draft Paper 2: model-specific recoverability or obstruction result.
+The recovery SDP uses an unnormalized Choi matrix \(J_{\mathcal R}\) with
+
+\[
+J_{\mathcal R}\succeq0,
+\qquad
+\operatorname{Tr}_{\mathrm{out}}J_{\mathcal R}=I_{\mathrm{in}}.
+\]
+
+The pinned optimization environment uses CVXPY and Clarabel. Certificates record solver status, trace-preservation residual, positivity residual, and recovery/environment formulation gap. Analytic erasure and dephasing cases serve as regression standards.
+
+### 5.3 Energy-constrained calculations
+
+For finite spectra, the Gibbs optimizer is solved by deterministic bisection in inverse temperature and checked against analytic two-level results, degeneracies, inactive constraints, and parameter sweeps.
+
+### 5.4 Geometry validation
+
+The HRS implementation is restricted to source-level formulas and natural units. Tests verify:
+
+- time symmetry and minimum bounce radius;
+- positive horizon roots;
+- \(F(r_\pm)=0\);
+- \(r_+\to2m\);
+- \(r_-\to(Am/2)^{1/3}\).
+
+No channel, tunnelling probability, Hawking flux, or emission spectrum is inferred from these tests.
+
+### 5.5 Repository controls
+
+The project maintains:
+
+- validity, theorem, and norm ledgers;
+- model cards and parameter provenance;
+- deterministic random seeds;
+- Python 3.11/3.12 regression CI;
+- a separate pinned optimization CI job;
+- generated CSV, figure, and JSON products;
+- manuscript and bibliography sources.
+
+A failed identity, solver residual, or model assumption blocks promotion of the associated claim.
+
+---
+
+## 6. Phenomenology gate
+
+An observational work package must satisfy all mandatory criteria:
+
+1. complete source model;
+2. dimensional consistency;
+3. detector overlap;
+4. background population;
+5. statistical plan;
+6. data access and licensing;
+7. meaningful null-result constraint.
+
+Current PBH-to-white-hole rate calculations, including narrow FRB-compatible parameter regions, are retained as model-dependent constraints and methodology references. They do not justify a generic optical, radio, or gamma-ray search.
+
+---
+
+## 7. Work plan
+
+### Year 1 — Quantum-information foundation
+
+- Complete analytic and adversarial channel classification.
+- Validate the recovery/environment SDPs.
+- Reproduce worst-case information–disturbance conventions and constants.
+- Complete finite-Hamiltonian, charge, and symmetry extensions.
+- Draft Paper 1.
+
+### Year 2 — Geometry and model embedding
+
+- Complete the HRS geometry and Bianchi-remnant provenance analysis.
+- Determine whether a defensible remnant Hamiltonian, entropy cap, or channel condition exists.
+- Produce a model-specific bound or underdetermination theorem.
+- Implement the JT-bath reconstruction benchmark.
+- Draft Papers 2 and 3.
 
 ### Year 3 — Phenomenology gate and synthesis
 
-- Complete the signal-model feasibility assessment.
-- If the gate passes, perform injection–recovery simulations and an archival or broker-based search.
-- If the gate fails, publish the exclusion of the proposed observational strategy and identify the missing theoretical ingredients.
-- Integrate the mathematical and gravitational results into a synthesis manuscript.
-- Archive a versioned release with reproducibility materials.
+- Evaluate whether any selected model supplies a complete signal prescription.
+- If the gate passes, conduct injection–recovery and archival analysis.
+- If the gate fails, publish the feasibility limit and missing-input result.
+- Complete synthesis manuscript and versioned reproducibility archive.
 
 ---
 
-## 6. Deliverables
+## 8. Deliverables
 
 | ID | Deliverable | Acceptance criterion |
 |---|---|---|
-| D1 | Validity ledger | Every inherited claim classified and linked to evidence or rejection |
-| D2 | QIT notebook suite | Reproduces all entropy identities and counterexamples |
-| D3 | Conditional theorem manuscript | Assumptions, proof, error bound, and saturating example included |
-| D4 | Gravitational model cards | Causal structure, subsystem definitions, equations, and limitations explicit |
-| D5 | Model-specific paper | Contains a derived bound, counterexample, or obstruction—not analogy |
-| D6 | Phenomenology feasibility memo | Pass/fail decision supported by forward modeling and unit tests |
-| D7 | Optional search paper | Released only after the feasibility gate passes |
-| D8 | Final synthesis | Publication-ready manuscript and archived reproducibility package |
+| D1 | Validity, theorem, and norm ledgers | Every abstract-level claim has a proof, source, certificate, or blocking condition |
+| D2 | Channel and adversarial test suite | Analytic cases and counterexamples pass deterministic CI |
+| D3 | Certified recovery package | SDP status, residuals, analytic benchmarks, and cross-formulation gap recorded |
+| D4 | Finite-Hamiltonian bound | Gibbs solver reproduces analytic spectra and declared correlation bounds |
+| D5 | HRS geometry package | Metric functions, horizons, and asymptotic tests reproduced without channel overreach |
+| D6 | Model cards and provenance | Supplied, free, and missing parameters explicitly separated |
+| D7 | Paper 1 | Information localization, adversarial examples, and conditional recovery results |
+| D8 | Paper 2 | HRS/Bianchi capacity bound, obstruction, or underdetermination theorem |
+| D9 | JT benchmark paper | Code-subspace reconstruction and recovery comparison in a controlled model |
+| D10 | Phenomenology memo or paper | Released only after the forward-model gate is evaluated |
 
 ---
 
-## 7. Risk management
+## 9. Risk management
 
-### Risk: no nontrivial universal theorem exists
+### No strong universal theorem
 
-**Response:** This is expected. The project targets conditional theorems and counterexamples, both of which are publishable when the assumptions are physically meaningful.
+**Response:** Publish exact identities, counterexamples, finite-resource lemmas, and conditional theorems.
 
-### Risk: selected bounce models lack a microscopic channel
+### No microscopic remnant channel
 
-**Response:** Derive bounds on admissible channels from the available geometry and state explicitly what cannot be calculated. Do not infer microscopic dynamics from a causal diagram alone.
+**Response:** Produce parameterized capacity bounds or a rigorous theorem of underdetermination. Do not fabricate Kraus operators from a causal diagram.
 
-### Risk: holographic conclusions do not transfer to the selected model
+### SDP disagreement or poor conditioning
 
-**Response:** Maintain holography as a separate benchmark. No transfer is made without an explicit duality argument.
+**Response:** Block certificate use, retain diagnostic artifacts, compare independent formulations, and seek a second solver or analytic reduction.
 
-### Risk: phenomenological predictions are too model-dependent or too faint
+### Holographic results fail to transfer
 
-**Response:** The feasibility gate converts this into a documented negative result rather than an unproductive data search.
+**Response:** Maintain JT gravity as a separate benchmark with no automatic transfer.
 
-### Risk: analogue experiments invite overinterpretation
+### Phenomenology remains incomplete
 
-**Response:** Keep them outside the core milestones. Any later analogue work tests reconstruction protocols or mode-conversion channels only.
-
----
-
-## 8. Required expertise and resources
-
-A credible team would include:
-
-- quantum information theory and quantum channels;
-- semiclassical gravity or holography;
-- expertise in the selected loop-inspired or black-to-white-hole model;
-- time-domain or high-energy astrophysical inference if the phenomenology gate passes;
-- research software and reproducibility support.
-
-The baseline resource model is one principal investigator, one postdoctoral researcher or equivalent research effort, modest computing for symbolic/numerical work, collaboration travel, and publication costs. No facility construction or custom instrumentation is assumed.
+**Response:** Publish the feasibility limit rather than performing an unsupported search.
 
 ---
 
-## 9. Publication strategy
+## 10. Required expertise and resources
 
-The minimum viable publication sequence is:
+A credible team requires:
 
-1. **Quantum-information foundations:** exact identities, counterexamples, and conditional recoverability bounds.
-2. **Gravitational case study:** application to a specified bounce or holographic model.
-3. **Phenomenology feasibility or search:** released only after the signal model passes the gate.
-4. **Synthesis/review:** information localization across unitary gravitational transition models.
+- quantum channels and approximate quantum error correction;
+- convex optimization and numerical certification;
+- semiclassical gravity and the selected black-to-white-hole geometry;
+- holographic reconstruction for the JT benchmark;
+- research software and reproducibility;
+- astrophysical inference only if the phenomenology gate passes.
 
-A preprint will not be labeled a theorem paper until the central statement has survived independent technical review, automated checks, and explicit counterexample testing.
+The baseline resource model is a principal investigator, one postdoctoral researcher or equivalent effort, modest computation, collaboration travel, and publication costs. No facility construction or custom instrumentation is assumed.
 
 ---
 
-## 10. Expected contribution
+## 11. Publication strategy
 
-The likely contribution is not evidence that black holes perform selective filtration. It is a rigorous map of what unitarity does and does not imply about information localization, together with model-specific conditions under which radiation recovery can be established or ruled out. That result would clarify the relationship among quantum channels, remnants, Page-curve reasoning, and gravitational reconstruction while creating a defensible route to phenomenology only where the underlying model supports it.
+1. **Paper 1:** information localization, finite-resource bounds, adversarial channels, and certified recovery.
+2. **Paper 2:** information-capacity constraints or underdetermination in the HRS/Bianchi remnant track.
+3. **Paper 3:** reconstruction and recovery diagnostics in the JT-bath benchmark.
+4. **Paper 4:** phenomenology feasibility or observational search, only if authorized by the gate.
+5. **Synthesis:** consequences and limits of information-recovery claims across gravitational transition models.
+
+No manuscript is labeled theorem-ready until its statement, assumptions, convention mapping, tests, and independent review are complete.
+
+---
+
+## 12. Expected contribution
+
+The project will not claim that black holes perform selective filtration or that a bounce automatically returns information uniformly. Its contribution is a rigorous hierarchy of what follows from unitarity, finite state-space resources, energy constraints, environmental decoupling, certified recovery, explicit geometry, and additional model assumptions. Where the physical model is incomplete, the project will convert that incompleteness into a precise obstruction or underdetermination result rather than an unsupported simulation.
