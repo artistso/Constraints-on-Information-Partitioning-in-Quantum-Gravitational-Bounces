@@ -1,10 +1,10 @@
 """Certified low-dimensional recovery optimization with optional CVXPY.
 
-The primal SDP maximizes maximally-mixed-input entanglement fidelity over all
-CPTP recovery maps. A second environment-side SDP maximizes fidelity of the
-complementary Choi state with a constant-output channel. Their numerical
-agreement is an information--disturbance cross-certificate for the declared
-input state, not a replacement for a channel-wide worst-case theorem.
+The recovery SDP maximizes maximally-mixed-input entanglement fidelity over all
+CPTP recovery maps. A separate environment-side SDP maximizes fidelity of the
+complementary Choi state with a constant-output channel. Agreement of these
+independent formulations is a fixed-input information--disturbance
+cross-certificate, not a channel-wide worst-case theorem.
 """
 
 from __future__ import annotations
@@ -26,12 +26,32 @@ Array = np.ndarray
 def _cvxpy():
     try:
         import cvxpy as cp
-    except ImportError as exc:  # pragma: no cover - exercised in basic install
+    except ImportError as exc:  # pragma: no cover - basic installation path
         raise ImportError(
             "optimization routines require the optional 'optimization' extra: "
             "python -m pip install -e '.[optimization]'"
         ) from exc
     return cp
+
+
+def _solver_options(solver: str) -> dict[str, object]:
+    """Return deterministic high-accuracy options for supported solvers."""
+    normalized = solver.upper()
+    if normalized == "CLARABEL":
+        return {
+            "tol_gap_abs": 1e-10,
+            "tol_gap_rel": 1e-10,
+            "tol_feas": 1e-10,
+            "max_iter": 500,
+        }
+    if normalized == "SCS":
+        return {
+            "eps_abs": 1e-8,
+            "eps_rel": 1e-8,
+            "max_iters": 200_000,
+            "acceleration_lookback": 10,
+        }
+    return {}
 
 
 def recovery_objective_coefficients(kraus: Iterable[Array]) -> Array:
@@ -182,7 +202,11 @@ def optimal_entanglement_recovery(
         cp.real(cp.sum(cp.multiply(coefficients, recovery_choi)))
     )
     problem = cp.Problem(objective, constraints)
-    value = problem.solve(solver=solver, verbose=verbose)
+    value = problem.solve(
+        solver=solver,
+        verbose=verbose,
+        **_solver_options(solver),
+    )
     if problem.status not in {cp.OPTIMAL, cp.OPTIMAL_INACCURATE}:
         raise RuntimeError(f"recovery SDP failed with status {problem.status}")
     if recovery_choi.value is None or value is None:
@@ -190,6 +214,7 @@ def optimal_entanglement_recovery(
 
     matrix = np.asarray(recovery_choi.value, dtype=np.complex128)
     matrix = 0.5 * (matrix + matrix.conj().T)
+    eigenvalues = np.linalg.eigvalsh(matrix)
     stats = problem.solver_stats
     return RecoverySDPCertificate(
         entanglement_fidelity=float(np.clip(np.real(value), 0.0, 1.0)),
@@ -207,22 +232,22 @@ def optimal_entanglement_recovery(
             channel_output_dim,
             input_dim,
         ),
-        minimum_choi_eigenvalue=float(
-            np.linalg.eigvalsh(matrix).min(initial=0.0)
-        ),
+        minimum_choi_eigenvalue=float(eigenvalues.min()),
     )
 
 
 def environment_constant_channel_fidelity(
     kraus: Iterable[Array],
     *,
-    solver: str = "CLARABEL",
+    solver: str = "SCS",
     verbose: bool = False,
 ) -> EnvironmentFidelityCertificate:
     """Optimize complementary-state fidelity with ``I_R/d tensor sigma_E``.
 
-    The SDP uses the standard block-matrix representation of root fidelity and
-    optimizes the constant environment state ``sigma_E``.
+    The SDP uses the block-matrix representation of root fidelity and optimizes
+    the constant environment state ``sigma_E``. SCS is the default for this
+    rank-deficient PSD problem because it is more stable than Clarabel on the
+    erasure-channel boundary cases in the pinned CI environment.
     """
     cp = _cvxpy()
     operators = tuple(np.asarray(k, dtype=np.complex128) for k in kraus)
@@ -255,7 +280,11 @@ def environment_constant_channel_fidelity(
         cp.Maximize(cp.real(cp.trace(cross))),
         constraints,
     )
-    value = problem.solve(solver=solver, verbose=verbose)
+    value = problem.solve(
+        solver=solver,
+        verbose=verbose,
+        **_solver_options(solver),
+    )
     if problem.status not in {cp.OPTIMAL, cp.OPTIMAL_INACCURATE}:
         raise RuntimeError(
             f"environment fidelity SDP failed with status {problem.status}"
@@ -266,6 +295,7 @@ def environment_constant_channel_fidelity(
     sigma = np.asarray(sigma_environment.value, dtype=np.complex128)
     sigma = 0.5 * (sigma + sigma.conj().T)
     root = float(np.clip(np.real(value), 0.0, 1.0))
+    eigenvalues = np.linalg.eigvalsh(sigma)
     stats = problem.solver_stats
     return EnvironmentFidelityCertificate(
         root_fidelity=root,
@@ -280,28 +310,27 @@ def environment_constant_channel_fidelity(
         ),
         environment_state=sigma,
         trace_residual=float(abs(np.trace(sigma) - 1.0)),
-        minimum_environment_eigenvalue=float(
-            np.linalg.eigvalsh(sigma).min(initial=0.0)
-        ),
+        minimum_environment_eigenvalue=float(eigenvalues.min()),
     )
 
 
 def certify_information_disturbance(
     kraus: Iterable[Array],
     *,
-    solver: str = "CLARABEL",
+    recovery_solver: str = "CLARABEL",
+    environment_solver: str = "SCS",
     verbose: bool = False,
 ) -> InformationDisturbanceCertificate:
-    """Solve both state-specific recovery and environment fidelity SDPs."""
+    """Solve independent recovery and environment fidelity formulations."""
     operators = tuple(np.asarray(k, dtype=np.complex128) for k in kraus)
     recovery = optimal_entanglement_recovery(
         operators,
-        solver=solver,
+        solver=recovery_solver,
         verbose=verbose,
     )
     environment = environment_constant_channel_fidelity(
         operators,
-        solver=solver,
+        solver=environment_solver,
         verbose=verbose,
     )
     return InformationDisturbanceCertificate(
