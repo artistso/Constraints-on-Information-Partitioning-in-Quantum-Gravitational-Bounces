@@ -5,10 +5,10 @@ This ledger separates proved identities, repository-derived lemmas, imported the
 ## Status classes
 
 - **PROVED-HERE:** complete derivation is contained in the repository/manuscript.
-- **IMPORTED:** a primary-source theorem whose assumptions and conventions must be mapped.
+- **IMPORTED:** a primary-source theorem whose assumptions and conventions are mapped.
 - **NUMERICALLY-CERTIFIED:** convex optimization passed declared solver-status and feasibility requirements.
 - **BENCHMARKED:** numerically or analytically checked but not promoted to a theorem or certificate.
-- **TARGET:** scientifically meaningful but not yet established.
+- **TARGET:** scientifically meaningful but not yet established or implemented.
 - **BLOCKED:** insufficient model structure to formulate the claim.
 
 ## T1 — Pure-state localization identity
@@ -66,6 +66,40 @@ I(R:A)\geq
 **Evidence:** `src/qgbounce/energy.py`, analytic two-level tests, degeneracy tests, and deterministic sweeps.  
 **Limit:** no Hamiltonian is inferred from mass, geometry, volume, or lifetime. Infinite-dimensional extensions require additional Gibbs/entropy conditions.
 
+## L3 — Charge-sector and superselection correlation bound
+
+Let
+
+\[
+\mathcal H_B=\bigoplus_q\mathcal H_q,
+\qquad
+\rho_B=\bigoplus_qp_q\rho_q,
+\qquad
+d_q=\dim\mathcal H_q.
+\]
+
+Then
+
+\[
+S(B)=H(p)+\sum_qp_qS(\rho_q)
+\leq
+H(p)+\sum_qp_q\log_2d_q.
+\]
+
+Therefore
+
+\[
+I(R:B)
+\leq
+2\min\left\{S(R),H(p)+\sum_qp_q\log_2d_q\right\},
+\]
+
+with the corresponding radiation lower bound for pure \(RAB\).
+
+**Status:** PROVED-HERE for finite direct-sum sectors.  
+**Evidence:** entropy decomposition, `src/qgbounce/symmetry.py`, regression tests, and deterministic sweeps.  
+**Limit:** the symmetry, sector dimensions, block-diagonality, and sector probabilities must be physically supplied. If the distribution is unconstrained, the maximum reduces to the total-dimension bound.
+
 ## T2 — State-specific decoupling-to-recovery existence
 
 For the maximally entangled test input, if the complementary Choi state \(\rho_{RE}\) is close in purified distance to
@@ -113,36 +147,74 @@ I_R/d\otimes\sigma_E
 
 Rank-deficient erasure cases can return `optimal_inaccurate` in the pinned open-source solvers. Such values may be plotted and stored under the declared diagnostic tolerance but are not called numerical certificates. The gap is not a solver primal–dual gap.
 
-## T3 — Worst-case approximate-correctability duality
+## T3 — Bény--Oreshkov worst-case approximate-correctability duality
 
-Optimal worst-case entanglement recovery is characterized by a complementary-channel optimization.
+For channels \(\mathcal N,\mathcal M\) and declared complementary channels,
 
-**Status:** IMPORTED/TARGET.  
-**Primary source:** `BenyOreshkov2009`.
+\[
+\max_{\mathcal R}
+F_{\mathrm{wc}}(\mathcal R\mathcal N,\mathcal M)
+=
+\max_{\mathcal R'}
+F_{\mathrm{wc}}(\widehat{\mathcal N},\mathcal R'\widehat{\mathcal M}).
+\]
 
-Missing repository work:
+For \(\mathcal M=\operatorname{id}\), the dual target is a constant complementary channel.
+
+**Status:** IMPORTED and convention-mapped.  
+**Primary source:** `BenyOreshkov2009`.  
+**Repository mapping:** `docs/APPROXIMATE_RECOVERY_THEOREM_MAP.md`.
+
+Missing executable work:
 
 - worst-case input optimization;
-- code/subsystem convention;
-- exact fidelity/error mapping;
-- theorem statement under repository notation;
-- certified low-dimensional validation.
+- declared code/subsystem/algebra convention;
+- certified low-dimensional validation;
+- comparison with C1 and D1.
 
-C1 and D1 do not prove T3.
+C1 and D1 do not implement T3.
 
-## T4 — Channel-wide information–disturbance bound
+## T4 — KSW channel-wide information–disturbance bound
 
-A complementary channel close to a constant channel in cb/diamond norm implies recoverability of the main channel with dimension-independent continuity bounds.
+In repository Schrödinger-picture notation, let
 
-**Status:** IMPORTED/TARGET.  
-**Primary source:** `KretschmannEtAl2006`.
+\[
+\delta_{\mathrm{rec}}
+=
+\inf_{\mathcal R}
+\|\mathcal R\circ\mathcal N-\operatorname{id}\|_\diamond
+\]
 
-Missing repository work:
+and
+
+\[
+\delta_{\mathrm{env}}
+=
+\|\mathcal N^c-\mathcal C_\sigma\|_\diamond
+\]
+
+for the constant channel paired with the chosen dilation. The KSW bound maps to
+
+\[
+\frac14\delta_{\mathrm{rec}}^2
+\leq
+\delta_{\mathrm{env}}
+\leq
+2\sqrt{\delta_{\mathrm{rec}}}.
+\]
+
+**Status:** IMPORTED and convention-mapped.  
+**Primary source:** `KretschmannEtAl2006`.  
+**Repository mapping:** `docs/APPROXIMATE_RECOVERY_THEOREM_MAP.md`.
+
+Missing executable work:
 
 - diamond-norm SDP or certified bound;
-- cb/diamond convention mapping;
-- energy-constrained extension;
-- constants under `docs/NORM_CONVENTIONS.md`.
+- optimization over the constant environment state where required;
+- identity, erasure, and depolarizing regression cases;
+- energy-constrained extension.
+
+No current Choi-state distance implements T4.
 
 ## G1 — HRS geometric baseline
 
@@ -170,28 +242,38 @@ r_-\simeq\left(\frac{Am}{2}\right)^{1/3}.
 **Evidence:** primary source, root residual tests, bounce symmetry, and asymptotic sweeps.  
 **Limit:** no Hawking evaporation, tunnelling probability, state space, Hamiltonian, channel, or decoder is supplied.
 
-## T5 — HRS/Bianchi remnant capacity theorem
+## G2 — Geometry-only channel underdetermination
+
+If a geometric descriptor supplies no rule selecting quantum state spaces and a microscopic channel, information localization and recovery are not identifiable from that descriptor alone.
+
+**Status:** PROVED-HERE as a model-identifiability proposition.  
+**Evidence:** `docs/HRS_BIANCHI_UNDERDETERMINATION.md` and explicit one-port isometries with incompatible radiation recovery.  
+**Scope:** the proposition diagnoses missing model structure; it does not assert that a microscopic completion is impossible.
+
+## T5 — HRS/Bianchi remnant capacity or recoverability theorem
 
 **Status:** BLOCKED unless additional microscopic assumptions are declared.
 
 Missing:
 
-- remnant Hamiltonian or effective dimension;
+- remnant Hamiltonian, sector structure, or effective dimension;
 - microscopic channel;
 - radiation algebra and time cut;
 - environmental decoupling or recovery condition.
 
-Near-term admissible outputs are L1/L2 parameterized constraints or a theorem that the desired capacity/recoverability claim is underdetermined by the geometry.
+Near-term admissible outputs are L1–L3 parameterized constraints, excluded regions, or G2 underdetermination.
 
 ## T6 — JT-bath reconstruction benchmark
 
-**Status:** TARGET.
+**Status:** SPECIFICATION FIXED; executable result remains TARGET.
 
-Required:
+`models/JT_BATH_SETUP_V1.md` now declares the diary/reference systems, bath radiation region, code-subspace requirements, generalized-entropy audit, and finite-dimensional surrogate controls.
 
-- one fixed JT-bath setup and code subspace;
-- radiation algebra and QES prescription;
-- reconstruction theorem with error;
+Still required:
+
+- transcription of one complete published JT-bath calculation;
+- parameter and convention reproduction;
+- declared reconstruction theorem and error;
 - finite-dimensional surrogate compared with recovery certification.
 
 No JT result transfers to the remnant model without a complete assumption map.
