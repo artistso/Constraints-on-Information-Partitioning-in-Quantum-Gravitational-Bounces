@@ -1,4 +1,4 @@
-name: Validate mathematics and physical scales
+name: Validate mathematics, physics, and claim language
 
 on:
   push:
@@ -11,6 +11,16 @@ permissions:
   contents: read
 
 jobs:
+  claims:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate public scientific language
+        run: python scripts/check_claim_language.py
+
   test:
     runs-on: ubuntu-latest
     strategy:
