@@ -31,12 +31,15 @@ This ledger records which claims are retained, rejected, conditional, unresolved
 | QIT-13 | Maximally mixed-input optimal recovery is an SDP over a CPTP recovery Choi matrix. | VALID | Implemented and validated against analytic erasure and dephasing optima. |
 | QIT-14 | Agreement of fixed-input recovery and complementary-state calculations proves a channel-wide worst-case theorem. | REJECTED | The comparison is fixed-input only. |
 | QIT-15 | The identity decoder is globally optimal for every amplitude-damping parameter. | UNRESOLVED | The recovery SDP certifies sampled instances; no universal analytic statement is claimed. |
-| QIT-16 | Symmetry, conserved charge, and superselection strengthen the current resource bounds. | UNRESOLVED | Next theorem-development target. |
+| QIT-16 | A declared direct-sum charge-sector decomposition bounds retained entropy and mutual information. | VALID | \(S(B)\leq H(p)+\sum_qp_q\log_2d_q\) for a block-diagonal sector state. |
 | QIT-17 | A channel-wide or energy-constrained diamond-norm information–disturbance bound is implemented. | REJECTED | No diamond norm is currently computed. |
 | QIT-18 | A Page curve or island entropy calculation proves operational recovery of the complete input from arbitrary radiation. | REJECTED | Entropy of a declared region is not a decoder and does not characterize arbitrary subdivisions. |
 | QIT-19 | A solar-mass black hole requires approximately \(10^{77}\) quantum gates to decode. | REJECTED | The order \(10^{77}\) is associated with entropy scale, not a universal decoding gate count; complexity statements require a defined task and model. |
 | QIT-20 | Quantum Darwinism is the established mechanism explaining Hawking thermality and information recovery. | REJECTED | It is not required by the channel analysis and has not been established as the black-hole recovery mechanism. |
 | QIT-21 | Global preservation guarantees practical reconstruction by an asymptotic observer. | REJECTED | Recovery depends on accessible algebra, channel knowledge, error criterion, and computational resources. |
+| QIT-22 | The Bény--Oreshkov worst-case duality has been mapped into repository fidelity conventions. | VALID | The imported theorem statement and identity-target specialization are recorded in `docs/APPROXIMATE_RECOVERY_THEOREM_MAP.md`; executable worst-case optimization remains absent. |
+| QIT-23 | The KSW cb-norm information–disturbance bound has been mapped to Schrödinger-picture diamond norm. | VALID | The constants and composition order are recorded; no diamond-norm solver is yet implemented. |
+| QIT-24 | An unconstrained sector decomposition always strengthens the total-dimension bound. | REJECTED | Maximizing over sector probabilities recovers \(\log_2\sum_qd_q\), the ordinary total-dimension cap. |
 
 ---
 
@@ -45,10 +48,11 @@ This ledger records which claims are retained, rejected, conditional, unresolved
 | ID | Claim | Status | Correction or evidence requirement |
 |---|---|---|---|
 | NUM-01 | The recovery Choi SDP reproduces analytic erasure and dephasing optima. | VALID | Pinned CVXPY/Clarabel CI passed all nine optimization tests; recovery status is `optimal`. |
-| NUM-02 | Recovery Choi matrices satisfy CPTP feasibility within declared tolerances. | VALID | Maximum trace-preservation residual in the generated sweep is \(3.33	imes10^{-16}\); minimum reported eigenvalue is \(-6.02	imes10^{-13}\). |
-| NUM-03 | The environment-fidelity optimization is an independent numerical diagnostic. | CONDITIONAL | Maximum cross-formulation gap in the sweep is \(8.40	imes10^{-5}\), below the \(1.5	imes10^{-4}\) diagnostic tolerance. Some rank-deficient points returned `optimal_inaccurate`, so this side is not called a certificate. |
+| NUM-02 | Recovery Choi matrices satisfy CPTP feasibility within declared tolerances. | VALID | Maximum trace-preservation residual in the generated sweep is \(3.33\times10^{-16}\); minimum reported eigenvalue is \(-6.02\times10^{-13}\). |
+| NUM-03 | The environment-fidelity optimization is an independent numerical diagnostic. | CONDITIONAL | Maximum cross-formulation gap in the sweep is \(8.40\times10^{-5}\), below the \(1.5\times10^{-4}\) diagnostic tolerance. Some rank-deficient points returned `optimal_inaccurate`, so this side is not called a certificate. |
 | NUM-04 | A solver-reported `optimal_inaccurate` status is theorem-grade evidence. | REJECTED | It may be retained as a documented diagnostic only. |
 | NUM-05 | A cross-formulation gap is the conic solver's primal–dual gap. | REJECTED | It compares two physical formulations; it is not an internal solver duality gap. |
+| NUM-06 | Charge-sector entropy formulas and limiting cases are covered by deterministic tests. | VALID | Single-sector, mixed-sector, unconstrained-distribution, complementary-bound, and invalid-input tests are included. |
 
 ---
 
@@ -65,11 +69,13 @@ This ledger records which claims are retained, rejected, conditional, unresolved
 | GR-07 | The HRS effective geometry supplies explicit large-scale metric functions, bounce radius, and horizon roots. | CONDITIONAL | Valid within its assumptions and \(G=c=1\); regression tests reproduce the formulas and limits. |
 | GR-08 | The HRS geometry supplies Hawking evaporation, tunnelling probability, a remnant Hamiltonian, or decoder. | REJECTED | These are absent from the construction. |
 | GR-09 | Interior volume automatically measures remnant information capacity. | REJECTED | No volume-to-Hilbert-space map is supplied. |
-| GR-10 | A recoverability theorem follows from HRS/Bianchi without added microscopic inputs. | GATED | Current admissible result is a parameterized bound or underdetermination theorem. |
-| GR-11 | Conditional reconstruction can be studied in a specified JT-bath code subspace. | CONDITIONAL | Requires a declared setup, radiation algebra, theorem, and error. |
+| GR-10 | A recoverability theorem follows from HRS/Bianchi without added microscopic inputs. | GATED | Current admissible results are parameterized bounds, excluded regions, or an underdetermination theorem. |
+| GR-11 | Conditional reconstruction can be studied in a specified JT-bath code subspace. | CONDITIONAL | A first setup is specified, but source transcription, reconstruction theorem, and error remain required. |
 | GR-12 | LQG or LQC has established that all physical black holes undergo a bounce driven by universal repulsive quantum pressure. | REJECTED | Bounce behavior is model dependent; symmetry-reduced or effective results do not establish a universal full-theory prediction. |
 | GR-13 | Quantum gravity has reached consensus that collapse must produce a white-hole burst. | REJECTED | This is a family of proposed scenarios, not an established consensus. |
 | GR-14 | Singularity resolution, transition geometry, remnant dynamics, and holographic islands are one common theory. | REJECTED | They are distinct frameworks with different assumptions and observables. |
+| GR-15 | Geometry-only data fail to identify a unique information channel when no geometry-to-channel rule is supplied. | VALID | Explicit isometries with incompatible radiation recovery prove non-uniqueness under the same abstract output split. |
+| GR-16 | The underdetermination proposition proves that no microscopic completion can exist. | REJECTED | It states only that the selected effective sources do not presently specify one. |
 
 ---
 
@@ -78,7 +84,7 @@ This ledger records which claims are retained, rejected, conditional, unresolved
 | ID | Claim | Status | Correction or evidence requirement |
 |---|---|---|---|
 | PH-01 | \(2GM/c^3\) is the Schwarzschild light-crossing baseline. | VALID | Dimensional gravitational scale. |
-| PH-02 | For \(M=10^{12}\,\mathrm{kg}\), \(2GM/c^3\approx10^{-5}\,\mathrm{s}\). | REJECTED | The value is approximately \(4.95	imes10^{-24}\,\mathrm{s}\). |
+| PH-02 | For \(M=10^{12}\,\mathrm{kg}\), \(2GM/c^3\approx10^{-5}\,\mathrm{s}\). | REJECTED | The value is approximately \(4.95\times10^{-24}\,\mathrm{s}\). |
 | PH-03 | The light-crossing time is automatically an observed burst duration. | REJECTED | A source, propagation, and detector model must connect the scales. |
 | PH-04 | Named instruments constrain a generic bounce. | REJECTED | Instrument claims require a concrete signal and population model. |
 | PH-05 | Existing broker infrastructure may be preferable to an independent pipeline. | CONDITIONAL | Only if a validated signal overlaps the broker's cadence and products. |
@@ -125,6 +131,7 @@ This ledger records which claims are retained, rejected, conditional, unresolved
 | Environment diagnostic | Independent calculation that may include `optimal_inaccurate` values under a declared diagnostic tolerance |
 | Detection forecast | Source population, response, efficiency, backgrounds, and statistics |
 | Analogy | Communication aid with no evidentiary status |
+| Imported theorem | Primary-source result with assumptions and conventions mapped, whether or not executable optimization is implemented |
 
 ---
 
@@ -135,18 +142,22 @@ Completed:
 1. pure-state identities, biased isometries, and random checks;
 2. open-channel and adversarial diagnostics;
 3. finite-dimension and finite-Hamiltonian bounds;
-4. state-specific decoupling diagnostics;
-5. pinned recovery SDP tests and generated optimization artifacts;
-6. Schwarzschild regression tests;
-7. HRS geometry, horizon, and asymptotic tests;
-8. norm, theorem, model, publication, provenance, and canonical-claim ledgers;
-9. automated public-language validation.
+4. finite charge-sector and superselection bounds;
+5. state-specific decoupling diagnostics;
+6. pinned recovery SDP tests and generated optimization artifacts;
+7. Bény--Oreshkov and KSW convention maps;
+8. Schwarzschild regression tests;
+9. HRS geometry, horizon, and asymptotic tests;
+10. geometry-only channel-underdetermination proposition;
+11. first JT-bath benchmark specification;
+12. norm, theorem, model, publication, provenance, and canonical-claim ledgers;
+13. automated public-language validation.
 
 Next gates:
 
-1. independent QIT review of the recovery objective and convention mapping;
-2. worst-case Bény–Oreshkov and KSW theorem reconstruction;
-3. charge and symmetry constraints;
-4. formal HRS/Bianchi underdetermination theorem;
-5. exact JT-bath setup and code subspace;
+1. independent QIT review of the recovery objective and theorem mapping;
+2. executable worst-case Bény--Oreshkov optimization;
+3. diamond-norm KSW certification;
+4. gravitational derivation of any charge-sector or state-space data;
+5. source-complete JT-bath calculation and surrogate;
 6. continued phenomenology block until a complete signal model exists.
