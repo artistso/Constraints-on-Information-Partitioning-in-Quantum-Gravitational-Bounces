@@ -129,17 +129,7 @@ The convention-mapped inequality is
 2\sqrt{\delta_{\mathrm{rec}}}.
 \]
 
-Equivalently,
-
-\[
-\frac14\delta_{\mathrm{env}}^2
-\leq
-\delta_{\mathrm{rec}}
-\leq
-2\sqrt{\delta_{\mathrm{env}}},
-\]
-
-when the complementary/decoding roles are exchanged through the same continuity argument. Any use of the second display must identify the relevant channel pair and constant state rather than treating it as an algebraic inversion of the first display.
+The constant state \(\sigma_E\), complementary dilation, and channel composition order must be stated explicitly whenever this inequality is used.
 
 ### Implementation gate
 
