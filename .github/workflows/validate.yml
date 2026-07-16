@@ -60,11 +60,16 @@ jobs:
         run: |
           set -o pipefail
           pytest -m optimization -vv 2>&1 | tee optimization-test.log
-      - name: Generate theorem-grade optimization outputs
+      - name: Generate fixed-input recovery outputs
         shell: bash
         run: |
           set -o pipefail
           python scripts/run_theorem_stress_tests.py 2>&1 | tee theorem-stress-test.log
+      - name: Generate diamond-norm and KSW outputs
+        shell: bash
+        run: |
+          set -o pipefail
+          python scripts/run_diamond_stress_tests.py 2>&1 | tee diamond-stress-test.log
       - name: Upload optimization diagnostics
         if: always()
         uses: actions/upload-artifact@v4
@@ -73,5 +78,7 @@ jobs:
           path: |
             optimization-test.log
             theorem-stress-test.log
+            diamond-stress-test.log
             outputs/theorem_stress_tests/
+            outputs/diamond_stress_tests/
           if-no-files-found: warn
