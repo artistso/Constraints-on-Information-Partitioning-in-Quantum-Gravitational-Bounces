@@ -2,6 +2,7 @@
 
 \usepackage[margin=1in]{geometry}
 \usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
 \usepackage{mathtools}
 \usepackage{microtype}
 \usepackage{hyperref}
@@ -12,31 +13,39 @@
 \newtheorem{lemma}{Lemma}
 \newtheorem{definition}{Definition}
 \newtheorem{example}{Example}
+\newtheorem{remark}{Remark}
 
-\title{Constraints on Information Localization and Recoverability\\
-in Quantum-Gravitational Bounce Models}
+\newcommand{\cN}{\mathcal N}
+\newcommand{\cR}{\mathcal R}
+\newcommand{\cH}{\mathcal H}
+\newcommand{\id}{\operatorname{id}}
+
+\title{Information Localization and Conditional Recoverability\\
+in Quantum-Gravitational Transition Models}
 \author{Steven Owens}
-\date{Draft scaffold -- not for submission}
+\date{Research manuscript scaffold v0.3 --- not for submission}
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-Black-to-white-hole transition and remnant models motivate a precise question: after a quantum-gravitational transition, where is information about the infalling state recoverable? Let a reference system $R$ purify an input $X$, and let an isometry $V:X\rightarrow A\otimes B$ represent a transition into two output sectors. For the resulting pure state on $RAB$, the exact identity $I(R:A)+I(R:B)=2S(R)$ conserves total reference correlations but does not enforce equal partitioning. We therefore replace a universal no-filtering claim with the conditional problem of deriving recoverability bounds under explicit assumptions concerning accessibility, conservation laws, causal structure, remnant state spaces, semiclassical validity, and holographic code-subspace reconstruction. This manuscript develops the channel-level identities and counterexamples, specifies the conditions required for gravitational embedding, and defines a feasibility gate for any observational application.
+Black-to-white-hole transition and remnant scenarios motivate a precise question: after a proposed quantum-gravitational transition, from which observer-accessible algebra is information about an infalling state recoverable? Let a reference system $R$ purify an input $X$, and let an isometry $V:X\rightarrow A\otimes B$ define accessible radiation $A$ and retained degrees of freedom $B$. For pure $RAB$, the identity $I(R:A)+I(R:B)=2S(R)$ conserves total reference correlations but permits maximally asymmetric localization. We derive finite-dimension and finite-Hamiltonian correlation bounds, distinguish them from operational decoder guarantees, and formulate fixed-input recovery as a semidefinite program with an independent complementary-state fidelity cross-certificate. We then separate two physical applications: an effective Han--Rovelli--Soltani black-to-white geometry combined with a white-hole remnant scenario, and a controlled JT-gravity bath reconstruction benchmark. Geometry alone does not supply a Hilbert space, Hamiltonian, microscopic channel, or decoder; where these are absent, the correct result is a parameterized constraint or a theorem of underdetermination.
 \end{abstract}
 
 \section{Introduction}
 \label{sec:introduction}
 
-State the physical motivation without claiming that unitarity fixes the distribution of information across arbitrary output subsystems. Distinguish global purity, subsystem entropy, and operational recoverability \citep{Page1993Information,HaydenPreskill2007}.
+Global unitarity does not determine how information is localized among arbitrary output subsystems. The relevant operational questions require a purifying reference, a declared observer algebra, and a recovery task. This distinction is central both to black-hole information-return problems \citep{Page1993Information,HaydenPreskill2007} and to approximate quantum error correction \citep{BenyOreshkov2009,KretschmannEtAl2006}.
 
-\section{Channel framework}
+The manuscript has three logical layers. Sections~\ref{sec:channel}--\ref{sec:certified} contain model-independent quantum-information results. Section~\ref{sec:hrs} audits an explicit non-holographic geometry and its missing microscopic inputs. Section~\ref{sec:jt} treats holography only as a separate controlled benchmark.
+
+\section{Reference-assisted channel framework}
 \label{sec:channel}
 
 \begin{definition}[Reference-assisted transition]
-Let $\rho_{RX}$ be a pure state and let $V:\mathcal H_X\rightarrow\mathcal H_A\otimes\mathcal H_B$ be an isometry. Define
+Let $\rho_{RX}$ be pure and let $V:\cH_X\rightarrow\cH_A\otimes\cH_B$ be an isometry. Define
 \[
-\rho_{RAB}=(\operatorname{id}_R\otimes V)\rho_{RX}(\operatorname{id}_R\otimes V^\dagger).
+\rho_{RAB}=(\id_R\otimes V)\rho_{RX}(\id_R\otimes V^\dagger).
 \]
 \end{definition}
 
@@ -48,7 +57,7 @@ I(R:A)+I(R:B)=2S(R).
 \end{proposition}
 
 \begin{proof}
-Using purity, $S(RA)=S(B)$ and $S(RB)=S(A)$. Therefore
+Purity gives $S(RA)=S(B)$ and $S(RB)=S(A)$. Therefore
 \begin{align*}
 I(R:A)+I(R:B)
 &=2S(R)+S(A)+S(B)-S(RA)-S(RB)\\
@@ -56,43 +65,126 @@ I(R:A)+I(R:B)
 \end{align*}
 \end{proof}
 
-\begin{example}[Maximally biased isometry]
-For $V|\psi\rangle_X=|\psi\rangle_A\otimes|0\rangle_B$, one has
+\begin{example}[Maximally biased localization]
+For $V|\psi\rangle_X=|\psi\rangle_A\otimes|0\rangle_B$,
 \[
 I(R:A)=2S(R),\qquad I(R:B)=0.
 \]
-Thus unitarity alone does not imply equal information localization.
+Thus exact isometry does not imply equal partitioning.
 \end{example}
 
-\section{Recoverability and decoupling}
+\section{Finite-resource correlation bounds}
+\label{sec:resources}
+
+\begin{lemma}[Finite retained dimension]
+If $\dim B=d_B$, then
+\[
+I(R:B)\leq2\min\{S(R),\log_2d_B\}.
+\]
+For pure $RAB$,
+\[
+I(R:A)\geq\max\{0,2S(R)-2\log_2d_B\}.
+\]
+\end{lemma}
+
+\begin{proof}
+The standard inequality $I(R:B)\leq2\min\{S(R),S(B)\}$ and $S(B)\leq\log_2d_B$ give the first statement. The second follows from the mutual-information sum.
+\end{proof}
+
+\begin{lemma}[Finite-Hamiltonian energy constraint]
+Let $H_B$ have a finite spectrum and suppose $\operatorname{Tr}(H_B\rho_B)\leq E$. Let $S_{\max}(E,H_B)$ be the maximum entropy under this constraint. Then
+\[
+I(R:B)\leq2\min\{S(R),S_{\max}(E,H_B)\},
+\]
+and for pure $RAB$,
+\[
+I(R:A)\geq\max\{0,2S(R)-2S_{\max}(E,H_B)\}.
+\]
+\end{lemma}
+
+\begin{proof}
+Maximize $S(B)$ over states satisfying the energy constraint. In finite dimension, the optimizer is a Gibbs state when the constraint is active and the uniform state otherwise. Insert the resulting entropy cap into the preceding mutual-information inequality.
+\end{proof}
+
+\begin{remark}
+These lemmas constrain correlation storage. They do not construct a decoder or provide a lower bound on recovery fidelity. Energy-constrained channel capacities require additional assumptions \citep{WildeQi2016}.
+\end{remark}
+
+\section{Operational recovery and adversarial diagnostics}
 \label{sec:recovery}
 
-Define operational recovery tasks, norm conventions, coherent information, and one-shot decoupling criteria \citep{DupuisEtAl2010,FawziRenner2014}. State all assumptions before introducing a conditional theorem.
+Define root fidelity, squared fidelity, purified distance, trace distance, coherent information, and entanglement fidelity according to the repository norm ledger. Standard erasure, dephasing, depolarizing, and amplitude-damping channels are used to demonstrate that classical accessibility, coherent transmission, output entropy, environmental leakage, and recovery fidelity are distinct quantities.
 
-\section{Operator-algebra and holographic benchmarks}
-\label{sec:holography}
+Adversarial channel pairs are required whenever one scalar diagnostic is proposed as a proxy for recovery. In particular, channels can share $I(R:A)$ while having different optimal entanglement fidelities, or preserve the same classical basis information while differing in coherent information.
 
-Treat reconstruction from specified observable algebras using operator-algebra quantum error correction \citep{BenyKempfKribs2007,AlmheiriDongHarlow2014,Harlow2016}. Use island and entanglement-wedge results only within the controlled models where their assumptions hold \citep{Penington2019,AlmheiriEtAl2019Bulk,AlmheiriEtAl2019Replica}.
+\section{Certified fixed-input recovery}
+\label{sec:certified}
 
-\section{Black-to-white-hole model cards}
-\label{sec:models}
+For a channel $\cN:X\rightarrow A$, the maximally mixed-input recovery problem is
+\[
+\max_{\cR\,\mathrm{CPTP}}F_e(\cR\circ\cN).
+\]
+Using the unnormalized recovery Choi matrix $J_{\cR}$ ordered as input $A$ tensor output $X$, the feasible set is
+\[
+J_{\cR}\succeq0,\qquad \operatorname{Tr}_XJ_{\cR}=I_A,
+\]
+and the objective is linear in $J_{\cR}$ \citep{FletcherShorWin2006}.
 
-For each selected model, record the geometry, asymptotics, state space, transition law, radiation sector, remnant sector, and domain of validity. Candidate literature includes black-to-white-hole tunneling and white-hole remnant constructions \citep{HaggardRovelli2014,BianchiEtAl2018}.
+An independent formulation optimizes
+\[
+\max_{\sigma_E}
+F\!\left(\rho_{RE}^{\cN^c},\frac{I_R}{d}\otimes\sigma_E\right),
+\]
+using the block-matrix semidefinite representation of fidelity. Uhlmann's theorem supplies the fixed-input recovery interpretation \citep{Uhlmann1976}. Agreement of the two numerical formulations is a cross-certificate; it is not the internal primal--dual gap of either conic solver.
+
+The current certificate is state specific. Worst-case approximate correctability and channel-wide information--disturbance results remain imported theorem targets whose conventions must be mapped explicitly \citep{BenyOreshkov2009,KretschmannEtAl2006}.
+
+\section{Han--Rovelli--Soltani geometry and remnant underdetermination}
+\label{sec:hrs}
+
+The selected non-holographic scaffold is the single-asymptotic-region effective geometry of Han, Rovelli, and Soltani \citep{HanRovelliSoltani2023}. In units $G=c=1$, the effective stellar boundary is
+\[
+a(T)=\left(\frac{9mT^2+Am}{2}\right)^{1/3},
+\]
+and the exterior function outside the tunnelling region is
+\[
+F(r)=1-\frac{2m}{r}+\frac{Am^2}{r^4}.
+\]
+In the large-mass regime,
+\[
+r_+\simeq2m,\qquad r_-\simeq\left(\frac{Am}{2}\right)^{1/3}.
+\]
+
+The geometry is combined only conditionally with the white-hole remnant life cycle of Bianchi et al. \citep{BianchiEtAl2018}. Neither source supplies a microscopic remnant Hamiltonian, Hilbert-space dimension, radiation channel, or decoder. The first model-specific result must therefore be a parameterized capacity bound, a conditional theorem with explicit extra assumptions, or a proof of underdetermination.
+
+Interior volume, exterior mass, and lifetime are not substituted for information capacity without an independent state-space derivation.
+
+\section{JT-gravity bath benchmark}
+\label{sec:jt}
+
+A specified JT-gravity region coupled to a non-gravitating bath will be used to compare generalized entropy, island transitions, code-subspace reconstruction, complementary decoupling, and finite-dimensional recovery certificates \citep{Penington2019,AlmheiriEtAl2019Bulk,AlmheiriEtAl2019Replica}. The Page curve of a declared radiation region is not interpreted as uniform information distribution or as an explicit decoder.
+
+No JT result is transferred to the asymptotically flat remnant track without an explicit assumption map.
 
 \section{Phenomenology feasibility gate}
 \label{sec:phenomenology}
 
-Require an explicit spectrum, duration, energy budget, event-rate prescription, source population, propagation model, detector response, background model, and statistical plan. Do not equate $2GM/c^3$ with an observed transient duration without a model-derived connection.
+A search requires an emitted spectrum, energy, intrinsic duration, event-rate law, population distribution, propagation model, instrument response, background model, and statistical plan. The Schwarzschild light-crossing time $2GM/c^3$ is retained only as a dimensional baseline. Contemporary PBH-to-white-hole rate studies are treated as assumption-dependent constraints rather than generic transient predictions \citep{EwasiukProfumo2026}.
+
+\section{Reproducibility and certificate policy}
+\label{sec:reproducibility}
+
+Every reported result must be linked to an analytic derivation, a primary source, or deterministic executable code. Convex certificates record solver status, objective value, trace-preservation residual, positivity residual, and cross-formulation gap. A status of \texttt{optimal\_inaccurate} or a residual above the declared tolerance blocks theorem-level use.
 
 \section{Discussion and limitations}
 \label{sec:discussion}
 
-Separate universal channel identities from conditional gravitational results. Document counterexamples, model dependence, inaccessible algebras, and unresolved microscopic dynamics.
+The program separates global preservation from local reconstructability, finite-resource bounds from decoder guarantees, geometry from microscopic dynamics, and controlled holographic reconstruction from non-holographic transition models. The main scientific value may be a precise obstruction or underdetermination theorem rather than a positive recovery or observational claim.
 
 \section{Conclusion}
 \label{sec:conclusion}
 
-Summarize only results established in the completed sections.
+The established results are the reference-assisted localization identity and finite-resource correlation bounds. Certified recovery, worst-case information--disturbance, and gravitational embedding remain explicitly staged according to their proof, numerical, and model requirements.
 
 \bibliographystyle{unsrtnat}
 \bibliography{../references/references}
