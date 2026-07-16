@@ -1,6 +1,6 @@
 # Constraints on Information Localization in Quantum-Gravitational Bounces
 
-> **Research scaffold v0.4 — conditional, falsifiable, and publication-oriented.**
+> **Research scaffold v0.5 — conditional, falsifiable, and publication-oriented.**
 >
 > This repository rejects universal equal-partition claims. Generic isometric quantum channels can localize information asymmetrically. The project asks which additional physical assumptions constrain where information is recoverable in black-to-white-hole transitions, remnant models, and controlled holographic benchmarks.
 
@@ -30,9 +30,10 @@ Public claims are governed by the following hierarchy:
 2. [`docs/VALIDITY_LEDGER.md`](docs/VALIDITY_LEDGER.md)
 3. [`docs/THEOREM_LEDGER.md`](docs/THEOREM_LEDGER.md)
 4. [`docs/NORM_CONVENTIONS.md`](docs/NORM_CONVENTIONS.md)
-5. [`docs/APPROXIMATE_RECOVERY_THEOREM_MAP.md`](docs/APPROXIMATE_RECOVERY_THEOREM_MAP.md)
-6. [`docs/HRS_BIANCHI_UNDERDETERMINATION.md`](docs/HRS_BIANCHI_UNDERDETERMINATION.md)
-7. model cards and benchmark specifications in [`models/`](models/)
+5. [`docs/DIAMOND_NORM_CERTIFICATE_POLICY.md`](docs/DIAMOND_NORM_CERTIFICATE_POLICY.md)
+6. [`docs/APPROXIMATE_RECOVERY_THEOREM_MAP.md`](docs/APPROXIMATE_RECOVERY_THEOREM_MAP.md)
+7. [`docs/HRS_BIANCHI_UNDERDETERMINATION.md`](docs/HRS_BIANCHI_UNDERDETERMINATION.md)
+8. model cards and benchmark specifications in [`models/`](models/)
 
 Older PDFs and narrative summaries are retained only as claim inventories. They are not authoritative research products.
 
@@ -52,7 +53,7 @@ Older PDFs and narrative summaries are retained only as claim inventories. They 
 - explicit recovery maps, entanglement fidelity, average fidelity, trace distance, and purified distance;
 - finite-remnant dimension bounds and adversarial channel comparisons.
 
-### v0.3 — Certified recovery, energy constraints, and geometry
+### v0.3 — Fixed-input recovery, energy constraints, and geometry
 
 - state-specific environmental decoupling diagnostics;
 - pinned CVXPY/Clarabel semidefinite programs for maximally mixed-input recovery;
@@ -71,6 +72,22 @@ Older PDFs and narrative summaries are retained only as claim inventories. They 
 - formal geometry-only channel-underdetermination proposition;
 - first fixed JT-bath benchmark specification;
 - independent review packet.
+
+### v0.5 — Channel-wide diamond recovery and KSW certification
+
+- unnormalized Choi matrices in declared input-output order;
+- finite-dimensional diamond norm through the Watrous dual SDP;
+- exact optimization of
+  \[
+  \inf_{\mathcal R}\|\mathcal R\circ\mathcal N-\operatorname{id}\|_\diamond;
+  \]
+- exact optimization of
+  \[
+  \inf_{\sigma_E}\|\mathcal N^c-\mathcal C_\sigma\|_\diamond;
+  \]
+- deterministic KSW lower- and upper-margin checks;
+- analytic dephasing, depolarizing, identity, and constant-channel standards;
+- a strict SCS certificate path for the current degenerate and rank-deficient cases.
 
 ## Reproduction
 
@@ -92,6 +109,7 @@ Pinned optimization validation:
 python -m pip install -e ".[test,optimization]"
 pytest -m optimization
 python scripts/run_theorem_stress_tests.py
+python scripts/run_diamond_stress_tests.py
 ```
 
 The optimization extra pins CVXPY, Clarabel, and SCS. A platform-complete transitive lock remains a release gate before a tagged numerical-certificate archive.
@@ -100,7 +118,7 @@ The optimization extra pins CVXPY, Clarabel, and SCS. A platform-complete transi
 
 ### Finite dimension
 
-For pure `RAB` with remnant dimension `d_B`,
+For pure `RAB` with retained dimension `d_B`,
 
 \[
 I(R:B)\leq2\min\{S(R),\log_2d_B\},
@@ -114,7 +132,7 @@ I(R:A)\geq\max\{0,2S(R)-2\log_2d_B\}.
 
 ### Finite Hamiltonian and energy cap
 
-For a declared finite-dimensional remnant Hamiltonian `H_B` and
+For a declared finite-dimensional retained Hamiltonian `H_B` and
 
 \[
 \operatorname{Tr}(H_B\rho_B)\leq E,
@@ -157,23 +175,77 @@ I(R:B)\leq
 
 The sector structure and distribution are physical inputs. An unconstrained distribution reduces to the ordinary total-dimension cap.
 
-All three results constrain correlation storage. None supplies a decoder by itself.
+These results constrain correlation storage. None supplies a decoder by itself.
 
-### Fixed-input recovery certification
+## Recovery layers
 
-The optional SDP layer evaluates
+### Maximally mixed-input fidelity
+
+The fixed-input SDP evaluates
 
 \[
 \max_{\mathcal R\ \mathrm{CPTP}}F_e(\mathcal R\circ\mathcal N)
 \]
 
-for the maximally mixed input and independently optimizes the complementary-state fidelity to a constant environment channel. Solver status, CPTP residuals, positivity residuals, and the cross-formulation gap are recorded.
+for the maximally mixed input. It records solver status, CPTP residuals, positivity residuals, and an independent state-specific environment-fidelity diagnostic.
 
-This is not yet an executable channel-wide worst-case or energy-constrained diamond-norm result.
+### Channel-wide diamond recovery
 
-### Imported worst-case and channel-norm theorems
+For a declared finite-dimensional channel,
 
-The Bény–Oreshkov exact worst-case entanglement-fidelity duality and the KSW information–disturbance inequality are now transcribed and convention-mapped. Their executable worst-case and diamond-norm optimization layers remain separate development gates.
+\[
+\delta_{\mathrm{rec}}
+=
+\inf_{\mathcal R\ \mathrm{CPTP}}
+\|\mathcal R\circ\mathcal N-\operatorname{id}\|_\diamond
+\]
+
+is solved by a joint recovery-Choi and diamond-dual SDP.
+
+For a declared complementary channel,
+
+\[
+\delta_{\mathrm{env}}
+=
+\inf_{\sigma_E}
+\|\mathcal N^c-\mathcal C_\sigma\|_\diamond
+\]
+
+is solved by jointly optimizing the constant state and diamond dual.
+
+The mapped KSW inequality is
+
+\[
+\frac14\delta_{\mathrm{rec}}^2
+\leq
+\delta_{\mathrm{env}}
+\leq
+2\sqrt{\delta_{\mathrm{rec}}}.
+\]
+
+The source theorem remains imported. The executable sweep verifies the implementation and convention map on declared finite-dimensional channel families.
+
+### Numerical checkpoint
+
+The pinned workflow currently reports:
+
+| Diagnostic | Result |
+|---|---:|
+| Optimization tests | 30 passed |
+| Dephasing identity-distance analytic error | \(<6.3\times10^{-9}\) |
+| Dephasing optimal-recovery analytic error | \(<2.1\times10^{-8}\) |
+| Minimum KSW lower margin | \(-8.8\times10^{-19}\) |
+| Minimum KSW upper margin | \(>8.6\times10^{-5}\) |
+| Fully depolarizing qubit distance from identity | approximately \(1.5\) |
+| Identity distance from closest constant qubit channel | approximately \(1.5\) |
+
+The tiny negative lower margin is consistent with floating-point zero. Every certificate uses solver status `optimal` and declared PSD, trace, and partial-trace residual tests.
+
+### Remaining recovery target
+
+The Bény–Oreshkov worst-case entanglement-fidelity minimax is still not executable. It is distinct from both the fixed-input fidelity SDP and the channel-wide diamond optimization.
+
+Energy-constrained and infinite-dimensional diamond norms also remain outside the current certificate.
 
 ## Selected physical tracks
 
@@ -184,7 +256,7 @@ The Bény–Oreshkov exact worst-case entanglement-fidelity duality and the KSW 
 - **Established conclusion:** geometry alone does not identify a unique quantum channel when no geometry-to-channel rule is supplied.
 - **Valid next outputs:** parameterized information-capacity constraints, excluded regions, or a microscopic completion that removes the underdetermination.
 
-The geometry does not determine a Hilbert-space dimension, Hamiltonian, charge sectors, microscopic channel, radiation spectrum, or decoder.
+The geometry does not determine a Hilbert-space dimension, Hamiltonian, charge sectors, microscopic channel, radiation spectrum, or decoder. The new optimizer can evaluate a declared channel; it cannot derive one from the metric.
 
 ### Controlled holographic benchmark
 
@@ -204,14 +276,15 @@ No JT or island conclusion is transferred to the non-holographic remnant track w
 | [`docs/VALIDITY_LEDGER.md`](docs/VALIDITY_LEDGER.md) | Accepted, rejected, conditional, and unresolved claims |
 | [`docs/THEOREM_LEDGER.md`](docs/THEOREM_LEDGER.md) | Proof, imported-theorem, and numerical-certificate status |
 | [`docs/NORM_CONVENTIONS.md`](docs/NORM_CONVENTIONS.md) | Entropy, fidelity, Choi, norm, and SDP conventions |
+| [`docs/DIAMOND_NORM_CERTIFICATE_POLICY.md`](docs/DIAMOND_NORM_CERTIFICATE_POLICY.md) | Finite-dimensional diamond SDP and certificate rules |
 | [`docs/APPROXIMATE_RECOVERY_THEOREM_MAP.md`](docs/APPROXIMATE_RECOVERY_THEOREM_MAP.md) | Bény–Oreshkov and KSW convention map |
 | [`docs/SYMMETRY_RESOURCE_BOUNDS.md`](docs/SYMMETRY_RESOURCE_BOUNDS.md) | Charge-sector and superselection lemma |
 | [`docs/HRS_BIANCHI_UNDERDETERMINATION.md`](docs/HRS_BIANCHI_UNDERDETERMINATION.md) | Geometry-only channel non-identifiability proposition |
 | [`docs/REVIEW_PACKET.md`](docs/REVIEW_PACKET.md) | Independent QIT and gravity review protocol |
 | [`models/`](models/) | HRS, Bianchi-remnant, and JT-bath model specifications |
-| [`src/qgbounce/`](src/qgbounce/) | Tested quantum-information, energy, symmetry, geometry, and gravity utilities |
+| [`src/qgbounce/`](src/qgbounce/) | Tested quantum-information, recovery, energy, symmetry, geometry, and gravity utilities |
 | [`scripts/`](scripts/) | Simulations, certificates, and claim-language validation |
-| [`tests/`](tests/) | Regression, adversarial, symmetry, geometry, and optimization tests |
+| [`tests/`](tests/) | Regression, adversarial, symmetry, geometry, fidelity, and diamond tests |
 | [`manuscript/main.tex`](manuscript/main.tex) | LaTeX manuscript scaffold |
 | [`references/references.bib`](references/references.bib) | Primary-source bibliography |
 | [`notebooks/README.md`](notebooks/README.md) | Publication-facing notebook roadmap |
@@ -221,14 +294,15 @@ No JT or island conclusion is transferred to the non-holographic remnant track w
 
 1. Reference systems are explicit.
 2. Kinematics, dynamics, geometry, and state-space assumptions are separated.
-3. Correlation, coherent transmission, and recovery are distinct.
-4. Fixed-input certificates are not called channel-wide theorems.
-5. Imported theorems and executable implementations are distinguished.
-6. Holographic claims require a specified dual, region, and code subspace.
-7. Geometry is not converted into information capacity without a state-space model.
-8. Phenomenology remains blocked until a complete forward model exists.
-9. Failed tests and unsupported language block claim promotion.
+3. Correlation, coherent transmission, fixed-input fidelity, worst-case fidelity, and diamond recovery are distinct.
+4. Fixed-input certificates are not called channel-wide results.
+5. Diamond certificates are not called energy-constrained or gravitational results.
+6. Imported theorems and executable implementations are distinguished.
+7. Holographic claims require a specified dual, region, and code subspace.
+8. Geometry is not converted into information capacity without a state-space model.
+9. Phenomenology remains blocked until a complete forward model exists.
+10. Failed tests and unsupported language block claim promotion.
 
 ## Current status
 
-The regression, geometry, symmetry, optimization, and claim-language workflows are active. The project is now in the **worst-case implementation, diamond-norm certification, gravitational-resource derivation, and independent-review phase**. Draft PR #1 remains open pending external QIT and gravity review and source-complete implementation of the next theorem/model gates.
+The regression, geometry, symmetry, fixed-input optimization, diamond optimization, and claim-language workflows pass. The project is now in the **worst-case fidelity, gravitational-resource derivation, JT-source transcription, and independent-review phase**. Draft PR #1 remains open pending external QIT and gravity review and source-complete implementation of the next model gates.
