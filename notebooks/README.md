@@ -1,62 +1,93 @@
 # Notebook and Simulation Plan
 
-No numerical result is accepted into the manuscript unless it can be reproduced from this directory or from the tested `src/qgbounce` package.
+No numerical result enters a manuscript unless it is reproduced by the tested `src/qgbounce` package and then presented transparently in a publication-facing notebook.
 
-## Implemented foundation
+## Implemented package layers
 
-The executable package now contains two validated layers:
+### Quantum channels
 
-- `src/qgbounce/quantum.py` — density matrices, partial traces, entropy, mutual information, explicit localization isometries, and Haar-random isometries.
-- `src/qgbounce/channels.py` — Kraus channels, Stinespring dilations, Choi states, coherent information, Holevo information, erasure, dephasing, depolarizing, and amplitude damping.
-- `src/qgbounce/recovery.py` — entanglement fidelity, average state fidelity, Choi trace distance, purified distance, and explicit decoder diagnostics.
-- `src/qgbounce/remnants.py` — finite-remnant mutual-information caps, radiation lower bounds, extremal encodings, and random-isometry sampling.
-- `src/qgbounce/gravity.py` — unit-explicit Schwarzschild radius, light-crossing time, Hawking temperature, and leading evaporation-time baselines.
-- `scripts/run_stress_tests.py` — pure-isometry and gravitational-scale products.
-- `scripts/run_channel_stress_tests.py` — open-channel, recovery, and finite-remnant products.
-- `tests/` — regression tests for exact identities, channel formulas, recovery metrics, dimensional caps, and physical scales.
-- `docs/SIMULATION_PROTOCOL.md` and `docs/CHANNEL_STRESS_TEST_PROTOCOL.md` — equations, scope boundaries, and failure policy.
+- `quantum.py` — states, partial traces, entropy, mutual information, explicit and Haar-random isometries.
+- `channels.py` — Kraus maps, Stinespring dilations, Choi states, coherent and Holevo information, standard noise channels.
+- `recovery.py` — explicit-decoder entanglement and average fidelity, Choi trace and purified distances.
+- `decoupling.py` — complementary-state mutual information, product-state distances, Pinsker and Uhlmann diagnostics.
+- `optimization.py` — pinned recovery and environment-side fidelity SDPs with residual certificates.
 
-This package-first approach prevents notebook state, manually edited cells, or hidden execution order from becoming the sole source of a result.
+### Resource constraints
 
-## Planned notebooks
+- `remnants.py` — finite-dimension mutual-information caps.
+- `energy.py` — finite-spectrum Gibbs entropy and mean-energy-constrained correlation bounds.
+
+### Gravity and geometry
+
+- `gravity.py` — SI Schwarzschild baseline scales.
+- `geometry.py` — Han–Rovelli–Soltani natural-unit scale factor, exterior function, bounce radius, and horizon roots.
+
+### Deterministic runners
+
+- `scripts/run_stress_tests.py`
+- `scripts/run_channel_stress_tests.py`
+- `scripts/run_theorem_stress_tests.py`
+- `scripts/run_geometry_stress_tests.py`
+
+## Publication-facing notebook sequence
 
 1. `01_entropy_identities.ipynb`  
-   Present and symbolically verify the pure-state entropy relations and mutual-information sum identity already enforced by package tests.
+   Pure-state identities, reference-system formulation, and rejected equal-partition claim.
 
 2. `02_isometric_counterexamples.ipynb`  
-   Visualize the identity-to-one-port family, complementary channels, secret-sharing encodings, and random-isometry information-localization region.
+   One-port encodings, random isometries, feasible localization regions, and secret-sharing examples.
 
-3. `03_recovery_decoupling.ipynb`  
-   Convert the implemented erasure, dephasing, amplitude-damping, Choi-distance, and decoder diagnostics into a publication-facing notebook. Add decoupling inequalities only after constants and norm conventions are independently checked.
+3. `03_open_channels_and_adversarial_pairs.ipynb`  
+   Erasure, dephasing, depolarizing, amplitude damping, and channels sharing one diagnostic while differing operationally.
 
-4. `04_symmetry_energy_constraints.ipynb`  
-   Extend the implemented finite-remnant dimension bound to conserved charge, superselection sectors, and energy-constrained state spaces.
+4. `04_certified_recovery.ipynb`  
+   Recovery Choi SDP, environment-side fidelity SDP, analytic erasure/dephasing standards, feasibility residuals, solver status, and cross-formulation gap.
 
-5. `05_model_scale_checks.ipynb`  
-   Expand the Schwarzschild baselines into unit-aware comparisons with model-specific transition, propagation, and emission scales.
+5. `05_finite_resource_bounds.ipynb`  
+   Finite dimension, Gibbs entropy, energy caps, and later charge/superselection extensions.
 
-6. `06_signal_forward_model.ipynb`  
-   Created only after a selected bounce model provides a complete emission and event-rate prescription.
+6. `06_hrs_geometry.ipynb`  
+   HRS effective bounce, exterior function, horizon roots, large-mass limits, and explicit scope exclusions.
 
-7. `07_injection_recovery.ipynb`  
-   Created only after the phenomenology gate passes.
+7. `07_remnant_underdetermination.ipynb`  
+   HRS/Bianchi parameter provenance and the distinction between geometry, state space, Hamiltonian, channel, and decoder.
+
+8. `08_jt_bath_benchmark.ipynb`  
+   Created after the exact JT setup, code subspace, radiation algebra, and reconstruction theorem are fixed.
+
+9. `09_signal_forward_model.ipynb`  
+   Created only after a gravitational model passes the phenomenology gate.
+
+10. `10_injection_recovery.ipynb`  
+    Created only after a detector-level signal model is authorized.
 
 ## Reproduction
 
+Base suite:
+
 ```bash
 python -m pip install -e ".[test]"
-pytest
+pytest -m "not optimization"
 python scripts/run_stress_tests.py
 python scripts/run_channel_stress_tests.py
+python scripts/run_geometry_stress_tests.py
+```
+
+Optimization suite:
+
+```bash
+python -m pip install -e ".[test,optimization]"
+pytest -m optimization
+python scripts/run_theorem_stress_tests.py
 ```
 
 ## Engineering requirements
 
-- Fixed random seeds for stochastic experiments.
-- Assertions for entropy identities, positivity, isometry, Kraus completeness, and trace preservation.
-- Unit-explicit physical calculations.
-- Parameter provenance stored beside each calculation.
+- Fixed random seeds.
+- Assertions for positivity, trace preservation, isometry, entropy identities, and geometric roots.
+- Exact norm and Choi conventions from `docs/NORM_CONVENTIONS.md`.
+- Solver, status, iterations, objective, and residuals stored with every convex certificate.
 - No manually entered plot points.
-- Exported figures generated from source code.
-- Baseline decoders must not be described as optimal unless optimization is proved or independently certified.
-- Environment lock file added before the first reproducibility release.
+- No baseline decoder described as optimal without proof or certification.
+- Geometry outputs never relabeled as channel or detector predictions.
+- Top-level optimization pins are committed; a complete platform lock is required before a tagged certificate release.
