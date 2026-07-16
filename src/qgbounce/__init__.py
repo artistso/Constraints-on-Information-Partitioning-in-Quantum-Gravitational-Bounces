@@ -8,6 +8,12 @@ from .channels import (
     erasure_channel,
 )
 from .decoupling import decoupling_diagnostics
+from .diamond import (
+    certify_ksw_diamond_tradeoff,
+    channel_diamond_distance,
+    closest_constant_channel_diamond_distance,
+    optimal_recovery_diamond_error,
+)
 from .energy import (
     energy_constrained_radiation_information_lower_bound,
     maximum_entropy_under_energy,
@@ -28,6 +34,9 @@ __all__ = [
     "amplitude_damping_channel",
     "baseline_scales",
     "certify_information_disturbance",
+    "certify_ksw_diamond_tradeoff",
+    "channel_diamond_distance",
+    "closest_constant_channel_diamond_distance",
     "coherent_information",
     "decoupling_diagnostics",
     "dephasing_channel",
@@ -37,6 +46,7 @@ __all__ = [
     "hrs_geometry_scales",
     "localization_diagnostics",
     "maximum_entropy_under_energy",
+    "optimal_recovery_diamond_error",
     "radiation_information_lower_bound",
     "recovery_diagnostics",
     "superselection_entropy_cap",
