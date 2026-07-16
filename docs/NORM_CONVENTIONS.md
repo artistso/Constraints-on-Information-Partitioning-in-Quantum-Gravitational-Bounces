@@ -1,6 +1,6 @@
 # Norm, Fidelity, Choi, and Optimization Conventions
 
-This document fixes the conventions used by every theorem, regression test, and numerical certificate. A result using another convention must provide an explicit conversion.
+This document fixes the conventions used by every theorem, regression test, and numerical result. Any result using another convention must provide an explicit conversion.
 
 ## Logarithms and entropy
 
@@ -52,7 +52,7 @@ The purified distance is
 P(\rho,\sigma)=\sqrt{1-F(\rho,\sigma)}.
 \]
 
-The Fuchs–van de Graaf inequalities are therefore written
+The Fuchs–van de Graaf inequalities are written
 
 \[
 1-f(\rho,\sigma)\leq T(\rho,\sigma)\leq P(\rho,\sigma).
@@ -60,7 +60,7 @@ The Fuchs–van de Graaf inequalities are therefore written
 
 ## Entanglement fidelity
 
-For a channel \(\mathcal N:X\to X'\) with \(\dim X=\dim X'=d\), evaluated on the maximally mixed input, the entanglement fidelity is the squared overlap
+For a channel \(\mathcal N:X\to X'\) with equal input and output dimension \(d\), evaluated on the maximally mixed input,
 
 \[
 F_e(\mathcal N)
@@ -73,7 +73,8 @@ F_e(\mathcal N)
 where
 
 \[
-|\Phi_d\rangle=rac1{\sqrt d}\sum_{i=1}^d|i\rangle|i\rangle.
+|\Phi_d\rangle=
+\frac{1}{\sqrt d}\sum_{i=1}^d|i\rangle|i\rangle.
 \]
 
 For Kraus operators \(K_i\),
@@ -82,10 +83,10 @@ For Kraus operators \(K_i\),
 F_e(\mathcal N)=\frac1{d^2}\sum_i|\operatorname{Tr}K_i|^2.
 \]
 
-The corresponding Haar-average pure-state fidelity is
+The Haar-average pure-state fidelity is
 
 \[
-F_{\mathrm{avg}}=rac{dF_e+1}{d+1}.
+F_{\mathrm{avg}}=\frac{dF_e+1}{d+1}.
 \]
 
 ## Choi conventions
@@ -101,9 +102,9 @@ For \(\mathcal N:X\to A\),
 
 with normalized \(\Phi\). Thus \(\operatorname{Tr}\rho_{RA}^{\mathcal N}=1\).
 
-### Unnormalized optimization Choi matrix
+### Unnormalized recovery Choi matrix
 
-For a recovery \(\mathcal R:A\to X\),
+For \(\mathcal R:A\to X\),
 
 \[
 J_{\mathcal R}
@@ -120,7 +121,7 @@ J_{\mathcal R}\succeq0,
 \operatorname{Tr}_XJ_{\mathcal R}=I_A.
 \]
 
-The SDP objective in `src/qgbounce/optimization.py` is linear in this unnormalized matrix.
+The recovery objective in `src/qgbounce/optimization.py` is linear in this unnormalized matrix.
 
 ## Environmental decoupling
 
@@ -135,7 +136,7 @@ The state-specific decoupling module reports:
 - \(I(R:E)\);
 - trace distance to the product;
 - purified distance to the product;
-- the Uhlmann existence lower bound on maximally mixed-input recovery fidelity.
+- a Uhlmann existence lower bound on maximally mixed-input recovery fidelity.
 
 Quantum Pinsker is used in the base-two convention:
 
@@ -145,18 +146,27 @@ T\!\left(\rho_{RE},\rho_R\otimes\rho_E\right)
 \sqrt{\frac{\ln2}{2}I(R:E)}.
 \]
 
-This is a state-specific inequality. It is not a diamond-norm statement about all possible inputs.
+This is state specific. It is not a diamond-norm statement about every input.
 
-## Certified recovery SDP
+## Recovery SDP certificate
 
-The primal optimization is
+The recovery optimization is
 
 \[
 \max_{\mathcal R\ \mathrm{CPTP}}
 F_e(\mathcal R\circ\mathcal N).
 \]
 
-The environment-side cross-certificate optimizes
+The recovery result may be called a **numerical certificate** only when:
+
+- the solver status is `optimal`;
+- trace preservation and positivity pass declared tolerances;
+- analytic benchmark channels agree within the recovery tolerance;
+- the optimization conventions match this document.
+
+## Environment-side fidelity diagnostic
+
+The independent environment formulation is
 
 \[
 \max_{\sigma_E}
@@ -166,29 +176,44 @@ F\!\left(
 \right).
 \]
 
-The implementation compares these two independently modeled quantities for the same maximally mixed input. Their numerical difference is called the **formulation gap**. It is not the internal primal–dual gap reported by a conic solver.
+Its difference from the recovery optimum is the **cross-formulation gap**. This is not the conic solver's internal primal–dual gap.
 
-Every numerical certificate records:
+The current open-source solvers can return `optimal_inaccurate` on rank-deficient erasure boundary cases. Such an output is retained only as an **environment diagnostic** under a separately declared tolerance. It is not theorem-grade evidence and does not upgrade the recovery certificate to a channel-wide information–disturbance theorem.
+
+Every stored optimization result records:
 
 - solver and solver status;
 - objective value;
-- trace-preservation residual;
-- minimum Choi eigenvalue;
+- iterations and solve time where available;
+- recovery trace-preservation residual;
+- minimum recovery Choi eigenvalue;
 - environment-state trace and positivity residuals;
-- recovery/environment formulation gap.
+- cross-formulation gap;
+- the tolerance class under which the value was accepted.
 
 ## Diamond and energy-constrained diamond norms
 
 No diamond norm is currently computed by the executable package. Accordingly:
 
 - no Choi-state distance is labeled a diamond distance;
-- no state-specific recovery result is promoted to a channel-wide worst-case theorem;
-- the Kretschmann–Schlingemann–Werner and Bény–Oreshkov results are cited as theorem targets until their constants are rederived under these conventions.
+- no fixed-input recovery result is promoted to a channel-wide worst-case theorem;
+- Kretschmann–Schlingemann–Werner and Bény–Oreshkov are imported theorem targets until their assumptions and constants are rederived under these conventions.
 
-An energy-constrained diamond norm will require a declared input Hamiltonian, energy cap, ancillary system convention, and finite approximation or certified infinite-dimensional method.
+An energy-constrained diamond norm additionally requires a declared input Hamiltonian, energy cap, ancillary-system convention, and a certified finite or infinite-dimensional method.
+
+## Solver roles
+
+The pinned optional environment contains CVXPY, Clarabel, and SCS.
+
+- **Clarabel:** primary recovery SDP solver and fast environment diagnostic.
+- **SCS:** secondary diagnostic solver retained for comparison; it is not the default certificate path because the rank-deficient fidelity SDP can reach its iteration cap with `optimal_inaccurate` status.
+
+A platform-complete transitive lock remains required before a tagged certificate release.
 
 ## Numerical tolerance policy
 
-Analytic finite-dimensional identities use a default acceptance scale of \(10^{-10}\). Conic optimization tests use looser tolerances declared in the individual test because solver canonicalization and complex-to-real conversion introduce additional numerical error.
+- Analytic finite-dimensional identities: default \(10^{-10}\).
+- Recovery SDP analytic benchmarks: declared in `tests/test_optimal_recovery.py` and required with solver status `optimal`.
+- Environment diagnostic: a separate, looser tolerance is permitted and must be shown on plots and in machine-readable summaries.
 
-A solver status of `optimal_inaccurate`, a material positivity violation, or a formulation gap above the declared tolerance blocks theorem-level use of the result.
+A material feasibility violation, an unaccepted solver status, or a recovery objective outside its analytic tolerance blocks theorem-level use. An environment diagnostic may remain in the repository as a documented numerical limitation rather than being hidden.
