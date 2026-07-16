@@ -1,8 +1,8 @@
 # Constraints on Information Localization in Quantum-Gravitational Bounces
 
-> **Research scaffold v0.2 — conditional, falsifiable, and publication-oriented.**
+> **Research scaffold v0.3 — conditional, falsifiable, and publication-oriented.**
 >
-> This repository does **not** claim a universal “no-filtering theorem.” Generic isometric quantum channels can localize information asymmetrically. The project asks which **additional physical assumptions** constrain where information is recoverable in black-to-white-hole transitions, remnant models, and holographic toy models.
+> This repository does **not** claim a universal “no-filtering theorem.” Generic isometric quantum channels can localize information asymmetrically. The project asks which **additional physical assumptions** constrain where information is recoverable in black-to-white-hole transitions, remnant models, and controlled holographic benchmarks.
 
 ## Project thesis
 
@@ -20,47 +20,121 @@ I(R:A)+I(R:B)=2S(R).
 
 This identity conserves total reference correlations but does **not** require equal partitioning. The research problem is:
 
-> Under specified assumptions about causal accessibility, conservation laws, semiclassical validity, code-subspace reconstruction, and remnant degrees of freedom, when is the infalling quantum state approximately recoverable from the asymptotic radiation?
+> Under specified assumptions about causal accessibility, conservation laws, energy, semiclassical validity, code-subspace reconstruction, and remnant degrees of freedom, when is the infalling quantum state approximately recoverable from the asymptotic radiation?
 
-## Executable stress tests
+## Executable validation layers
 
-The tested Python package now covers:
+### v0.1 — Kinematics and physical scales
 
-- explicit isometries that move information continuously between output sectors;
-- Haar-random isometry checks of the pure-state mutual-information identity;
-- erasure, dephasing, depolarizing, and amplitude-damping channels;
-- Stinespring dilations, normalized Choi states, coherent information, and Holevo information;
-- entanglement fidelity, average state fidelity, Choi trace distance, and purified distance for explicit recovery maps;
-- finite-remnant dimensional caps and radiation mutual-information lower bounds;
-- unit-explicit Schwarzschild radius, light-crossing time, Hawking temperature, and leading evaporation-time baselines;
-- regression tests preventing rejected formulas and unsupported interpretations from returning.
+- explicit biased and Haar-random isometries;
+- pure-state mutual-information identity;
+- Schwarzschild radius, light-crossing time, Hawking temperature, and leading evaporation-time baselines;
+- regression protection for rejected numerical scales.
+
+### v0.2 — Open channels and finite remnants
+
+- erasure, dephasing, depolarizing, and amplitude damping;
+- Kraus, Stinespring, normalized Choi, coherent-information, and Holevo diagnostics;
+- explicit recovery maps, entanglement fidelity, average fidelity, trace distance, and purified distance;
+- finite-remnant dimension bounds and adversarial channel comparisons.
+
+### v0.3 — Certified recovery, energy constraints, and geometry
+
+- state-specific environmental decoupling diagnostics;
+- pinned CVXPY/Clarabel semidefinite programs for optimal entanglement recovery;
+- independent environment-side fidelity optimization and a cross-formulation gap;
+- finite-Hamiltonian Gibbs entropy and energy-constrained correlation bounds;
+- Han–Rovelli–Soltani effective geometry, horizon-root, and large-mass asymptotic checks;
+- theorem, norm, model, and parameter-provenance ledgers.
+
+## Reproduction
+
+Base validation:
 
 ```bash
 python -m pip install -e ".[test]"
-pytest
+pytest -m "not optimization"
 python scripts/run_stress_tests.py
 python scripts/run_channel_stress_tests.py
+python scripts/run_geometry_stress_tests.py
 ```
 
-### Current mathematical findings
+Pinned optimization validation:
 
-For a pure state on `RAB` with remnant dimension `d_B`,
+```bash
+python -m pip install -e ".[test,optimization]"
+pytest -m optimization
+python scripts/run_theorem_stress_tests.py
+```
+
+The optimization extra pins CVXPY and Clarabel. A platform-complete transitive lock remains a release gate before a tagged numerical-certificate archive.
+
+## Current mathematical findings
+
+### Finite dimension
+
+For pure `RAB` with remnant dimension `d_B`,
 
 \[
 I(R:B)\leq2\min\{S(R),\log_2d_B\},
 \]
 
-so
+hence
 
 \[
 I(R:A)\geq\max\{0,2S(R)-2\log_2d_B\}.
 \]
 
-This is a valid correlation bound. It is **not** a recovery-fidelity theorem by itself. A decoder guarantee still requires a decoupling, code, complementary-channel, or approximate-correctability condition.
+### Finite Hamiltonian and energy cap
 
-The channel benchmarks also demonstrate that mutual information, coherent information, classical accessibility, energy loss, and decoder fidelity are distinct quantities. They must not be substituted for one another in a gravitational argument.
+For a declared finite-dimensional remnant Hamiltonian `H_B` and
 
-The gravity calculations remain semiclassical baselines, not a bounce signal model. They cannot be promoted into burst durations, spectra, or detector forecasts without a model-specific forward calculation.
+\[
+\operatorname{Tr}(H_B\rho_B)\leq E,
+\]
+
+let \(S_{\max}(E,H_B)\) be the Gibbs maximum entropy. Then
+
+\[
+I(R:B)\leq2\min\{S(R),S_{\max}(E,H_B)\},
+\]
+
+and
+
+\[
+I(R:A)\geq\max\{0,2S(R)-2S_{\max}(E,H_B)\}.
+\]
+
+Both are correlation bounds. Neither supplies a decoder by itself.
+
+### Recovery certification
+
+The optional SDP layer evaluates
+
+\[
+\max_{\mathcal R\ \mathrm{CPTP}}F_e(\mathcal R\circ\mathcal N)
+\]
+
+and independently optimizes the complementary-state fidelity to a constant environment channel. The repository records solver status, CPTP residuals, positivity residuals, and the gap between the two formulations.
+
+This is maximally mixed-input entanglement recovery. It is not yet a channel-wide worst-case or energy-constrained diamond-norm theorem.
+
+## Selected physical tracks
+
+### Non-holographic track
+
+- **Geometry:** Han–Rovelli–Soltani single-asymptotic-region transition.
+- **Remnant endpoint:** Bianchi et al. white-hole remnant scenario.
+- **Research output:** geometric validation, parameterized information-capacity constraints, or a rigorous underdetermination result.
+
+The geometry does not determine a Hilbert-space dimension, Hamiltonian, microscopic channel, or radiation decoder.
+
+### Controlled holographic benchmark
+
+- **Model:** JT gravity coupled to quantum matter and a non-gravitating bath.
+- **Research output:** reconstruction/decoupling calibration in a declared code subspace.
+
+No JT/island conclusion is transferred to the non-holographic remnant track without an explicit assumption map.
 
 ## Repository map
 
@@ -68,39 +142,32 @@ The gravity calculations remain semiclassical baselines, not a bounce signal mod
 |---|---|
 | [`proposal/ABSTRACT.md`](proposal/ABSTRACT.md) | Agency-neutral formal abstract |
 | [`proposal/PROPOSAL.md`](proposal/PROPOSAL.md) | Corrected concept proposal and work packages |
-| [`docs/RESEARCH_MANIFOLD.md`](docs/RESEARCH_MANIFOLD.md) | Assumption-to-publication research manifold and stage gates |
+| [`docs/RESEARCH_MANIFOLD.md`](docs/RESEARCH_MANIFOLD.md) | Assumption-to-publication research manifold |
 | [`docs/VALIDITY_LEDGER.md`](docs/VALIDITY_LEDGER.md) | Accepted, rejected, conditional, and unresolved claims |
-| [`docs/PUBLICATION_ROADMAP.md`](docs/PUBLICATION_ROADMAP.md) | Paper sequence, evidence requirements, and release criteria |
-| [`docs/SIMULATION_PROTOCOL.md`](docs/SIMULATION_PROTOCOL.md) | Pure-isometry and physical-scale stress-test definitions |
-| [`docs/CHANNEL_STRESS_TEST_PROTOCOL.md`](docs/CHANNEL_STRESS_TEST_PROTOCOL.md) | Open-channel, recovery, and finite-remnant protocol |
-| [`src/qgbounce/`](src/qgbounce/) | Tested quantum-information and gravity utilities |
-| [`scripts/run_stress_tests.py`](scripts/run_stress_tests.py) | Isometry and gravitational-scale simulation runner |
-| [`scripts/run_channel_stress_tests.py`](scripts/run_channel_stress_tests.py) | Channel and remnant simulation runner |
-| [`tests/`](tests/) | Regression tests and counterexample assertions |
+| [`docs/THEOREM_LEDGER.md`](docs/THEOREM_LEDGER.md) | Proof, imported-theorem, and numerical-certificate status |
+| [`docs/NORM_CONVENTIONS.md`](docs/NORM_CONVENTIONS.md) | Entropy, fidelity, Choi, norm, and SDP conventions |
+| [`docs/SIMULATION_PROTOCOL.md`](docs/SIMULATION_PROTOCOL.md) | Pure-isometry and physical-scale protocol |
+| [`docs/CHANNEL_STRESS_TEST_PROTOCOL.md`](docs/CHANNEL_STRESS_TEST_PROTOCOL.md) | Open-channel and finite-remnant protocol |
+| [`models/`](models/) | HRS, Bianchi-remnant, and JT-bath model cards |
+| [`src/qgbounce/`](src/qgbounce/) | Tested quantum-information, energy, geometry, and gravity utilities |
+| [`scripts/`](scripts/) | Deterministic simulation and certificate runners |
+| [`tests/`](tests/) | Regression, adversarial, geometry, and optimization tests |
 | [`manuscript/main.tex`](manuscript/main.tex) | LaTeX manuscript scaffold |
 | [`references/references.bib`](references/references.bib) | Primary-source bibliography |
-| [`notebooks/README.md`](notebooks/README.md) | Notebook roadmap linked to the executable package |
+| [`notebooks/README.md`](notebooks/README.md) | Publication-facing notebook roadmap |
 | [`data/README.md`](data/README.md) | Data provenance and phenomenology gate |
 
 ## Scientific guardrails
 
-1. **Reference systems are explicit.** Mutual information with an input is defined using a purifying reference retained outside the channel.
-2. **Kinematics and dynamics are separated.** Identities true for all quantum channels are not presented as consequences of gravity.
-3. **Correlation and recovery are separated.** A mutual-information bound is not called a decoder or fidelity theorem.
-4. **Holographic claims are conditional.** AdS/CFT conclusions are used only where a boundary dual and code subspace are specified.
-5. **Bounce models are not interchangeable.** Each effective geometry must state its asymptotics, lifetime law, degrees of freedom, and domain of validity.
-6. **Phenomenology is feasibility-gated.** No telescope forecast proceeds without a dimensionally consistent emission model, event-rate prescription, and instrument response.
-7. **Analogue gravity is benchmark-only.** Laboratory horizons may test channel-reconstruction methods, not Planck-scale gravitational dynamics.
-8. **Failed tests block claims.** Numerical disagreements enter the validity ledger rather than being hidden through tolerance or plotting changes.
-
-## Target outputs
-
-- A validated quantum-information classification of admissible radiation/remnant channels.
-- Conditional recoverability theorems or explicit counterexamples under clearly stated assumptions.
-- Model-specific analyses of selected black-to-white-hole scenarios.
-- Open symbolic and numerical notebooks reproducing every central equation and scale estimate.
-- An observational feasibility paper only if a concrete signal model passes the predefined gate.
+1. **Reference systems are explicit.**
+2. **Kinematics, dynamics, and geometry are separated.**
+3. **Correlation, coherent transmission, and recovery are distinct.**
+4. **State-specific certificates are not called channel-wide theorems.**
+5. **Holographic claims require a specified dual and code subspace.**
+6. **Geometry is not converted into information capacity without a state-space model.**
+7. **Phenomenology remains feasibility-gated.**
+8. **Failed tests block claims and enter the ledgers.**
 
 ## Current status
 
-The repository is in the **open-channel and finite-remnant validation phase**. Earlier PDFs are source material and a claim inventory, not submission-ready science. Draft PR #1 contains the canonical project direction, executable validation layers, and research manifold.
+The repository is in the **certified-recovery, energy-bound, and explicit-geometry validation phase**. Earlier PDFs remain source material and a claim inventory, not submission-ready science. Draft PR #1 remains open until the v0.3 optimization suite and independent technical review pass.
