@@ -2,124 +2,176 @@
 
 ## Publication principle
 
-The repository is organized to produce a sequence of scoped papers rather than one oversized proposal that mixes universal quantum-information claims, speculative gravity, analogue experiments, and observational forecasts.
+The project will produce scoped papers whose assumptions and evidence remain separated. Quantum-channel theorems, explicit geometry, holographic reconstruction, and observational phenomenology are not combined into one oversized claim.
 
 ---
 
-## Paper 1 — Information localization in bipartite isometric channels
+## Paper 1 — Quantum-channel localization and certified recovery
 
-**Working title:** *Information Localization and Recoverability in Bipartite Quantum Channels: Identities, Counterexamples, and Conditional Bounds*
+**Working title:** *Information Localization and Approximate Recoverability in Bipartite Quantum Channels*
 
 ### Core content
 
-- Reference-system formulation of the input-output problem.
-- Exact identity \(I(R:A)+I(R:B)=2S(R)\) for pure \(RAB\).
-- Counterexamples to equal-partition and universal no-filtering claims.
-- Feasible regions for mutual information, coherent information, and recovery fidelity.
-- Conditional bounds under finite dimension, symmetry, conservation, or energy constraints.
-- Reproducible symbolic and numerical validation.
+- Reference-system formulation.
+- Exact pure-state localization identity.
+- Counterexamples to equal partition and universal no-filtering.
+- Erasure, dephasing, damping, random-isometry, and adversarial channel families.
+- Finite-dimension correlation lemma.
+- Finite-Hamiltonian/energy correlation lemma.
+- State-specific complementary decoupling.
+- Optimal maximally mixed-input recovery SDP.
+- Independent environment-fidelity SDP.
+- Explicit distinction between fixed-input certification and worst-case channel theorems.
 
 ### Release gate
 
-- All theorem assumptions appear in the statement.
-- At least one extremal or saturating example is supplied.
-- Automated counterexample search has been run against each universal claim.
-- A quantum-information specialist has reviewed the definitions and proof.
+- Every theorem and certificate is classified in `docs/THEOREM_LEDGER.md`.
+- Norm, fidelity, and Choi conventions are fixed.
+- Analytic erasure and dephasing optima pass the pinned optimization CI.
+- Solver feasibility and positivity residuals pass declared tolerances.
+- Recovery/environment cross-formulation gaps are reported.
+- Adversarial tests accompany every proposed single-number diagnostic.
+- A quantum-information specialist reviews the statements and convention mapping.
 
-### Likely venue class
+### Release
 
-Quantum information, mathematical physics, or foundations journal; venue selected only after the theorem strength is known.
+`v1.0-qit`
 
 ---
 
-## Paper 2 — Model-specific gravitational recoverability
+## Paper 2 — HRS/Bianchi remnant capacity or underdetermination
 
-**Working title:** *Recoverability of Infalling Quantum Information in a Specified Black-to-White-Hole Transition Model*
+**Working title:** *Information-Capacity Constraints in a Single-Asymptotic-Region Black-to-White-Hole Remnant Scenario*
 
 ### Core content
 
-- One named model with equations and boundary conditions.
-- Causal diagram and subsystem/algebra definitions.
-- Explicit statement of whether the treatment is holographic, semiclassical, effective, or phenomenological.
-- Translation from the geometry to channel constraints.
-- Derived recoverability bound, obstruction, or counterexample.
-- Limitations and neighboring models to which the result does not apply.
+- Han–Rovelli–Soltani effective geometry and validity domain.
+- Bianchi et al. remnant life cycle.
+- Horizon, bounce, and transition parameters.
+- Candidate time slices and observer algebras.
+- Source-provenance table separating supplied, free, and missing inputs.
+- Finite-dimension or finite-Hamiltonian bounds under explicitly added assumptions.
+- Proof that geometry alone does or does not determine an information-capacity statement.
+
+### Admissible outcomes
+
+- model-specific capacity bound;
+- conditional recovery proposition;
+- no-go parameter region;
+- rigorous underdetermination theorem.
 
 ### Release gate
 
-- A model card is complete.
-- The microscopic channel is derived or the absence of one is handled as a bound problem.
-- Holographic assumptions are not transferred to a non-holographic model without a duality argument.
-- Backreaction and remnant assumptions are explicit.
-- A domain expert in the chosen model has reviewed the setup.
+- HRS formulas and asymptotics pass regression tests.
+- No interior-volume-to-capacity substitution is made without derivation.
+- Hawking radiation, tunnelling probability, Hamiltonian, and channel assumptions are explicit.
+- A gravity/domain expert reviews the geometry and parameter interpretation.
+
+### Release
+
+`v2.0-remnant`
 
 ---
 
-## Paper 3A — Phenomenology feasibility limit
+## Paper 3 — JT-bath reconstruction benchmark
+
+**Working title:** *Recovery and Reconstruction Diagnostics in an Evaporating JT-Gravity Bath Model*
+
+### Core content
+
+- One specified JT-plus-bath setup.
+- Declared code subspace and bath radiation algebra.
+- Generalized entropy and QES/island transition.
+- Entanglement-wedge reconstruction assumptions and error.
+- Finite-dimensional surrogate channel.
+- Comparison of entropy transitions, complementary decoupling, and certified recovery.
+
+### Release gate
+
+- The exact gravitational setup and boundary conditions are fixed.
+- Reconstruction theorem assumptions are mapped into repository conventions.
+- The surrogate is labeled as a benchmark, not a numerical JT solution.
+- No conclusion is transferred to the HRS/Bianchi track without an assumption map.
+
+### Release
+
+`v3.0-jt`
+
+---
+
+## Paper 4A — Phenomenology feasibility limit
 
 **Working title:** *Feasibility Conditions for Observational Tests of Black-to-White-Hole Transition Models*
 
-This is the default observational output if no robust detectable signal is established.
+This is the default phenomenology output.
 
 ### Core content
 
-- Source-model requirements.
-- Correct mass, lifetime, duration, spectrum, and rate scaling.
-- Detector-level sensitivity comparison.
-- Identification of parameter regions that are inaccessible or underdetermined.
-- Minimum theoretical information required before a real search is justified.
+- Minimum source-model requirements.
+- Mass, lifetime, transition, spectrum, duration, and rate distinctions.
+- Contemporary PBH-to-white-hole constraints and assumption sensitivity.
+- Detector-level overlap or proof of non-identifiability.
+- Missing theoretical information required before a search.
 
 ### Release gate
 
 - Unit-tested forward model.
 - Primary-source parameter provenance.
-- No unsupported sensitivity-improvement claim.
-- Clear distinction between Hawking evaporation, tunneling, remnant decay, and any ejecta process.
+- No generic FRB, optical, or gamma-ray association.
+- Clear distinction among Hawking evaporation, tunnelling, remnant decay, and ejecta.
+
+### Release
+
+`v4.0-feasibility`
 
 ---
 
-## Paper 3B — Observational search
+## Paper 4B — Observational search
 
-**Working title:** To be determined from the model and instrument.
+**Working title:** determined only by a validated signal and instrument.
 
-This paper replaces Paper 3A only when the phenomenology gate passes.
+This replaces Paper 4A only if the full phenomenology gate passes.
 
 ### Core content
 
-- Injection–recovery simulations.
+- Signal injection and recovery.
 - Instrument response and data-quality cuts.
-- Background and contaminant model.
-- Search statistic and trials correction.
-- Detection efficiency.
-- Frequentist or Bayesian upper limits mapped to model parameters.
-- Public code and derived data products where licensing permits.
+- Background and contaminant population.
+- Search statistic, trials correction, and efficiency.
+- Parameter-space limits or detection inference.
+- Public code and derived products where licensing permits.
 
 ### Release gate
 
-- Complete signal and rate model.
-- Non-negligible detectable parameter region.
-- Data access and reproducible pipeline confirmed.
-- Null result has model-discriminating value.
+- Complete signal and population model.
+- Detectable parameter region.
+- Reproducible data access.
+- Null result maps to model parameters.
 
 ---
 
-## Paper 4 — Synthesis
+## Paper 5 — Synthesis
 
 **Working title:** *Information Localization Across Quantum-Gravitational Transition Models*
 
 ### Core content
 
-- Distinction among global unitarity, subsystem entropy, and operational recovery.
-- Comparison of abstract channels, holographic models, and non-holographic bounce models.
-- Conditions under which radiation recovery is established.
-- Conditions under which remnants or inaccessible sectors remain admissible.
-- Observational implications supported by the completed feasibility work.
+- Global unitarity versus subsystem entropy versus operational recovery.
+- Finite state-space and energy constraints.
+- Certified fixed-input recovery versus channel-wide theorems.
+- Comparison of abstract channels, HRS/Bianchi remnants, and JT-bath reconstruction.
+- Conditions under which observational claims become meaningful.
 
 ### Release gate
 
-- Papers 1 and 2 are complete or technically stable.
-- Phenomenology is represented by Paper 3A or 3B, not by preliminary speculation.
-- Every synthesis claim cites a derivation or a primary source.
+- Papers 1 and 2 are technically stable.
+- JT benchmark is complete or clearly excluded.
+- Phenomenology is represented by a feasibility result or validated search.
+- Every synthesis claim cites a proof, certificate, or primary source.
+
+### Release
+
+`v5.0-synthesis`
 
 ---
 
@@ -127,21 +179,22 @@ This paper replaces Paper 3A only when the phenomenology gate passes.
 
 | Version | Meaning |
 |---|---|
-| `v0.x` | Internal formalization and claim audit |
-| `v1.0-qit` | Paper 1 reproducibility release |
-| `v2.0-model` | Paper 2 model-analysis release |
-| `v3.0-pheno` | Feasibility or observational release |
-| `v4.0-synthesis` | Integrated publication package |
+| `v0.x` | Internal formalization, stress testing, and model audit |
+| `v1.0-qit` | Paper 1 theorem/certificate reproducibility release |
+| `v2.0-remnant` | HRS/Bianchi model-analysis release |
+| `v3.0-jt` | Controlled holographic benchmark release |
+| `v4.0-feasibility` | Phenomenology feasibility release |
+| `v4.x-search` | Optional validated observational release |
+| `v5.0-synthesis` | Integrated publication package |
 
-## Repository evidence requirements
-
-Each paper release must include:
+## Evidence requirements for every release
 
 - manuscript source and compiled PDF;
-- bibliography;
-- environment lock file;
-- notebooks or scripts producing all reported calculations;
-- tests for dimensional and mathematical identities;
-- data provenance statement;
+- complete bibliography;
+- platform-specific environment lock;
+- scripts/notebooks generating every reported result;
+- automated mathematical, solver, and dimensional tests;
+- solver artifacts for numerical certificates;
+- source and parameter provenance;
 - limitations and negative-results section;
-- archived release identifier.
+- archived release identifier and checksum manifest.
