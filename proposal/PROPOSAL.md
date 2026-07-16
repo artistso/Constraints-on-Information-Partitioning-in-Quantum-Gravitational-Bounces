@@ -1,4 +1,4 @@
-# Concept Proposal v0.3
+# Concept Proposal v0.4
 
 ## Constraints on Information Localization and Recoverability in Quantum-Gravitational Bounce Models
 
@@ -10,34 +10,36 @@
 
 ## 1. Executive rationale
 
-Black-to-white-hole transitions, nonsingular interiors, and long-lived remnants raise a legitimate information-theoretic question: after a proposed quantum-gravitational transition, which observer-accessible subsystem permits recovery of the initial quantum state?
+Black-to-white-hole transitions, nonsingular interiors, and long-lived remnants raise a legitimate operational question: after a proposed quantum-gravitational transition, which observer-accessible algebra permits recovery of information about the initial quantum state?
 
-A previous formulation asserted that unitarity forces equal information partitioning between radiation and retained degrees of freedom. Generic isometric channels provide immediate counterexamples. The corrected program asks:
+Generic unitary or isometric evolution preserves the complete quantum state but does not determine how correlations are localized among radiation, retained degrees of freedom, and inaccessible sectors. The corrected research question is therefore:
 
-> Which additional physical assumptions constrain information localization and permit a quantified recovery theorem in a specified gravitational model?
+> Which explicit physical assumptions constrain information localization and support a quantified recovery statement in a specified gravitational model?
 
-The project is divided into four layers:
+The project has four layers:
 
 1. exact channel identities, counterexamples, and adversarial tests;
-2. finite-dimension, energy, decoupling, and certified-recovery bounds;
+2. finite-resource bounds and scoped recovery certification;
 3. explicit geometric and holographic model embeddings;
 4. observational work only after a complete forward signal model passes a predefined gate.
 
-This architecture ensures that the mathematical deliverables remain valid even if a proposed bounce or remnant scenario is incomplete or physically disfavored.
+This architecture ensures that the mathematical deliverables remain valid even if a proposed transition or remnant scenario is incomplete, underdetermined, or physically disfavored.
+
+Public language is controlled by `docs/CANONICAL_CLAIMS.md`, `docs/VALIDITY_LEDGER.md`, `docs/THEOREM_LEDGER.md`, and `docs/NORM_CONVENTIONS.md`.
 
 ---
 
-## 2. Corrected mathematical foundation
+## 2. Established mathematical foundation
 
-### 2.1 Reference-system formulation
+### 2.1 Reference-assisted formulation
 
-Let \(X\) be the input and let \(R\) purify its initial state. A complete bipartite output is represented by
+Let \(X\) be the input and let \(R\) purify its initial state. A bipartite isometric output is represented by
 
 \[
 V:\mathcal H_X\longrightarrow\mathcal H_A\otimes\mathcal H_B,
 \]
 
-where \(A\) is an accessible radiation sector and \(B\) is a retained sector. For pure \(ho_{RAB}\),
+where \(A\) is a declared accessible sector and \(B\) is a declared retained sector. For the resulting pure state \(ho_{RAB}\),
 
 \[
 I(R:A)+I(R:B)=2S(R).
@@ -49,15 +51,15 @@ This identity conserves total reference correlations but does not imply
 I(R:A)=I(R:B)=S(R).
 \]
 
-The isometry
+For example,
 
 \[
 |\psi\rangle_X\mapsto|\psi\rangle_A|0\rangle_B
 \]
 
-is a maximally biased counterexample.
+is a maximally asymmetric isometry. Exact isometry therefore does not determine equal localization.
 
-### 2.2 Finite-remnant correlation lemma
+### 2.2 Finite retained dimension
 
 If \(\dim B=d_B\), then
 
@@ -68,13 +70,12 @@ I(R:B)\leq2\min\{S(R),\log_2d_B\}.
 For pure \(RAB\),
 
 \[
-I(R:A)\geq
-\max\{0,2S(R)-2\log_2d_B\}.
+I(R:A)\geq\max\{0,2S(R)-2\log_2d_B\}.
 \]
 
-This is a valid correlation bound. It does not construct a decoder or imply high recovery fidelity.
+This is a correlation-storage bound. It does not construct a decoder or imply high recovery fidelity.
 
-### 2.3 Finite-Hamiltonian energy lemma
+### 2.3 Finite Hamiltonian and energy cap
 
 Suppose the retained sector has a declared finite-dimensional Hamiltonian \(H_B\) and satisfies
 
@@ -82,7 +83,7 @@ Suppose the retained sector has a declared finite-dimensional Hamiltonian \(H_B\
 \operatorname{Tr}(H_B\rho_B)\leq E.
 \]
 
-Let \(S_{\max}(E,H_B)\) be the maximum entropy under the energy constraint, obtained by the Gibbs variational principle. Then
+Let \(S_{\max}(E,H_B)\) be the maximum entropy allowed by the constraint, obtained from the Gibbs variational principle. Then
 
 \[
 I(R:B)\leq2\min\{S(R),S_{\max}(E,H_B)\},
@@ -91,53 +92,52 @@ I(R:B)\leq2\min\{S(R),S_{\max}(E,H_B)\},
 and
 
 \[
-I(R:A)\geq
-\max\{0,2S(R)-2S_{\max}(E,H_B)\}.
+I(R:A)\geq\max\{0,2S(R)-2S_{\max}(E,H_B)\}.
 \]
 
-The Hamiltonian and energy cap must be supplied by the physical model. They are not inferred from exterior mass, interior volume, or lifetime.
+The Hamiltonian and energy cap must be supplied by the physical model. They are not inferred from exterior mass, interior volume, area, or lifetime.
 
-### 2.4 Operational recovery
+### 2.4 Scoped recovery certification
 
-The project distinguishes:
-
-- mutual information;
-- coherent information;
-- classical Holevo information;
-- environmental leakage;
-- entanglement fidelity;
-- worst-case or channel-wide recovery.
-
-For a declared channel \(\mathcal N\), the executable program evaluates explicit decoders and solves
+For a declared finite-dimensional channel \(\mathcal N\), the executable program solves
 
 \[
 \max_{\mathcal R\ \mathrm{CPTP}}
 F_e(\mathcal R\circ\mathcal N)
 \]
 
-through a semidefinite program over the recovery Choi matrix. A second SDP independently optimizes the fidelity of the complementary Choi state to a constant environment channel. Numerical agreement is a fixed-input information–disturbance cross-certificate.
+for the maximally mixed input using a semidefinite program over the recovery Choi matrix. A second optimization compares the complementary Choi state with a constant environment state.
 
-The current certificate concerns the maximally mixed input. It is not yet a worst-case or energy-constrained diamond-norm theorem. Norm and fidelity conventions are fixed in `docs/NORM_CONVENTIONS.md`, and theorem status is controlled by `docs/THEOREM_LEDGER.md`.
+The repository records:
+
+- solver status;
+- objective value;
+- trace-preservation residual;
+- minimum Choi eigenvalue;
+- environment-state feasibility residuals;
+- cross-formulation gap.
+
+The recovery-side program is validated against analytic erasure and dephasing standards. The current result is a fixed-input numerical certificate, not a channel-wide worst-case or diamond-norm theorem.
 
 ---
 
-## 3. Selected physical model tracks
+## 3. Selected physical tracks
 
-### 3.1 Non-holographic geometric scaffold
+### 3.1 Han--Rovelli--Soltani geometric scaffold
 
-The principal geometry is the Han–Rovelli–Soltani single-asymptotic-region transition model. In natural units, its effective stellar scale factor is
+The principal non-holographic geometry is the Han--Rovelli--Soltani single-asymptotic-region effective transition. In natural units, the implemented source-level formulas include
 
 \[
-a(T)=\left(\frac{9mT^2+Am}{2}\right)^{1/3},
+a(T)=\left(\frac{9mT^2+Am}{2}\right)^{1/3}
 \]
 
-and its exterior function outside the tunnelling region is
+and
 
 \[
 F(r)=1-\frac{2m}{r}+\frac{Am^2}{r^4}.
 \]
 
-For \(m^2\gg A\),
+For \(m^2\gg A\), the positive roots satisfy
 
 \[
 r_+\simeq2m,
@@ -145,36 +145,36 @@ r_+\simeq2m,
 r_-\simeq\left(\frac{Am}{2}\right)^{1/3}.
 \]
 
-The repository validates these formulas, horizon roots, bounce symmetry, and large-mass limits. The geometry supplies causal and metric structure but not a microscopic quantum channel.
+The repository verifies the source equations, bounce symmetry, horizon roots, and large-mass limits. The geometry supplies causal and metric structure. It does not supply a microscopic quantum state space, transition channel, tunnelling probability, Hawking-radiation model, spectrum, or decoder.
 
 ### 3.2 White-hole remnant endpoint
 
-The Bianchi–Christodoulou–D’Ambrosio–Haggard–Rovelli scenario is used as the first remnant-capacity case study. The initial analysis is parametric because the source model does not provide:
+The Bianchi--Christodoulou--D'Ambrosio--Haggard--Rovelli scenario is retained as the first remnant-capacity case study. The initial analysis is parametric because the source model does not provide:
 
 - a remnant Hilbert-space dimension;
 - a microscopic Hamiltonian;
 - a complete radiation algebra at a specified time cut;
-- a unitary or CPTP channel;
-- a recovery map.
+- a complete unitary or CPTP channel;
+- an operational recovery map.
 
-The valid output is therefore one of:
+The scientifically admissible model-specific outputs are:
 
 1. a capacity bound under an explicit added state-space assumption;
-2. a conditional recovery theorem under an explicit decoupling assumption;
-3. a no-go region;
-4. a rigorous underdetermination result.
+2. a conditional recovery statement under an explicit decoupling assumption;
+3. an excluded parameter region;
+4. a theorem of underdetermination identifying the missing physical inputs.
 
-### 3.3 Controlled holographic benchmark
+### 3.3 Controlled JT-gravity benchmark
 
-A JT-gravity region coupled to quantum matter and a non-gravitating bath is retained as a separate reconstruction benchmark. It permits controlled study of:
+A specified JT-gravity region coupled to quantum matter and a non-gravitating bath is retained as a separate benchmark for:
 
-- Page transitions;
-- generalized entropy and islands;
-- radiation-region algebras;
-- code-subspace reconstruction;
-- complementary decoupling and recovery error.
+- generalized entropy and island transitions;
+- declared radiation-region algebras;
+- finite code-subspace reconstruction;
+- complementary decoupling;
+- comparison with finite-dimensional recovery certificates.
 
-No JT/island conclusion is transferred to the non-holographic remnant model without an explicit map of assumptions, algebras, observables, and approximation errors.
+The entropy of a declared radiation region is not treated as an explicit decoder. Results from this benchmark do not transfer to the non-holographic remnant track without an explicit map of assumptions, algebras, observables, and errors.
 
 ---
 
@@ -195,76 +195,85 @@ Required examples include:
 
 - one-port isometries;
 - erasure and complementary channels;
-- dephasing and amplitude damping;
+- dephasing, depolarizing, and amplitude damping;
 - random isometries;
-- finite-remnant channels;
-- channels with equal mutual information but different recovery fidelity;
-- channels with equal classical accessibility but different coherent information.
+- finite-resource retained sectors;
+- channels with similar mutual information but different recovery fidelity;
+- channels with similar classical accessibility but different coherent information.
 
-**Deliverable:** Paper 1 theorem-and-counterexample core and reproducible package.
+**Deliverable:** Paper 1 mathematical core and reproducible package.
 
-### Objective 2 — Establish certified approximate recovery
+### Objective 2 — Establish worst-case approximate recovery under explicit conventions
 
-Develop three levels of result:
+Advance through three levels:
 
-1. state-specific decoupling and Uhlmann recovery existence;
-2. certified maximally mixed-input recovery through SDP;
-3. worst-case and energy-constrained recovery only after Bény–Oreshkov and Kretschmann–Schlingemann–Werner conventions and constants are independently rederived.
+1. state-specific decoupling and recovery existence;
+2. certified maximally mixed-input recovery;
+3. worst-case and energy-constrained results only after Bény--Oreshkov and Kretschmann--Schlingemann--Werner statements are reconstructed under repository notation and norm conventions.
 
 Every recovery claim must state:
 
-- input ensemble or code;
+- input ensemble or code subspace;
 - accessible algebra;
 - norm and fidelity convention;
-- whether the result is constructive or existential;
-- solver or proof certificate;
-- failure tolerance.
+- constructive or existential status;
+- proof or solver certificate;
+- numerical tolerance and failure policy.
 
-**Deliverable:** conditional recoverability theorem or precisely scoped certificate paper.
+**Deliverable:** A conditional theorem or precisely scoped certificate paper.
 
-### Objective 3 — Extend capacity bounds beyond finite dimension
+### Objective 3 — Extend finite-resource bounds
 
-Use a declared Hamiltonian and energy cap to replace a bare dimension bound by a Gibbs entropy cap. Subsequent extensions will examine:
+Extend the finite-dimensional and finite-Hamiltonian lemmas to declared:
 
-- conserved charge;
+- conserved charges;
 - superselection sectors;
 - symmetry-covariant channels;
 - energy-constrained capacities and norms.
 
-**Deliverable:** finite-Hamiltonian lemma and, if assumptions permit, an energy-constrained recovery proposition.
+No resource constraint is inferred from geometry unless the model supplies the relevant operator and state-space structure.
 
-### Objective 4 — Embed the results into the selected geometries
+**Deliverable:** A resource-constrained correlation theorem and, where assumptions permit, an operational recovery proposition.
 
-For the HRS/Bianchi track:
+### Objective 4 — Produce a model-specific HRS/Bianchi result
 
-- validate the geometry and parameter regimes;
-- define candidate slices, radiation algebras, and retained sectors;
-- inventory missing state-space and coupling inputs;
-- apply only those information bounds supported by declared assumptions.
+The non-holographic work package will:
 
-For the JT-bath track:
+- validate the geometric equations and parameter regimes;
+- define candidate slices and observer algebras;
+- inventory supplied, free, and missing microscopic inputs;
+- apply only information bounds supported by declared assumptions;
+- determine whether the strongest defensible result is a capacity bound, obstruction, or theorem of underdetermination.
 
-- select one explicit setup;
+**Deliverable:** Paper 2.
+
+### Objective 5 — Implement one explicit JT-bath benchmark
+
+The holographic work package will:
+
+- select one published JT-bath setup;
 - define the code subspace and radiation region;
-- compare entropy transitions with decoupling and certified recovery in a finite-dimensional surrogate.
+- reproduce the relevant generalized-entropy transition;
+- map the reconstruction theorem and approximation error;
+- compare the gravitational criterion with finite-dimensional decoupling and recovery diagnostics.
 
-**Deliverable:** Paper 2 model-specific bound, obstruction, or underdetermination result; separate JT benchmark paper.
+**Deliverable:** A separate controlled benchmark paper.
 
-### Objective 5 — Maintain a feasibility-gated phenomenology program
+### Objective 6 — Maintain a feasibility-gated phenomenology program
 
-No data search begins until the selected model supplies:
+No observational data search begins until a selected source model supplies:
 
 - transition or decay rate;
 - emitted energy and spectrum;
 - intrinsic duration and light curve;
-- population and distance distribution;
+- source population and distance distribution;
 - propagation and attenuation;
 - detector response and backgrounds;
 - a statistical detection or upper-limit plan.
 
-The Schwarzschild time \(2GM/c^3\) remains a dimensional baseline and is never equated with an observed burst duration without a derived source mechanism.
+The Schwarzschild time \(2GM/c^3\) is used only as a dimensional baseline. It is not identified with an observed transient duration without a derived source mechanism.
 
-**Deliverable:** feasibility memorandum; observational paper only if the gate passes.
+**Deliverable:** A feasibility memorandum; an observational paper only if every mandatory gate passes.
 
 ---
 
@@ -272,7 +281,7 @@ The Schwarzschild time \(2GM/c^3\) remains a dimensional baseline and is never e
 
 ### 5.1 Analytic and adversarial validation
 
-Every universal statement must survive explicit extremal channels and automated random tests. Similar values of one information measure will be paired with different recovery behavior to expose insufficient diagnostics.
+Every universal statement is tested against extremal channels and deterministic random ensembles. Single-number diagnostics are challenged using channel pairs with similar scalar values but different operational recovery behavior.
 
 ### 5.2 Convex optimization
 
@@ -284,53 +293,46 @@ J_{\mathcal R}\succeq0,
 \operatorname{Tr}_{\mathrm{out}}J_{\mathcal R}=I_{\mathrm{in}}.
 \]
 
-The pinned optimization environment uses CVXPY and Clarabel. Certificates record solver status, trace-preservation residual, positivity residual, and recovery/environment formulation gap. Analytic erasure and dephasing cases serve as regression standards.
+The optional environment is pinned and tested in CI. Values with unacceptable feasibility residuals or solver status are retained only as diagnostics.
 
 ### 5.3 Energy-constrained calculations
 
-For finite spectra, the Gibbs optimizer is solved by deterministic bisection in inverse temperature and checked against analytic two-level results, degeneracies, inactive constraints, and parameter sweeps.
+For finite spectra, the Gibbs optimizer is solved deterministically and checked against analytic two-level examples, degeneracies, inactive constraints, and parameter sweeps.
 
 ### 5.4 Geometry validation
 
-The HRS implementation is restricted to source-level formulas and natural units. Tests verify:
+The HRS implementation is restricted to source-level formulas and natural units. No microscopic channel, tunnelling probability, Hawking flux, emission spectrum, or detector signature is inferred from the geometric tests.
 
-- time symmetry and minimum bounce radius;
-- positive horizon roots;
-- \(F(r_\pm)=0\);
-- \(r_+\to2m\);
-- \(r_-\to(Am/2)^{1/3}\).
+### 5.5 Claim-language validation
 
-No channel, tunnelling probability, Hawking flux, or emission spectrum is inferred from these tests.
+`scripts/check_claim_language.py` scans the public-facing README, abstract, proposal, and manuscript for known false or overstated formulations. A violation fails CI and blocks claim promotion.
 
-### 5.5 Repository controls
+### 5.6 Repository controls
 
 The project maintains:
 
-- validity, theorem, and norm ledgers;
+- canonical-claim, validity, theorem, and norm ledgers;
 - model cards and parameter provenance;
 - deterministic random seeds;
 - Python 3.11/3.12 regression CI;
 - a separate pinned optimization CI job;
-- generated CSV, figure, and JSON products;
+- generated CSV, figure, JSON, and diagnostic products;
 - manuscript and bibliography sources.
-
-A failed identity, solver residual, or model assumption blocks promotion of the associated claim.
 
 ---
 
-## 6. Phenomenology gate
+## 6. Explicit nonclaims
 
-An observational work package must satisfy all mandatory criteria:
+This proposal does not assert that:
 
-1. complete source model;
-2. dimensional consistency;
-3. detector overlap;
-4. background population;
-5. statistical plan;
-6. data access and licensing;
-7. meaningful null-result constraint.
-
-Current PBH-to-white-hole rate calculations, including narrow FRB-compatible parameter regions, are retained as model-dependent constraints and methodology references. They do not justify a generic optical, radio, or gamma-ray search.
+- global unitarity determines equal output localization;
+- a Page transition supplies an operational decoder;
+- a loop-inspired effective model is the consensus prediction of quantum gravity;
+- a metric determines information capacity or microscopic dynamics;
+- a remnant can or cannot store the input without a state-space assumption;
+- a broad primordial-black-hole mass interval produces present-day observable events;
+- any named instrument supplies a viable search before the forward-model gate passes;
+- analogy provides mathematical or observational evidence.
 
 ---
 
@@ -339,25 +341,25 @@ Current PBH-to-white-hole rate calculations, including narrow FRB-compatible par
 ### Year 1 — Quantum-information foundation
 
 - Complete analytic and adversarial channel classification.
-- Validate the recovery/environment SDPs.
-- Reproduce worst-case information–disturbance conventions and constants.
-- Complete finite-Hamiltonian, charge, and symmetry extensions.
+- Consolidate fixed-input recovery certificates.
+- Reconstruct worst-case information--disturbance conventions and constants.
+- Complete charge, symmetry, and superselection extensions.
 - Draft Paper 1.
 
 ### Year 2 — Geometry and model embedding
 
-- Complete the HRS geometry and Bianchi-remnant provenance analysis.
+- Complete HRS geometry and Bianchi-remnant provenance analysis.
 - Determine whether a defensible remnant Hamiltonian, entropy cap, or channel condition exists.
-- Produce a model-specific bound or underdetermination theorem.
-- Implement the JT-bath reconstruction benchmark.
+- Produce a model-specific bound or theorem of underdetermination.
+- Implement the JT-bath benchmark.
 - Draft Papers 2 and 3.
 
-### Year 3 — Phenomenology gate and synthesis
+### Year 3 — Feasibility gate and synthesis
 
 - Evaluate whether any selected model supplies a complete signal prescription.
-- If the gate passes, conduct injection–recovery and archival analysis.
+- If the gate passes, conduct injection--recovery and archival analysis.
 - If the gate fails, publish the feasibility limit and missing-input result.
-- Complete synthesis manuscript and versioned reproducibility archive.
+- Complete a synthesis manuscript and versioned reproducibility archive.
 
 ---
 
@@ -365,16 +367,17 @@ Current PBH-to-white-hole rate calculations, including narrow FRB-compatible par
 
 | ID | Deliverable | Acceptance criterion |
 |---|---|---|
-| D1 | Validity, theorem, and norm ledgers | Every abstract-level claim has a proof, source, certificate, or blocking condition |
+| D1 | Canonical claim, validity, theorem, and norm ledgers | Every public claim has a proof, source, certificate, condition, or block |
 | D2 | Channel and adversarial test suite | Analytic cases and counterexamples pass deterministic CI |
-| D3 | Certified recovery package | SDP status, residuals, analytic benchmarks, and cross-formulation gap recorded |
-| D4 | Finite-Hamiltonian bound | Gibbs solver reproduces analytic spectra and declared correlation bounds |
-| D5 | HRS geometry package | Metric functions, horizons, and asymptotic tests reproduced without channel overreach |
-| D6 | Model cards and provenance | Supplied, free, and missing parameters explicitly separated |
-| D7 | Paper 1 | Information localization, adversarial examples, and conditional recovery results |
-| D8 | Paper 2 | HRS/Bianchi capacity bound, obstruction, or underdetermination theorem |
-| D9 | JT benchmark paper | Code-subspace reconstruction and recovery comparison in a controlled model |
-| D10 | Phenomenology memo or paper | Released only after the forward-model gate is evaluated |
+| D3 | Fixed-input recovery certificates | Solver status and feasibility residuals satisfy declared policy |
+| D4 | Worst-case theorem reconstruction | Definitions, constants, code convention, and low-dimensional checks complete |
+| D5 | Finite-resource results | Dimension, finite-Hamiltonian, charge, and symmetry assumptions explicit |
+| D6 | HRS geometry package | Source equations, roots, limits, and units reproduced |
+| D7 | Model cards and provenance | Supplied, free, and missing parameters separated |
+| D8 | Paper 1 | Information localization, adversarial examples, and conditional recovery |
+| D9 | Paper 2 | HRS/Bianchi capacity bound, obstruction, or underdetermination theorem |
+| D10 | JT benchmark paper | Declared code subspace, radiation region, and recovery comparison |
+| D11 | Phenomenology memorandum or paper | Released only after the forward-model gate is evaluated |
 
 ---
 
@@ -382,19 +385,19 @@ Current PBH-to-white-hole rate calculations, including narrow FRB-compatible par
 
 ### No strong universal theorem
 
-**Response:** Publish exact identities, counterexamples, finite-resource lemmas, and conditional theorems.
+**Response:** Publish exact identities, counterexamples, finite-resource lemmas, and conditional results.
 
 ### No microscopic remnant channel
 
-**Response:** Produce parameterized capacity bounds or a rigorous theorem of underdetermination. Do not fabricate Kraus operators from a causal diagram.
+**Response:** Produce parameterized capacity bounds or a theorem of underdetermination. Do not fabricate channel operators from a causal diagram.
 
-### SDP disagreement or poor conditioning
+### Numerical conditioning or formulation disagreement
 
-**Response:** Block certificate use, retain diagnostic artifacts, compare independent formulations, and seek a second solver or analytic reduction.
+**Response:** Block certificate use, preserve diagnostic artifacts, compare independent formulations, and seek analytic reductions or additional solvers.
 
-### Holographic results fail to transfer
+### Holographic results do not transfer
 
-**Response:** Maintain JT gravity as a separate benchmark with no automatic transfer.
+**Response:** Maintain JT gravity as a separate benchmark.
 
 ### Phenomenology remains incomplete
 
@@ -408,7 +411,7 @@ A credible team requires:
 
 - quantum channels and approximate quantum error correction;
 - convex optimization and numerical certification;
-- semiclassical gravity and the selected black-to-white-hole geometry;
+- semiclassical gravity and the selected effective transition geometry;
 - holographic reconstruction for the JT benchmark;
 - research software and reproducibility;
 - astrophysical inference only if the phenomenology gate passes.
@@ -419,10 +422,10 @@ The baseline resource model is a principal investigator, one postdoctoral resear
 
 ## 11. Publication strategy
 
-1. **Paper 1:** information localization, finite-resource bounds, adversarial channels, and certified recovery.
+1. **Paper 1:** information localization, finite-resource bounds, adversarial channels, and scoped recovery certification.
 2. **Paper 2:** information-capacity constraints or underdetermination in the HRS/Bianchi remnant track.
 3. **Paper 3:** reconstruction and recovery diagnostics in the JT-bath benchmark.
-4. **Paper 4:** phenomenology feasibility or observational search, only if authorized by the gate.
+4. **Paper 4:** phenomenology feasibility or observational analysis, only if authorized by the gate.
 5. **Synthesis:** consequences and limits of information-recovery claims across gravitational transition models.
 
 No manuscript is labeled theorem-ready until its statement, assumptions, convention mapping, tests, and independent review are complete.
@@ -431,4 +434,4 @@ No manuscript is labeled theorem-ready until its statement, assumptions, convent
 
 ## 12. Expected contribution
 
-The project will not claim that black holes perform selective filtration or that a bounce automatically returns information uniformly. Its contribution is a rigorous hierarchy of what follows from unitarity, finite state-space resources, energy constraints, environmental decoupling, certified recovery, explicit geometry, and additional model assumptions. Where the physical model is incomplete, the project will convert that incompleteness into a precise obstruction or underdetermination result rather than an unsupported simulation.
+The project will produce a rigorous hierarchy of what follows from quantum-channel kinematics, finite state-space resources, energy constraints, environmental decoupling, scoped recovery certification, explicit geometry, and additional model assumptions. Where a physical model is incomplete, that incompleteness will be converted into a precise obstruction or theorem of underdetermination rather than an unsupported simulation or forecast.
