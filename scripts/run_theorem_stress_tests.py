@@ -1,9 +1,10 @@
-"""Generate certified recovery, duality, and energy-bound products."""
+"""Generate recovery certificates, environment diagnostics, and energy bounds."""
 
 from __future__ import annotations
 
 import csv
 import json
+from collections import Counter
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -41,7 +42,9 @@ def main() -> None:
     ):
         for parameter in parameters:
             certificate = certify_information_disturbance(
-                constructor(float(parameter))
+                constructor(float(parameter)),
+                recovery_solver="CLARABEL",
+                environment_solver="CLARABEL",
             )
             if family == "erasure":
                 analytic_or_baseline = 1.0 - 3.0 * parameter / 4.0
@@ -65,17 +68,19 @@ def main() -> None:
                     certificate.environment.minimum_environment_eigenvalue,
                     certificate.recovery.solver_status,
                     certificate.environment.solver_status,
+                    certificate.recovery.solver_name,
+                    certificate.environment.solver_name,
                 )
             )
 
     write_csv(
-        output / "certified_recovery.csv",
+        output / "recovery_and_environment_diagnostics.csv",
         [
             "channel_family",
             "noise_parameter",
             "optimal_entanglement_fidelity",
-            "environment_dual_squared_fidelity",
-            "formulation_gap",
+            "environment_diagnostic_squared_fidelity",
+            "cross_formulation_gap",
             "analytic_optimum_or_identity_baseline",
             "recovery_trace_preservation_residual",
             "recovery_minimum_choi_eigenvalue",
@@ -83,6 +88,8 @@ def main() -> None:
             "environment_minimum_eigenvalue",
             "recovery_solver_status",
             "environment_solver_status",
+            "recovery_solver",
+            "environment_solver",
         ],
         rows,
     )
@@ -96,9 +103,14 @@ def main() -> None:
             marker="o",
             label=family.replace("_", " "),
         )
+    ax.axhline(
+        1.5e-4,
+        linestyle="--",
+        label="environment diagnostic tolerance",
+    )
     ax.set_xlabel("noise parameter")
     ax.set_ylabel("recovery/environment formulation gap")
-    ax.set_title("Independent SDP formulations agree within solver tolerance")
+    ax.set_title("Independent formulations: certificate versus diagnostic")
     ax.legend()
     fig.tight_layout()
     fig.savefig(output / "information_disturbance_gap.png", dpi=180)
@@ -110,7 +122,7 @@ def main() -> None:
         [row[1] for row in amplitude_rows],
         [row[2] for row in amplitude_rows],
         marker="o",
-        label="certified optimum",
+        label="recovery SDP optimum",
     )
     ax.plot(
         [row[1] for row in amplitude_rows],
@@ -170,25 +182,33 @@ def main() -> None:
     )
     ax.set_xlabel("mean-energy cap in declared level units")
     ax.set_ylabel("bits")
-    ax.set_title("Finite Hamiltonian converts an energy cap into an entropy bound")
+    ax.set_title("A declared Hamiltonian converts energy into an entropy cap")
     ax.legend()
     fig.tight_layout()
     fig.savefig(output / "energy_constrained_bound.png", dpi=180)
     plt.close(fig)
 
+    environment_statuses = Counter(str(row[11]) for row in rows)
     summary = {
-        "solver": "CLARABEL",
-        "cvxpy_problem": "maximally-mixed-input entanglement recovery",
-        "maximum_formulation_gap": float(max(float(row[4]) for row in rows)),
+        "recovery_solver": "CLARABEL",
+        "environment_diagnostic_solver": "CLARABEL",
+        "recovery_problem": "maximally-mixed-input entanglement recovery",
+        "maximum_cross_formulation_gap": float(
+            max(float(row[4]) for row in rows)
+        ),
         "maximum_trace_preservation_residual": float(
             max(float(row[6]) for row in rows)
         ),
         "minimum_recovery_choi_eigenvalue": float(
             min(float(row[7]) for row in rows)
         ),
+        "environment_solver_status_counts": dict(environment_statuses),
+        "environment_diagnostic_tolerance": 1.5e-4,
         "scope": (
-            "state-specific average entanglement fidelity; channel-wide "
-            "worst-case or energy-constrained diamond-norm certification remains separate"
+            "recovery-side fixed-input SDP certificate; environment-side "
+            "fidelity is an independent numerical diagnostic when its status "
+            "is optimal_inaccurate; channel-wide worst-case and "
+            "energy-constrained diamond norms remain separate"
         ),
     }
     (output / "summary.json").write_text(
