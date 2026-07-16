@@ -42,6 +42,8 @@ jobs:
         run: python scripts/run_channel_stress_tests.py --samples 250
       - name: Generate HRS geometry outputs
         run: python scripts/run_geometry_stress_tests.py
+      - name: Generate charge-sector outputs
+        run: python scripts/run_symmetry_stress_tests.py
 
   optimization:
     runs-on: ubuntu-latest
