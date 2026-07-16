@@ -97,13 +97,39 @@ For a declared finite-dimensional channel \(\mathcal N\), the repository solves
 \max_{\mathcal R\ \mathrm{CPTP}}F_e(\mathcal R\circ\mathcal N)
 \]
 
-for the maximally mixed input. This is a state-specific entanglement-recovery certificate. It is not a worst-case, channel-wide, or diamond-norm theorem.
+for the maximally mixed input. This is a state-specific entanglement-recovery certificate. It is not a worst-case fidelity or channel-wide norm result.
+
+### Finite-dimensional channel-wide diamond recovery
+
+For a declared finite-dimensional channel \(\mathcal N:X\to A\), the repository solves
+
+\[
+\delta_{\mathrm{rec}}
+=
+\inf_{\mathcal R:A\to X\ \mathrm{CPTP}}
+\|\mathcal R\circ\mathcal N-\operatorname{id}_X\|_\diamond.
+\]
+
+It also solves
+
+\[
+\delta_{\mathrm{env}}
+=
+\inf_{\sigma_E}
+\|\mathcal N^c-\mathcal C_\sigma\|_\diamond
+\]
+
+for a declared complementary channel. These are channel-wide finite-dimensional numerical certificates under the Choi, solver, and residual policy in `docs/DIAMOND_NORM_CERTIFICATE_POLICY.md`.
+
+The current certificate does not extend to energy-constrained or infinite-dimensional channels and does not implement the Bény--Oreshkov worst-case entanglement-fidelity minimax.
 
 ### Imported recovery theorems
 
-The Bény--Oreshkov worst-case entanglement-fidelity duality and the KSW cb/diamond information--disturbance inequality are now mapped into repository notation in `docs/APPROXIMATE_RECOVERY_THEOREM_MAP.md`.
+The Bény--Oreshkov worst-case entanglement-fidelity duality and the KSW cb/diamond information--disturbance inequality are mapped into repository notation in `docs/APPROXIMATE_RECOVERY_THEOREM_MAP.md`.
 
-They are established imported theorems under their stated finite-dimensional assumptions. Their worst-case and diamond-norm optimizations are not yet implemented by the executable package.
+The Bény--Oreshkov source theorem is imported but its worst-case fidelity optimization remains unimplemented. The KSW source theorem is imported, while its two finite-dimensional diamond-norm quantities are now executable and tested on analytic channel families.
+
+The deterministic KSW sweep is an implementation and convention check, not a new proof of the source theorem.
 
 ## Established model-specific content
 
@@ -133,9 +159,9 @@ Its conclusions do not transfer automatically to an asymptotically flat loop-ins
 
 The following may be presented only as objectives or implementation targets:
 
-- executable worst-case Bény--Oreshkov optimization;
-- executable KSW diamond-norm certification;
+- executable Bény--Oreshkov worst-case fidelity optimization;
 - energy-constrained diamond-norm extensions;
+- infinite-dimensional or symmetry-restricted diamond-norm extensions;
 - gravitationally derived charge sectors or symmetry data;
 - a microscopic HRS/Bianchi transition channel;
 - a model-derived remnant Hamiltonian or effective Hilbert-space dimension;
@@ -160,6 +186,8 @@ The following statements are false, unsupported, or materially overstated and mu
 12. Quantum Darwinism is the established explanation for Hawking thermality or black-hole information recovery.
 13. The project has proved a universal no-go or no-filtering theorem.
 14. The project has produced observational constraints before the phenomenology gate passes.
+15. A finite-dimensional diamond-norm certificate is automatically an energy-constrained, infinite-dimensional, or gravitational recovery result.
+16. Numerical verification of KSW on sampled channels constitutes a new proof of the theorem.
 
 ## Analogy policy
 
@@ -185,10 +213,11 @@ NotebookLM and other summarization systems must be grounded primarily in:
 2. `docs/VALIDITY_LEDGER.md`;
 3. `docs/THEOREM_LEDGER.md`;
 4. `docs/NORM_CONVENTIONS.md`;
-5. `docs/APPROXIMATE_RECOVERY_THEOREM_MAP.md`;
-6. `docs/HRS_BIANCHI_UNDERDETERMINATION.md`;
-7. the model cards and `models/JT_BATH_SETUP_V1.md`;
-8. `proposal/ABSTRACT.md` and `proposal/PROPOSAL.md`.
+5. `docs/DIAMOND_NORM_CERTIFICATE_POLICY.md`;
+6. `docs/APPROXIMATE_RECOVERY_THEOREM_MAP.md`;
+7. `docs/HRS_BIANCHI_UNDERDETERMINATION.md`;
+8. the model cards and `models/JT_BATH_SETUP_V1.md`;
+9. `proposal/ABSTRACT.md` and `proposal/PROPOSAL.md`.
 
 Older PDFs and narrative drafts are claim inventories only. They must not be treated as authoritative sources.
 
