@@ -18,6 +18,11 @@ from .optimization import certify_information_disturbance
 from .quantum import localization_diagnostics
 from .recovery import recovery_diagnostics
 from .remnants import radiation_information_lower_bound
+from .symmetry import (
+    superselection_entropy_cap,
+    superselection_radiation_information_lower_bound,
+    superselection_remnant_information_cap,
+)
 
 __all__ = [
     "amplitude_damping_channel",
@@ -34,4 +39,7 @@ __all__ = [
     "maximum_entropy_under_energy",
     "radiation_information_lower_bound",
     "recovery_diagnostics",
+    "superselection_entropy_cap",
+    "superselection_radiation_information_lower_bound",
+    "superselection_remnant_information_cap",
 ]
