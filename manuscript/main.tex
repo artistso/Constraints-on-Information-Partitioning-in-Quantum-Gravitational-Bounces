@@ -1,0 +1,100 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\usepackage{microtype}
+\usepackage{hyperref}
+\usepackage[numbers,sort&compress]{natbib}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+
+\title{Constraints on Information Localization and Recoverability\\
+in Quantum-Gravitational Bounce Models}
+\author{Steven Owens}
+\date{Draft scaffold -- not for submission}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Black-to-white-hole transition and remnant models motivate a precise question: after a quantum-gravitational transition, where is information about the infalling state recoverable? Let a reference system $R$ purify an input $X$, and let an isometry $V:X\rightarrow A\otimes B$ represent a transition into two output sectors. For the resulting pure state on $RAB$, the exact identity $I(R:A)+I(R:B)=2S(R)$ conserves total reference correlations but does not enforce equal partitioning. We therefore replace a universal no-filtering claim with the conditional problem of deriving recoverability bounds under explicit assumptions concerning accessibility, conservation laws, causal structure, remnant state spaces, semiclassical validity, and holographic code-subspace reconstruction. This manuscript develops the channel-level identities and counterexamples, specifies the conditions required for gravitational embedding, and defines a feasibility gate for any observational application.
+\end{abstract}
+
+\section{Introduction}
+\label{sec:introduction}
+
+State the physical motivation without claiming that unitarity fixes the distribution of information across arbitrary output subsystems. Distinguish global purity, subsystem entropy, and operational recoverability \citep{Page1993Information,HaydenPreskill2007}.
+
+\section{Channel framework}
+\label{sec:channel}
+
+\begin{definition}[Reference-assisted transition]
+Let $\rho_{RX}$ be a pure state and let $V:\mathcal H_X\rightarrow\mathcal H_A\otimes\mathcal H_B$ be an isometry. Define
+\[
+\rho_{RAB}=(\operatorname{id}_R\otimes V)\rho_{RX}(\operatorname{id}_R\otimes V^\dagger).
+\]
+\end{definition}
+
+\begin{proposition}[Mutual-information sum]
+For pure $\rho_{RAB}$,
+\[
+I(R:A)+I(R:B)=2S(R).
+\]
+\end{proposition}
+
+\begin{proof}
+Using purity, $S(RA)=S(B)$ and $S(RB)=S(A)$. Therefore
+\begin{align*}
+I(R:A)+I(R:B)
+&=2S(R)+S(A)+S(B)-S(RA)-S(RB)\\
+&=2S(R).
+\end{align*}
+\end{proof}
+
+\begin{example}[Maximally biased isometry]
+For $V|\psi\rangle_X=|\psi\rangle_A\otimes|0\rangle_B$, one has
+\[
+I(R:A)=2S(R),\qquad I(R:B)=0.
+\]
+Thus unitarity alone does not imply equal information localization.
+\end{example}
+
+\section{Recoverability and decoupling}
+\label{sec:recovery}
+
+Define operational recovery tasks, norm conventions, coherent information, and one-shot decoupling criteria \citep{DupuisEtAl2010,FawziRenner2014}. State all assumptions before introducing a conditional theorem.
+
+\section{Operator-algebra and holographic benchmarks}
+\label{sec:holography}
+
+Treat reconstruction from specified observable algebras using operator-algebra quantum error correction \citep{BenyKempfKribs2007,AlmheiriDongHarlow2014,Harlow2016}. Use island and entanglement-wedge results only within the controlled models where their assumptions hold \citep{Penington2019,AlmheiriEtAl2019Bulk,AlmheiriEtAl2019Replica}.
+
+\section{Black-to-white-hole model cards}
+\label{sec:models}
+
+For each selected model, record the geometry, asymptotics, state space, transition law, radiation sector, remnant sector, and domain of validity. Candidate literature includes black-to-white-hole tunneling and white-hole remnant constructions \citep{HaggardRovelli2014,BianchiEtAl2018}.
+
+\section{Phenomenology feasibility gate}
+\label{sec:phenomenology}
+
+Require an explicit spectrum, duration, energy budget, event-rate prescription, source population, propagation model, detector response, background model, and statistical plan. Do not equate $2GM/c^3$ with an observed transient duration without a model-derived connection.
+
+\section{Discussion and limitations}
+\label{sec:discussion}
+
+Separate universal channel identities from conditional gravitational results. Document counterexamples, model dependence, inaccessible algebras, and unresolved microscopic dynamics.
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+Summarize only results established in the completed sections.
+
+\bibliographystyle{unsrtnat}
+\bibliography{../references/references}
+
+\end{document}
