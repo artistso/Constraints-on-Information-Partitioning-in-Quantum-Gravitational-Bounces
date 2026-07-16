@@ -102,6 +102,29 @@ For \(\mathcal N:X\to A\),
 
 with normalized \(\Phi\). Thus \(\operatorname{Tr}\rho_{RA}^{\mathcal N}=1\).
 
+### Unnormalized channel Choi matrix
+
+For every diamond-norm calculation,
+
+\[
+J(\mathcal N)
+=
+\sum_{i,j}|i\rangle\langle j|_X\otimes
+\mathcal N(|i\rangle\langle j|)_A.
+\]
+
+The ordering is `input_X tensor output_A`, and
+
+\[
+J(\mathcal N)=d_X\rho_{RA}^{\mathcal N}.
+\]
+
+For a trace-preserving channel,
+
+\[
+\operatorname{Tr}_AJ(\mathcal N)=I_X.
+\]
+
 ### Unnormalized recovery Choi matrix
 
 For \(\mathcal R:A\to X\),
@@ -113,7 +136,7 @@ J_{\mathcal R}
 \mathcal R(|a\rangle\langle b|).
 \]
 
-The tensor ordering is `input_A tensor output_X`. Complete positivity and trace preservation are
+The ordering is `input_A tensor output_X`. Complete positivity and trace preservation are
 
 \[
 J_{\mathcal R}\succeq0,
@@ -121,7 +144,7 @@ J_{\mathcal R}\succeq0,
 \operatorname{Tr}_XJ_{\mathcal R}=I_A.
 \]
 
-The recovery objective in `src/qgbounce/optimization.py` is linear in this unnormalized matrix.
+The fixed-input recovery objective and the channel-wide composed Choi matrix are linear in this unnormalized matrix.
 
 ## Environmental decoupling
 
@@ -148,7 +171,7 @@ T\!\left(\rho_{RE},\rho_R\otimes\rho_E\right)
 
 This is state specific. It is not a diamond-norm statement about every input.
 
-## Recovery SDP certificate
+## Fixed-input recovery SDP certificate
 
 The recovery optimization is
 
@@ -157,7 +180,7 @@ The recovery optimization is
 F_e(\mathcal R\circ\mathcal N).
 \]
 
-The recovery result may be called a **numerical certificate** only when:
+The result may be called a **fixed-input numerical certificate** only when:
 
 - the solver status is `optimal`;
 - trace preservation and positivity pass declared tolerances;
@@ -166,7 +189,7 @@ The recovery result may be called a **numerical certificate** only when:
 
 ## Environment-side fidelity diagnostic
 
-The independent environment formulation is
+The independent state-specific environment formulation is
 
 \[
 \max_{\sigma_E}
@@ -176,11 +199,115 @@ F\!\left(
 \right).
 \]
 
-Its difference from the recovery optimum is the **cross-formulation gap**. This is not the conic solver's internal primal–dual gap.
+Its difference from the fixed-input recovery optimum is the **cross-formulation gap**. This is not the conic solver's internal primal–dual gap.
 
-The current open-source solvers can return `optimal_inaccurate` on rank-deficient erasure boundary cases. Such an output is retained only as an **environment diagnostic** under a separately declared tolerance. It is not theorem-grade evidence and does not upgrade the recovery certificate to a channel-wide information–disturbance theorem.
+Rank-deficient boundary cases may return `optimal_inaccurate`. Such an output is retained only as an **environment diagnostic** under a separately declared tolerance. It is not theorem-grade evidence and does not upgrade the fixed-input result to a channel-wide statement.
 
-Every stored optimization result records:
+## Diamond norm
+
+For a Hermiticity-preserving map \(\Phi\),
+
+\[
+\|\Phi\|_\diamond
+=
+\sup_{\rho_{XR}}
+\left\|(\Phi\otimes\operatorname{id}_R)(\rho_{XR})\right\|_1.
+\]
+
+An ancilla of dimension \(d_X\) is sufficient in finite dimension.
+
+The repository uses the unhalved channel distance
+
+\[
+D_\diamond(\mathcal N,\mathcal M)
+=
+\|\mathcal N-\mathcal M\|_\diamond,
+\]
+
+which lies in \([0,2]\) for channels. No factor of one half is inserted.
+
+## Diamond-norm dual SDP
+
+For unnormalized \(J(\Phi)\) in input-output order, the executable dual is
+
+\[
+\begin{aligned}
+\text{minimize}\quad & \mu\\
+\text{subject to}\quad
+& Z-J(\Phi)\succeq0,\\
+& Z+J(\Phi)\succeq0,\\
+& \operatorname{Tr}_{\mathrm{out}}Z\preceq\mu I_{\mathrm{in}}.
+\end{aligned}
+\]
+
+The optimum equals \(\|\Phi\|_\diamond\). The detailed implementation and admission policy are fixed in `docs/DIAMOND_NORM_CERTIFICATE_POLICY.md`.
+
+## Optimal channel-wide recovery
+
+For \(\mathcal N:X\to A\),
+
+\[
+\delta_{\mathrm{rec}}
+=
+\inf_{\mathcal R:A\to X\ \mathrm{CPTP}}
+\|\mathcal R\circ\mathcal N-\operatorname{id}_X\|_\diamond.
+\]
+
+The recovery Choi variable and the diamond dual are solved jointly. This is a channel-wide optimization over all input states and an ancilla. It is not the Bény–Oreshkov worst-case entanglement-fidelity minimax.
+
+## Complementary distance from constant channels
+
+For a declared complement \(\mathcal N^c:X\to E\),
+
+\[
+\delta_{\mathrm{env}}
+=
+\inf_{\sigma_E}
+\|\mathcal N^c-\mathcal C_\sigma\|_\diamond,
+\]
+
+where
+
+\[
+\mathcal C_\sigma(\rho)=\operatorname{Tr}(\rho)\sigma_E
+\]
+
+and
+
+\[
+J(\mathcal C_\sigma)=I_X\otimes\sigma_E.
+\]
+
+The state \(\sigma_E\), dual matrix, and norm upper bound are optimized in one SDP.
+
+## KSW convention
+
+The mapped KSW inequality is
+
+\[
+\frac14\delta_{\mathrm{rec}}^2
+\leq
+\delta_{\mathrm{env}}
+\leq
+2\sqrt{\delta_{\mathrm{rec}}}.
+\]
+
+The imported theorem and the executable numerical verification are distinct evidence objects. A finite sweep validates conventions and code; it is not a new proof of KSW.
+
+## Solver roles
+
+The pinned optional environment contains CVXPY, Clarabel, and SCS.
+
+- **Clarabel:** primary solver for the maximally mixed-input recovery SDP.
+- **SCS:** certificate solver for the current diamond-norm layer and the state-specific environment-fidelity diagnostic.
+
+The initial diamond implementation was also tested with Clarabel. At several rank-deficient or degenerate analytic points it returned `optimal_inaccurate` despite accurate objectives and small residuals. The repository retained the strict status policy and selected SCS for the current diamond certificate path.
+
+A platform-complete transitive lock remains required before a tagged certificate release.
+
+## Stored fixed-input optimization data
+
+Every fixed-input result records:
 
 - solver and solver status;
 - objective value;
@@ -191,29 +318,34 @@ Every stored optimization result records:
 - cross-formulation gap;
 - the tolerance class under which the value was accepted.
 
-## Diamond and energy-constrained diamond norms
+## Stored diamond-certificate data
 
-No diamond norm is currently computed by the executable package. Accordingly:
+Every diamond result records:
 
-- no Choi-state distance is labeled a diamond distance;
-- no fixed-input recovery result is promoted to a channel-wide worst-case theorem;
-- Kretschmann–Schlingemann–Werner and Bény–Oreshkov are imported theorem targets until their assumptions and constants are rederived under these conventions.
-
-An energy-constrained diamond norm additionally requires a declared input Hamiltonian, energy cap, ancillary-system convention, and a certified finite or infinite-dimensional method.
-
-## Solver roles
-
-The pinned optional environment contains CVXPY, Clarabel, and SCS.
-
-- **Clarabel:** primary recovery SDP solver and fast environment diagnostic.
-- **SCS:** secondary diagnostic solver retained for comparison; it is not the default certificate path because the rank-deficient fidelity SDP can reach its iteration cap with `optimal_inaccurate` status.
-
-A platform-complete transitive lock remains required before a tagged certificate release.
+- solver and status;
+- norm or optimal recovery objective;
+- iterations and solve time where available;
+- minimum eigenvalues of \(Z+J(\Phi)\) and \(Z-J(\Phi)\);
+- residual of \(\operatorname{Tr}_{\mathrm{out}}Z\preceq\mu I\);
+- recovery CPTP residuals where applicable;
+- constant-state trace and positivity residuals where applicable;
+- KSW lower and upper margins where applicable.
 
 ## Numerical tolerance policy
 
 - Analytic finite-dimensional identities: default \(10^{-10}\).
-- Recovery SDP analytic benchmarks: declared in `tests/test_optimal_recovery.py` and required with solver status `optimal`.
-- Environment diagnostic: a separate, looser tolerance is permitted and must be shown on plots and in machine-readable summaries.
+- Fixed-input recovery analytic benchmarks: declared in `tests/test_optimal_recovery.py` and require solver status `optimal`.
+- State-specific environment diagnostic: a separate, looser tolerance is permitted and must be shown in machine-readable summaries.
+- Diamond analytic benchmarks: declared in `tests/test_diamond.py`, use pinned SCS, and require solver status `optimal` plus accepted PSD and partial-trace residuals.
 
-A material feasibility violation, an unaccepted solver status, or a recovery objective outside its analytic tolerance blocks theorem-level use. An environment diagnostic may remain in the repository as a documented numerical limitation rather than being hidden.
+A material feasibility violation, an unaccepted solver status, or an objective outside its analytic tolerance blocks certificate language. Diagnostic results may remain as documented numerical limitations rather than being hidden.
+
+## Blocked norm extensions
+
+The current package does not establish:
+
+- an energy-constrained diamond norm;
+- an infinite-dimensional channel norm;
+- a symmetry-restricted channel-norm theorem;
+- a computational-complexity bound for the optimized recovery;
+- a gravitational derivation of the tested channel.
