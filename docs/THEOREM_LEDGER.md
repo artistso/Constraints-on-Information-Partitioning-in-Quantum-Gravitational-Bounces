@@ -124,12 +124,12 @@ F_e(\mathcal R\circ\mathcal N).
 \]
 
 **Status:** NUMERICALLY-CERTIFIED only after the pinned optimization CI passes.  
-**Method:** unnormalized recovery Choi matrix, PSD and trace-preserving constraints, linear objective, following the SDP method of Fletcher, Shor, and Win.  
+**Method:** unnormalized recovery Choi matrix, PSD and trace-preserving constraints, linear objective, following Fletcher, Shor, and Win.  
 **Required evidence:** solver status `optimal`, analytic benchmark agreement, trace-preservation residual, and minimum Choi eigenvalue.
 
 The recovery certificate does not require the independent environment formulation to have theorem-grade solver status. The environment calculation is a cross-check, not part of the primal feasibility certificate.
 
-## D1 — Environment-side fidelity diagnostic
+## D1 — Environment-side fixed-input fidelity diagnostic
 
 Compute
 
@@ -170,30 +170,57 @@ Missing executable work:
 - worst-case input optimization;
 - declared code/subsystem/algebra convention;
 - certified low-dimensional validation;
-- comparison with C1 and D1.
+- comparison with C1 and C2.
 
-C1 and D1 do not implement T3.
+Neither C1 nor C2 implements T3 because fidelity minimax and diamond norm are different operational objectives.
 
-## T4 — KSW channel-wide information–disturbance bound
+## C2 — Finite-dimensional optimal recovery in diamond norm
 
-In repository Schrödinger-picture notation, let
+For \(\mathcal N:X\to A\), compute
 
 \[
 \delta_{\mathrm{rec}}
 =
-\inf_{\mathcal R}
-\|\mathcal R\circ\mathcal N-\operatorname{id}\|_\diamond
+\inf_{\mathcal R:A\to X\ \mathrm{CPTP}}
+\|\mathcal R\circ\mathcal N-\operatorname{id}_X\|_\diamond.
 \]
 
-and
+**Status:** NUMERICALLY-CERTIFIED on declared finite-dimensional benchmarks.  
+**Method:** one convex program jointly optimizing the recovery Choi matrix and the Watrous diamond-norm dual variable.  
+**Implementation:** `src/qgbounce/diamond.py`.  
+**Policy:** `docs/DIAMOND_NORM_CERTIFICATE_POLICY.md`.
+
+Analytic standards include:
+
+- identity and identical-channel cases;
+- qubit phase-flip distance \(2p\);
+- qubit depolarizing distance \(3p/2\);
+- optimal phase-flip recovery error \(2\min\{p,1-p\}\).
+
+The pinned SCS path returns `optimal` and passes PSD, trace-preservation, partial-trace, and analytic-objective tolerances.
+
+**Limit:** finite dimensional and dense; no energy constraint, infinite-dimensional extension, gravitational channel, or complexity guarantee follows.
+
+## C3 — Complementary distance from constant channels
+
+For a declared complement \(\mathcal N^c:X\to E\), compute
 
 \[
 \delta_{\mathrm{env}}
 =
-\|\mathcal N^c-\mathcal C_\sigma\|_\diamond
+\inf_{\sigma_E}
+\|\mathcal N^c-\mathcal C_\sigma\|_\diamond.
 \]
 
-for the constant channel paired with the chosen dilation. The KSW bound maps to
+**Status:** NUMERICALLY-CERTIFIED on declared finite-dimensional benchmarks.  
+**Method:** one convex program jointly optimizing \(\sigma_E\), the diamond dual matrix, and the norm bound.  
+**Analytic standard:** the qubit identity channel lies diamond distance \(3/2\) from its closest constant-output channel, with optimizer \(I/2\).
+
+This channel-wide certificate is distinct from D1, which is a state-specific Choi-fidelity diagnostic.
+
+## T4 — KSW channel-wide information–disturbance bound
+
+In repository Schrödinger-picture notation,
 
 \[
 \frac14\delta_{\mathrm{rec}}^2
@@ -203,18 +230,28 @@ for the constant channel paired with the chosen dilation. The KSW bound maps to
 2\sqrt{\delta_{\mathrm{rec}}}.
 \]
 
-**Status:** IMPORTED and convention-mapped.  
+**Theorem status:** IMPORTED and convention-mapped.  
 **Primary source:** `KretschmannEtAl2006`.  
 **Repository mapping:** `docs/APPROXIMATE_RECOVERY_THEOREM_MAP.md`.
 
-Missing executable work:
+**Numerical implementation status:** C2 and C3 are implemented and numerically certified on declared finite-dimensional channel families. The deterministic dephasing sweep verifies both KSW margins within solver tolerance.
 
-- diamond-norm SDP or certified bound;
-- optimization over the constant environment state where required;
-- identity, erasure, and depolarizing regression cases;
-- energy-constrained extension.
+**Current checkpoint:**
 
-No current Choi-state distance implements T4.
+- 30 optimization tests passed;
+- maximum dephasing identity-distance analytic error below \(6.3\times10^{-9}\);
+- maximum optimal-recovery analytic error below \(2.1\times10^{-8}\);
+- minimum KSW lower margin \(-8.8\times10^{-19}\), consistent with floating-point zero;
+- minimum KSW upper margin above \(8.6\times10^{-5}\).
+
+The sweep is an implementation and convention validation, not a new proof of KSW.
+
+Remaining extensions:
+
+- energy-constrained diamond norm;
+- infinite-dimensional channels;
+- symmetry-restricted norms;
+- independent QIT review.
 
 ## G1 — HRS geometric baseline
 
@@ -261,20 +298,20 @@ Missing:
 - radiation algebra and time cut;
 - environmental decoupling or recovery condition.
 
-Near-term admissible outputs are L1–L3 parameterized constraints, excluded regions, or G2 underdetermination.
+Near-term admissible outputs are L1–L3 parameterized constraints, C1–C3 evaluations for explicitly assumed channels, excluded regions, or G2 underdetermination.
 
 ## T6 — JT-bath reconstruction benchmark
 
-**Status:** SPECIFICATION FIXED; executable result remains TARGET.
+**Status:** SPECIFICATION FIXED; executable gravitational result remains TARGET.
 
-`models/JT_BATH_SETUP_V1.md` now declares the diary/reference systems, bath radiation region, code-subspace requirements, generalized-entropy audit, and finite-dimensional surrogate controls.
+`models/JT_BATH_SETUP_V1.md` declares the diary/reference systems, bath radiation region, code-subspace requirements, generalized-entropy audit, and finite-dimensional surrogate controls.
 
 Still required:
 
 - transcription of one complete published JT-bath calculation;
 - parameter and convention reproduction;
 - declared reconstruction theorem and error;
-- finite-dimensional surrogate compared with recovery certification.
+- finite-dimensional surrogate compared with C1–C3.
 
 No JT result transfers to the remnant model without a complete assumption map.
 
@@ -285,6 +322,7 @@ Every proposed scalar recovery proxy must be tested against channels exhibiting 
 - equal \(I(R:A)\) but different optimal recovery fidelity;
 - equal classical Holevo information but different coherent information;
 - equal output entropy but different environmental leakage;
-- equal remnant dimension but different recoverability.
+- equal remnant dimension but different recoverability;
+- similar fixed-input fidelity but different channel-wide diamond error.
 
 A claim failing an adversarial comparison is downgraded or rejected in `docs/VALIDITY_LEDGER.md`.
