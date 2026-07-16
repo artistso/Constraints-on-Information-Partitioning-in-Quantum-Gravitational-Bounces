@@ -26,6 +26,10 @@ FORBIDDEN_PATTERNS = {
         r"information\b",
         re.IGNORECASE,
     ),
+    "all information eventually escapes": re.compile(
+        r"\ball(?: of)? (?:the )?information eventually escapes\b",
+        re.IGNORECASE,
+    ),
     "Page curve proves universal radiation recovery": re.compile(
         r"\bPage curve\b.{0,180}\b(?:prove|proves|proved|proof)\b"
         r".{0,180}\b(?:all|full|every)\b",
@@ -38,6 +42,10 @@ FORBIDDEN_PATTERNS = {
     "universal repulsive quantum pressure": re.compile(
         r"\brepulsive quantum pressure\b",
         re.IGNORECASE,
+    ),
+    "all physical black holes bounce": re.compile(
+        r"\ball physical black holes\b.{0,100}\bbounce\b",
+        re.IGNORECASE | re.DOTALL,
     ),
     "generic present-epoch bursting": re.compile(
         r"\bbursting in the present epoch\b",
@@ -59,8 +67,22 @@ FORBIDDEN_PATTERNS = {
         r"\bselective(?:ly)?\s+(?:filter|filtration|partition)\b",
         re.IGNORECASE,
     ),
+    "geometry defines a quantum channel": re.compile(
+        r"\bgeometry (?:itself )?(?:defines|determines) (?:a |the )?"
+        r"(?:microscopic )?quantum channel\b",
+        re.IGNORECASE,
+    ),
+    "interior volume equals information capacity": re.compile(
+        r"\binterior volume (?:is|equals|determines) (?:the )?"
+        r"(?:quantum )?information capacity\b",
+        re.IGNORECASE,
+    ),
     "consensus-from-analogy language": re.compile(
         r"\bphysics (?:highly )?agrees with your intuition\b",
+        re.IGNORECASE,
+    ),
+    "modern physics consensus language": re.compile(
+        r"\bmodern physics consensus\b",
         re.IGNORECASE,
     ),
 }
